@@ -174,3 +174,6 @@ exports.build = series(exports.clean, build);
 exports.web = series(web);
 //exports.test = series(test);
 //exports.run = series(exports.clean, exports.buildAll, exports.web, exports.test);
+
+//watch([path.atouch.watch.js, path.atouch.watch.html], build);
+//watch([path.editor.watch.html, path.editor.watch.js, path.editor.watch.style, path.editor.watch.img, path.editor.watch.fonts], buildEditor);

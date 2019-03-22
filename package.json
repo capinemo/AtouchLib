@@ -1,5 +1,5 @@
 {
-  "name": "atouch",
+  "name": "atouch-library",
   "version": "0.0.1",
   "description": "Javascript library for testing site in browser with imitation user action",
   "main": "atouch.js",
