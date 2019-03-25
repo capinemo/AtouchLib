@@ -1,5 +1,7 @@
 /**
- * Atouch - javascript library for testing site in browser with imitation user action
+ * Atouch - javascript library for testing site in browser
+ * with imitation user action
+ * 
  * http://atouch.picum.ru/
  *
  * Author: Rustem Sadykov

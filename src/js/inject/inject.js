@@ -1,6 +1,6 @@
 /**
  * @class INJECT
- * @description Dependency injection class
+ * @description Service locator class
  * @version 0.0.7
  */
 let INJECT = (function () {
@@ -8,7 +8,7 @@ let INJECT = (function () {
         states = {};
 
     /**
-     * Register service in Dinject scope and inject Dinject scope to service
+     * Register service in Service Locator scope and inject scope to service
      *
      * @public
      *
@@ -113,11 +113,11 @@ let INJECT = (function () {
         for (let key in states) {
             global_state[key] = states[key]['get']();
         }
-        
+
         if (reload && global_state.RUNNER) {
             global_state.RUNNER.progress = 'reload';
         }
-        
+
         this.getService('Storage').saveState(global_state);
     };
 
@@ -129,15 +129,17 @@ let INJECT = (function () {
      * @returns {none}                  No return
      */
     INJECT.prototype.loadTotalState = function () {
+        if (!this.getService('Storage')) return;
+
         let global_state = this.getService('Storage').loadState();
-        
+
         for (let key in global_state) {
             if (states[key]) {
                 states[key]['set'](global_state[key]);
             }
         }
     };
-    
+
     /**
      * Remove total state from storage
      *
@@ -148,7 +150,7 @@ let INJECT = (function () {
     INJECT.prototype.cleanTotalState = function () {
         this.getService('Storage').cleanState();
     };
-    
+
 
     /**
      * @constructor

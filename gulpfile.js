@@ -37,8 +37,8 @@ const path = {
         },
         src : {
             html: 'src/html/*.html',
-            js: 'src/js/atouch.js'
-            //js: 'src/js/debug.js'
+            js: 'src/js/atouch.js',
+            tests: 'src/js/tests.js'
         },
         watch : {
             html: 'src/html/**/*.html',
@@ -139,6 +139,9 @@ function build (cb) {
         .pipe(minify()) // Сжимаем js файлы
         .pipe(sourcemaps.write()) // Дописываем карту
         .pipe(gulp.dest(path.atouch.build.js)); // Кладем в файл сборки
+
+    gulp.src(path.atouch.src.tests)
+        .pipe(gulp.dest(path.atouch.build.js));
 
     gulp.src(path.atouch.src.html) // Находим все html файлы
         .pipe(gulp.dest(path.atouch.build.html)) // Кладем в файл сборки

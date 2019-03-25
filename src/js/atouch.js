@@ -1,8 +1,20 @@
+/**
+ * @class ATOUCH
+ * @description Atouch global class
+ * @version 0.0.4
+ *
+ * For using on site add script in site header:
+ * <script type="text/javascript" src="js/atouch.js" defer></script>
+ *
+ * Short information about public methods in facade.js. Detail information
+ * see on https://atouch.picum.ru
+ */
+
 //= head.js
 
-let atouch;
+var atouch;
 
-(function (global) {
+(function (global, debug = false) {
     /**
      * @class ATOUCH
      * @description Global class for Atouch - in browser testing site library
@@ -10,80 +22,40 @@ let atouch;
      */
     let ATOUCH = (function () {
         let domain  = '*',
-            test_list = [],   // ! Список доступных тестов
-            DI = null,
+            SL = null,
             Runner = null,
             Iface = null,
             Editor = null,
             Server = null,
             Unit = null,
+            Config = {
+                no_gui: false,
+                no_report: false,
+                stop_error: false
+            },
+            ScriptParser = {},
+            DEBUG_MODE = debug || false,
             _;
-
-        //= tests.js
 
         //= global/global.functions.js
 
         //= inject/inject.js
 
-        //= lang/lang.js
+        // = lang/lang.js
 
-        //= debug/debug.js
+        // = storage/storage.js
 
-        //= storage/storage.js
+        // = runner/runner.js
 
-        //= runner/runner.js
+        // = iface/iface.js
 
-        //= iface/iface.js
+        // = editor/editor.js
 
-        //= editor/editor.js
+        // = server/server.js
 
-        //= server/server.js
+        // = unit/unit.js
 
-        //= unit/unit.js
-
-        /**
-         * Sends messages from Atouch to Editor page
-         *
-         * @private
-         *
-         * @param {string} str      Sending message to Editor page
-         * @returns {none}                  No return
-         */
-        function messageToEditor (str) {
-            window.parent.postMessage(str, domain);
-        }
-
-        /**
-         * Method for sending messages from Editor page to Atouch
-         *
-         * @public
-         *
-         * @param {string} str      Received message from Editor page
-         * @returns {boolean}       True if success
-         */
-        ATOUCH.prototype.messageFromEditor = function (str) {
-            /* if (!DI.isService('Editor')) {
-                return false;
-            } */
-
-            switch (str) {
-                case 'atouch editor ready':
-                    // DI.getService('Editor').setIsRedactor(messageToEditor);
-                    break;
-                case 'atouch start record':
-                    // DI.getService('Editor').startRecord();
-                    break;
-                case 'atouch stop record':
-                    // DI.getService('Editor').stopRecord();
-                    break;
-                case 'atouch run record':
-                    break;
-                default:
-                    break;
-            }
-
-            return true;
-        };
+        //= facade.js
 
         /**
          * @constructor
@@ -95,36 +67,69 @@ let atouch;
                 // For working window.history.back and window.history.forward
                 // in Firefox (running JS after loading to returned page)
                 window.onunload = function () {};
-                
+
                 document.addEventListener('StartTest', function (e) {
                     window.onunload = function () {
-                        DI.saveTotalState(true);
+                        SL.saveTotalState(true);
+                        if (DEBUG_MODE) console.info('EVENT: StartTest');
                     };
                 });
-                
+
                 document.addEventListener('FinishTest', function (e) {
                     window.onunload = function () {};
+                    if (DEBUG_MODE) console.info('EVENT: FinishTest');
                 });
 
-                DI = new INJECT;
+                SL = new INJECT;
+                if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
-                DI.registerService('Lang', LANG);
-                DI.registerService('Debug', DEBUG);
-                DI.registerService('Storage', STORAGE);
+                if (typeof LANG !== 'undefined') {
+                    SL.registerService('Lang', LANG);
+                    if (DEBUG_MODE) console.info('MODULE: LANG loaded to SL');
+                }
 
-                Runner = DI.createObject(RUNNER);
-                Iface = DI.createObject(IFACE);
-                Editor = DI.createObject(EDITOR);
-                Server = DI.createObject(SERVER);
-                Unit = DI.createObject(UNIT);
+                if (typeof DEBUG !== 'undefined') {
+                    SL.registerService('Debug', DEBUG);
+                    if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to SL');
+                }
 
-                DI.loadTotalState();
+                if (typeof STORAGE !== 'undefined') {
+                    SL.registerService('Storage', STORAGE);
+                    if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to SL');
+                }
+
+                if (typeof RUNNER !== 'undefined') {
+                    Runner = SL.createObject(RUNNER);
+                    if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to SL');
+                }
+
+                if (typeof IFACE !== 'undefined') {
+                    Iface = SL.createObject(IFACE);
+                    if (DEBUG_MODE) console.info('MODULE: IFACE loaded to SL');
+                }
+
+                if (typeof EDITOR !== 'undefined') {
+                    Editor = SL.createObject(EDITOR);
+                    if (DEBUG_MODE) console.info('MODULE: EDITOR loaded to SL');
+                }
+
+                if (typeof SERVER !== 'undefined') {
+                    Server = SL.createObject(SERVER);
+                    if (DEBUG_MODE) console.info('MODULE: SERVER loaded to SL');
+                }
+
+                if (typeof UNIT !== 'undefined') {
+                    Unit = SL.createObject(UNIT);
+                    if (DEBUG_MODE) console.info('MODULE: UNIT loaded to SL');
+                }
+
+                SL.loadTotalState();
 
                 if (Editor) {
                     window.parent.postMessage('atouch script ready', domain);
                 }
-                
-                Runner.runTest();
+
+                //Runner.runTest();
             });
 
             return this;
@@ -136,7 +141,7 @@ let atouch;
     (function () {
         global.atouch = new ATOUCH;
     })();
-})(typeof window !== 'undefined' ? window : this);
+})(typeof window !== 'undefined' ? window : this, true);
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {ATOUCH};

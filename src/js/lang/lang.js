@@ -5,9 +5,9 @@
  */
 let LANG = (function () {
     //= lang.ru.js
-    
+
     //= lang.en.js
-    
+
     LANG.prototype.text = {};
     LANG.prototype.selectedLang = '';
     LANG.prototype.lang_list = [
@@ -17,9 +17,9 @@ let LANG = (function () {
 
     /**
      * Set language as selected in Atouch and save language tag in cookie
-     * 
+     *
      * @public
-     * 
+     *
      * @param {string} lang_link    Selected language tag for changing
      * @returns {boolean}           True if success
      */
@@ -47,29 +47,29 @@ let LANG = (function () {
 
     /**
      * Finds earlier selected language in cookies
-     * 
+     *
      * @public
-     * 
+     *
      * @returns {LANG}              Selected language tag
      */
     LANG.prototype.getLanguage = function () {
         let matches = document.cookie.match(/atouchLang=[\s\S]{2,3}?[;]*/ig),
-            language = matches 
+            language = matches
                 ? matches[0].replace('atouchLang=', '').replace('; ', '').replace(';', '')
                 : null;
 
         return language ? decodeURIComponent(language) : null;
     };
-    
+
     /**
      * @constructor
-     * 
+     *
      * @param {string} selectLang   Аutomatically selected language
      * @returns {LANG}              LANG object
      */
     function LANG (selectLang = null) {
         let saved_lang = this.getLanguage();
-        
+
         if (saved_lang) {
             curr_lang = saved_lang;
         } else if (selectLang) {
