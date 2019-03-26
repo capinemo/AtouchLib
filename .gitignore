@@ -1,6 +1,7 @@
 /nbproject
 /node_modules
 /build
+/tests/atouch
 .git
 .tmp
 npm-debug.log

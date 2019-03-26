@@ -67,17 +67,15 @@ ATOUCH.prototype.prepare = function (test) {
     if (!test.getName()) {
         throw new Error('Atouch.prepare: Given empty test');
         return;
-    }    
-    
+    }
+
     if (Collections[test.getName()]) {
         console.warn('Atouch.prepare: test with name ' + test.getName() + ' already exists. Rewrited');
     }
-    
+
     Collections[test.getName()] = test;
     test.reset();
-    
-    console.log(Collections);
-    
+
     return this;
 };
 
@@ -106,19 +104,17 @@ ATOUCH.prototype.collect = function (name, self) {
     if (!(self instanceof ATOUCH)) {
         throw new Error('Atouch.collect: not Atouch object given in collection');
     }
-    
+
     if (coms_buffer.length === 0) {
         throw new Error('Atouch.collect: list of commands is empty');
     }
-    
+
     if (Collections[name]) {
         console.warn('Atouch.collect: collection with name ' + name + ' already exists. Rewrited');
     }
-    
+
     Collections[name] = self.getCollectedTasks();
-    
-    console.log(Collections);
-    
+
     return this;
 };
 
@@ -128,7 +124,7 @@ ATOUCH.prototype.append = function (str) {
 };
 
 ATOUCH.prototype.run = function (str) {
-    
+
     return this;
 };
 
@@ -137,7 +133,7 @@ ATOUCH.prototype.run = function (str) {
  * commands will be running sequentially. Next command starts <br />
  * when previous finished. If sync/async not used, all commands, <br />
  * by default, runs in sync mode.
- * 
+ *
  * <br />
  * Using example:
  * <pre>atouch.sync(
@@ -162,7 +158,7 @@ ATOUCH.prototype.sync = function (self) {
  * commands will be running separately. Next command starts <br />
  * after previous starting. If sync/async not used, all commands, <br />
  * by default, runs in sync mode.
- * 
+ *
  * <br />
  * Using example:
  * <pre>atouch.async(
@@ -434,3 +430,9 @@ ATOUCH.prototype.getCollectedTasks = function () {
  * @type TEST
  */
 ATOUCH.prototype.test = new TEST();
+
+ATOUCH.prototype.checkWorks = function () {
+    return 'Yes. I am work!';
+};
+
+

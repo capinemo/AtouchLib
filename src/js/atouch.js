@@ -55,7 +55,7 @@ var atouch;
         // = editor/editor.js
 
         // = server/server.js
-        
+
         //= test/test.js
 
         // = unit/unit.js
@@ -68,71 +68,77 @@ var atouch;
          * @returns {ATOUCH}        ATOUCH object
          */
         function ATOUCH () {
-            document.addEventListener('DOMContentLoaded', function () {
+            SL = new INJECT;
+            if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
+
+            if (typeof LANG !== 'undefined') {
+                SL.registerService('Lang', LANG);
+                if (DEBUG_MODE) console.info('MODULE: LANG loaded to SL');
+            }
+
+            if (typeof DEBUG !== 'undefined') {
+                SL.registerService('Debug', DEBUG);
+                if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to SL');
+            }
+
+            if (typeof STORAGE !== 'undefined') {
+                SL.registerService('Storage', STORAGE);
+                if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to SL');
+            }
+
+            if (typeof RUNNER !== 'undefined') {
+                Runner = SL.createObject(RUNNER);
+                if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to SL');
+            }
+
+            if (typeof IFACE !== 'undefined') {
+                Iface = SL.createObject(IFACE);
+                if (DEBUG_MODE) console.info('MODULE: IFACE loaded to SL');
+            }
+
+            if (typeof EDITOR !== 'undefined') {
+                Editor = SL.createObject(EDITOR);
+                if (DEBUG_MODE) console.info('MODULE: EDITOR loaded to SL');
+            }
+
+            if (typeof SERVER !== 'undefined') {
+                Server = SL.createObject(SERVER);
+                if (DEBUG_MODE) console.info('MODULE: SERVER loaded to SL');
+            }
+
+            if (typeof UNIT !== 'undefined') {
+                Unit = SL.createObject(UNIT);
+                if (DEBUG_MODE) console.info('MODULE: UNIT loaded to SL');
+            }
+
+            SL.loadTotalState();
+
+            if (Editor) {
+                global.parent.postMessage('atouch script ready', domain);
+            }
+
+            if (typeof global.document === 'undefined'
+                    || typeof global.document.addEventListener === 'undefined'
+            ) {
+                return this;
+            }
+
+            global.document.addEventListener('DOMContentLoaded', function () {
                 // For working window.history.back and window.history.forward
                 // in Firefox (running JS after loading to returned page)
                 window.onunload = function () {};
 
-                document.addEventListener('StartTest', function (e) {
-                    window.onunload = function () {
+                global.document.addEventListener('StartTest', function (e) {
+                    global.onunload = function () {
                         SL.saveTotalState(true);
                         if (DEBUG_MODE) console.info('EVENT: StartTest');
                     };
                 });
 
-                document.addEventListener('FinishTest', function (e) {
-                    window.onunload = function () {};
+                global.document.addEventListener('FinishTest', function (e) {
+                    global.onunload = function () {};
                     if (DEBUG_MODE) console.info('EVENT: FinishTest');
                 });
-
-                SL = new INJECT;
-                if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
-
-                if (typeof LANG !== 'undefined') {
-                    SL.registerService('Lang', LANG);
-                    if (DEBUG_MODE) console.info('MODULE: LANG loaded to SL');
-                }
-
-                if (typeof DEBUG !== 'undefined') {
-                    SL.registerService('Debug', DEBUG);
-                    if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to SL');
-                }
-
-                if (typeof STORAGE !== 'undefined') {
-                    SL.registerService('Storage', STORAGE);
-                    if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to SL');
-                }
-
-                if (typeof RUNNER !== 'undefined') {
-                    Runner = SL.createObject(RUNNER);
-                    if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to SL');
-                }
-
-                if (typeof IFACE !== 'undefined') {
-                    Iface = SL.createObject(IFACE);
-                    if (DEBUG_MODE) console.info('MODULE: IFACE loaded to SL');
-                }
-
-                if (typeof EDITOR !== 'undefined') {
-                    Editor = SL.createObject(EDITOR);
-                    if (DEBUG_MODE) console.info('MODULE: EDITOR loaded to SL');
-                }
-
-                if (typeof SERVER !== 'undefined') {
-                    Server = SL.createObject(SERVER);
-                    if (DEBUG_MODE) console.info('MODULE: SERVER loaded to SL');
-                }
-
-                if (typeof UNIT !== 'undefined') {
-                    Unit = SL.createObject(UNIT);
-                    if (DEBUG_MODE) console.info('MODULE: UNIT loaded to SL');
-                }
-
-                SL.loadTotalState();
-
-                if (Editor) {
-                    window.parent.postMessage('atouch script ready', domain);
-                }
 
                 //Runner.runTest();
             });
@@ -150,8 +156,9 @@ var atouch;
     } catch (e) {
         console.warn(e);
     }
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = {ATOUCH};
+    }
 })(typeof window !== 'undefined' ? window : this, true);
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {ATOUCH};
-}

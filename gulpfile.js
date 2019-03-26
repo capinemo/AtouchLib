@@ -14,6 +14,7 @@ let gulp = require('gulp'),
     spritesmith = require('gulp.spritesmith'),
     wait = require('gulp-wait'),
     eslint = require('gulp-eslint'),
+    mocha = require('gulp-mocha'),
     reload = browserSync.reload;
 
 const { watch, series, parallel } = require('gulp');
@@ -38,7 +39,8 @@ const path = {
         src : {
             html: 'src/html/*.html',
             js: 'src/js/atouch.js',
-            tests: 'src/js/tests.js'
+            tests: 'src/js/tests.js',
+            inject: 'src/js/inject/inject.js',
         },
         watch : {
             html: 'src/html/**/*.html',
@@ -50,12 +52,7 @@ const path = {
         build : {
             js: 'tests/atouch/'
         },
-        src : {
-            js: [
-                'src/js/atouch.js',
-                'src/js/facade/facade.js'
-            ]
-        },
+        test : 'tests/index.js',
         watch : {
             js: 'src/js/**/*.js'
         },
@@ -151,17 +148,25 @@ function build (cb) {
 }
 
 function buildTests (cb) {
-    gulp.src(path.tests.src.js)
-        .pipe(rigger())
+    gulp.src(path.atouch.src.js)
         .pipe(eslint(esrules))
         .pipe(eslint.format())
-        .pipe(gulp.dest(path.tests.build.js))
-        .pipe(reload({stream: true}));
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+
+    gulp.src(path.atouch.src.inject)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
 
     cb();
 }
 
 function test (cb) {
+    gulp.src(path.tests.test, {read: false})
+        .pipe(mocha({reporter: 'List'}));
+
     cb();
 }
 
@@ -172,11 +177,11 @@ function clean (cb) {
 
 exports.clean = series(clean);
 exports.build = series(exports.clean, build);
-//exports.buildTests = series(buildTests);
+exports.buildTests = series(buildTests);
 //exports.buildAll = series(buildTests, build);
 exports.web = series(web);
-//exports.test = series(test);
+exports.test = series(buildTests, test);
 //exports.run = series(exports.clean, exports.buildAll, exports.web, exports.test);
 
-watch([path.atouch.watch.js, path.atouch.watch.html], build);
+//watch([path.atouch.watch.js, path.atouch.watch.html], build);
 //watch([path.editor.watch.html, path.editor.watch.js, path.editor.watch.style, path.editor.watch.img, path.editor.watch.fonts], buildEditor);
