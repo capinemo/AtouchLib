@@ -3,6 +3,7 @@
  * @description Service locator class
  * @version 0.0.7
  */
+
 let INJECT = (function () {
     let services = {},
         states = {};
@@ -17,7 +18,25 @@ let INJECT = (function () {
      * @returns {none}                  No return
      */
     INJECT.prototype.registerService = function (name, classObject) {
-        services[name] = new classObject;
+        if (typeof name === 'object' || typeof name === 'function') {
+            throw new Error('Inject: invalid name given');
+        }
+
+        if (name === '') {
+            throw new Error('Inject: empty name given');
+        }
+
+        if (typeof classObject !== 'function') {
+            throw new Error('Inject: not function given as constructor');
+        }
+
+        name = filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
+
+        if (services[name]) {
+            console.warn('Inject: given name ' + name + ' already exists. Rewrite service');
+        }
+
+        services[name] = new classObject();
     };
 
     /**
@@ -150,7 +169,6 @@ let INJECT = (function () {
     INJECT.prototype.cleanTotalState = function () {
         this.getService('Storage').cleanState();
     };
-
 
     /**
      * @constructor

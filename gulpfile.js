@@ -40,6 +40,7 @@ const path = {
             html: 'src/html/*.html',
             js: 'src/js/atouch.js',
             tests: 'src/js/tests.js',
+            global: 'src/js/global/global.functions.js',
             inject: 'src/js/inject/inject.js',
         },
         watch : {
@@ -149,6 +150,12 @@ function build (cb) {
 
 function buildTests (cb) {
     gulp.src(path.atouch.src.js)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+
+    gulp.src(path.atouch.src.global)
         .pipe(eslint(esrules))
         .pipe(eslint.format())
         .pipe(rigger())
