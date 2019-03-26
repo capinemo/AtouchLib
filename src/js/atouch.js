@@ -22,6 +22,7 @@ var atouch;
      */
     let ATOUCH = (function () {
         let domain  = '*',
+            coms_buffer = [],
             SL = null,
             Runner = null,
             Iface = null,
@@ -33,6 +34,8 @@ var atouch;
                 no_report: false,
                 stop_error: false
             },
+            Tests = {},
+            Collections = {},
             ScriptParser = {},
             DEBUG_MODE = debug || false,
             _;
@@ -52,6 +55,8 @@ var atouch;
         // = editor/editor.js
 
         // = server/server.js
+        
+        //= test/test.js
 
         // = unit/unit.js
 
@@ -138,9 +143,13 @@ var atouch;
         return ATOUCH;
     })();
 
-    (function () {
-        global.atouch = new ATOUCH;
-    })();
+    try {
+        (function () {
+            global.atouch = new ATOUCH;
+        })();
+    } catch (e) {
+        console.warn(e);
+    }
 })(typeof window !== 'undefined' ? window : this, true);
 
 if (typeof module !== 'undefined' && module.exports) {

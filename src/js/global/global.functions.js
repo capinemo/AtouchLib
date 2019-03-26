@@ -64,3 +64,32 @@ function filterVariable (str, regex) {
         return str;
     }
 }
+
+/**
+ * Generates new uuid with Crypto API
+ *
+ * @private
+ *
+ * @returns {string}            UUID
+ */
+function genUUID () {
+    return (
+        [1e7]+-1e3+-4e3+-8e3+-1e11).replace(
+            /[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15 >> c/4
+        ).toString(16)
+    );
+}
+
+/**
+ * Sets execution mode to all commands in buffer
+ * 
+ * @private
+ * 
+ * @param {boolean} mode        true = async/false == sync (default: sync)
+ * @returns {none}              No return
+ */
+function setRunOrder (mode = false) {
+    coms_buffer.forEach(function (item, key, arr) {
+        arr[key].mode = mode ? 'async' : 'sync';
+    });
+}
