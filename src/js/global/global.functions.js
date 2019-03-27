@@ -21,6 +21,10 @@ function getPageScroll () {
  * @returns {string}            Converted string
  */
 function capitalizeFirstLetter (str) {
+    if (typeof str !== 'string') {
+        throw new Error('capitalizeFirstLetter: not string given');
+    }
+
     str = str.toLowerCase();
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -36,17 +40,17 @@ function capitalizeFirstLetter (str) {
  */
 function getRandomInt (min, max) {
     if (typeof min === 'undefined' || typeof max === 'undefined') {
-        throw new Error('Functions: needed parameter not given');
+        throw new Error('getRandomInt: needed parameter not given');
     }
-    
+
     if (typeof min !== 'number' || typeof max !== 'number') {
-        throw new Error('Functions: parameters must have a integer type');
+        throw new Error('getRandomInt: parameters must have a integer type');
     }
-    
+
     if (min > max) {
-        throw new Error('Functions: second number must be more than first');
+        throw new Error('getRandomInt: second number must be more than first');
     }
-    
+
     return Math.floor(Math.random() * (+max + 1 - +min)) + +min;
 }
 
@@ -86,8 +90,8 @@ function filterVariable (str, regex) {
  */
 function genUUID () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        let r = Math.random() * 16 | 0, 
-            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        let r = Math.random() * 16 | 0,
+            v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
 }
@@ -101,8 +105,18 @@ function genUUID () {
  * @returns {none}              No return
  */
 function setRunOrder (mode = false) {
+    if (typeof coms_buffer === 'undefined') {
+        return;
+    }
+
+    if (!(coms_buffer instanceof Array)) {
+        throw new Error('getRandomInt: need a array');
+    }
+
     coms_buffer.forEach(function (item, key, arr) {
-        arr[key].mode = mode ? 'async' : 'sync';
+        if (typeof arr[key] === 'object') {
+            arr[key].mode = mode ? 'async' : 'sync';
+        }
     });
 }
 
