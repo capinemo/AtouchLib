@@ -1,7 +1,7 @@
 /**
  * @class INJECT
  * @description Service locator class
- * @version 0.0.7
+ * @version 0.1.0
  */
 
 let INJECT = (function () {
@@ -30,13 +30,13 @@ let INJECT = (function () {
             throw new Error('Inject: not function given as constructor');
         }
 
-        name = filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
+        name = filterVariable(name.toString(), 'a-zA-Z0-9_-');
 
         if (services[name]) {
             console.warn('Inject: given name ' + name + ' already exists. Rewrite service');
         }
 
-        services[name] = new classObject();
+        services[name] = new classObject;
     };
 
     /**
@@ -64,6 +64,10 @@ let INJECT = (function () {
      * @returns {Object}                Registered Object of class
      */
     INJECT.prototype.getService = function (name) {
+        if (!services[name]) {
+            return false;
+        }
+        
         return services[name];
     };
 
@@ -76,6 +80,10 @@ let INJECT = (function () {
      * @returns {Object}                Creaded instance of class
      */
     INJECT.prototype.createObject = function (classObject) {
+        if (typeof classObject !== 'function') {
+            throw new Error('Inject: given parameter not a function');
+        }
+        
         classObject.prototype.Inject = this;
         return new classObject;
     };
@@ -105,7 +113,8 @@ let INJECT = (function () {
 
     /**
      * Restore total state and send to modules
-     *
+     * TODO: more description
+     * 
      * @public
      *
      * @param {Object} instance         Module object
