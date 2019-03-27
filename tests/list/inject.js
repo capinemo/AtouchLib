@@ -87,7 +87,7 @@ module.exports = function () {
                 assert.equal(Inject.isService('newService1'), true);
             });
         });
-        
+
         describe(".createObject('INJECT')", function() {
             it("exeption: Error [given parameter not a function] (13)", function() {
                 assert.throws(
@@ -96,7 +96,7 @@ module.exports = function () {
                 );
             });
         });
-        
+
         describe(".createObject(INJECT)", function() {
             it("returns: INJECT (14)", function() {
                 assert.equal(Inject.createObject(INJECT) instanceof INJECT, true);

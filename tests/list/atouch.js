@@ -4,7 +4,7 @@ module.exports = function () {
     const ATOUCH = atouch.ATOUCH;
     const Atouch = new ATOUCH();
 
-    describe('Atouch:', function() {      
+    describe('Atouch:', function() {
         describe(".checkWorks()", function() {
             it("returns: 'Yes. I am work!' (1)", function() {
                 assert.equal(Atouch.checkWorks(), 'Yes. I am work!');
@@ -12,5 +12,3 @@ module.exports = function () {
         });
     });
 };
-
-//assert.throws(iThrowError(), Error, "Error thrown");

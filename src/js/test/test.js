@@ -8,17 +8,17 @@ let TEST = (function () {
         name = '',
         desc = '',
         chain = [];
-    
-    
+
+
     TEST.prototype.reset = function () {
         id = '';
         name = '';
         desc = '';
         chain = [];
-        
+
         return this;
     };
-    
+
     /**
      * Running test selected in interface
      *
@@ -29,56 +29,56 @@ let TEST = (function () {
      */
     TEST.prototype.id = function (test_id) {
         // TODO sanitize and filter
-        
+
         id = test_id;
         return this;
     };
-    
+
     TEST.prototype.name = function (test_name) {
         // TODO sanitize and filter
-        
+
         name = test_name;
-        
+
         if (!id) {
             id = genUUID();
-        };
-        
+        }
+
         return this;
     };
-    
+
     TEST.prototype.desc = function (test_desc) {
         // TODO sanitize and filter
-        
+
         desc = test_desc;
         return this;
     };
-    
+
     TEST.prototype.chain = function (atouch) {
         // TODO sanitize and filter
-        
+
         //chain = atouch.getCollectedTasks();
         return this;
     };
-    
+
     TEST.prototype.getId = function () {
         return id;
     };
-    
+
     TEST.prototype.getName = function () {
         return name;
     };
-    
+
     TEST.prototype.getDesc = function () {
         return desc;
     };
-    
+
     TEST.prototype.getChain = function () {
         return chain;
     };
-    
+
     /**
      * @constructor
-     * 
+     *
      * @returns {TEST}             TEST object
      */
     function TEST () {
