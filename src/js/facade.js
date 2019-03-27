@@ -29,7 +29,7 @@ ATOUCH.prototype.config = function (params) {
 
     for (let key in params) {
         if (params.hasOwnProperty(key) && Config.hasOwnProperty(key)) {
-            Config[key] = filterVariable(params[key], '[^a-zA-Z0-9\.\,]');
+            Config[key] = filterVariable(params[key], 'a-zA-Z0-9\.\,');
         } else {
             console.warn('Atouch.config: given parameter ' + key + ' not exists');
         }

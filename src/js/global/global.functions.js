@@ -35,6 +35,18 @@ function capitalizeFirstLetter (str) {
  * @returns {integer}           Generated number
  */
 function getRandomInt (min, max) {
+    if (typeof min === 'undefined' || typeof max === 'undefined') {
+        throw new Error('Functions: needed parameter not given');
+    }
+    
+    if (typeof min !== 'number' || typeof max !== 'number') {
+        throw new Error('Functions: parameters must have a integer type');
+    }
+    
+    if (min > max) {
+        throw new Error('Functions: second number must be more than first');
+    }
+    
     return Math.floor(Math.random() * (+max + 1 - +min)) + +min;
 }
 
@@ -48,7 +60,7 @@ function getRandomInt (min, max) {
  * @returns {any}               Clean variable
  */
 function filterVariable (str, regex) {
-    let reg = new RegExp(regex, 'ig');
+    let reg = new RegExp('[^' + regex + ']', 'g');
 
     if (typeof str === 'boolean') {
         return !!str;
@@ -73,11 +85,11 @@ function filterVariable (str, regex) {
  * @returns {string}            UUID
  */
 function genUUID () {
-    return (
-        [1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
-        /[018]/g,c=>(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4
-        ).toString(16)
-    );
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = Math.random() * 16 | 0, 
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 /**
@@ -95,5 +107,5 @@ function setRunOrder (mode = false) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {filterVariable};
+    module.exports = {filterVariable, genUUID, getRandomInt, capitalizeFirstLetter, setRunOrder};
 }
