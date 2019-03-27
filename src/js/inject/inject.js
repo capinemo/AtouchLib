@@ -67,7 +67,7 @@ let INJECT = (function () {
         if (!services[name]) {
             return false;
         }
-        
+
         return services[name];
     };
 
@@ -83,7 +83,7 @@ let INJECT = (function () {
         if (typeof classObject !== 'function') {
             throw new Error('Inject: given parameter not a function');
         }
-        
+
         classObject.prototype.Inject = this;
         return new classObject;
     };
@@ -112,9 +112,18 @@ let INJECT = (function () {
     };
 
     /**
-     * Restore total state and send to modules
-     * TODO: more description
-     * 
+     * Restore total state and send to modules<br />
+     * <br />
+     * If module needs a restoring self state, it gives to Service Locator <br />
+     * a self object, getter and setter. When Service Locator saves total <br />
+     * state, it calls all getters in method saveTotalState and receives <br />
+     * states of modules. When Service Locator load total state from <br />
+     * Storage service, it calls all setters in method loadTotalState <br />
+     * and sends to modules them last state. <br />
+     * <br />
+     * Used in restoring total state after page reloading or openning <br />
+     * new pages with specific testing logic <br />
+     *
      * @public
      *
      * @param {Object} instance         Module object
