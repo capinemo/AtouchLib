@@ -4,7 +4,7 @@ module.exports = function () {
     const atouch = require("../atouch/atouch.js");
     global.ATOUCH = atouch.ATOUCH;
     const Atouch = new ATOUCH();
-    Atouch.go('').check({});
+    Atouch.reset().go('').check({});
 
     const functions = require('../atouch/global.functions.js');
     global.filterVariable = functions.filterVariable;
@@ -218,7 +218,7 @@ module.exports = function () {
         describe(".getId()", function() {
            it("returns: UUID string (26)", function() {
                Test.reset();
-               Test.name('123')
+               Test.name('123');
                assert.match(Test.getId(), /^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/);
            });
         });

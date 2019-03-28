@@ -378,6 +378,12 @@ ATOUCH.prototype.select = function (param) {
     return this;
 };
 
+ATOUCH.prototype.reset = function () {
+
+    coms_buffer = [];
+    return this;
+};
+
 /**
  * Method for sending messages from Editor page to Atouch
  *
@@ -430,9 +436,5 @@ ATOUCH.prototype.getCollectedTasks = function () {
  * @type TEST
  */
 ATOUCH.prototype.test = new TEST();
-
-ATOUCH.prototype.checkWorks = function () {
-    return 'Yes. I am work!';
-};
 
 
