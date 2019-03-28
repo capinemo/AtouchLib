@@ -39,7 +39,7 @@ const path = {
         src : {
             html: 'src/html/*.html',
             js: 'src/js/atouch.js',
-            tests: 'src/js/tests.js',
+            example: 'src/js/tests.js',
             global: 'src/js/global/global.functions.js',
             inject: 'src/js/inject/inject.js',
             test: 'src/js/test/test.js',
@@ -122,15 +122,49 @@ const esrules = {
     }
 };
 
-function web (cb) {
-    browserSync(configAtouch);
+//watch([path.atouch.watch.js, path.atouch.watch.html], build);
+//watch([path.editor.watch.html, path.editor.watch.js, path.editor.watch.style, path.editor.watch.img, path.editor.watch.fonts], buildEditor);
 
-    cb();
-}
 
-// Сборка браузерной библиотеки
-function build (cb) {
-    gulp.src(path.atouch.src.js) // Находим главный файл js atouch
+gulp.task('buildTestsAtouch', () => {
+    return gulp
+        .src(path.atouch.src.js)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildTestsGlobalFunctions', () => {
+    return gulp
+        .src(path.atouch.src.global)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildTestsGlobalInject', () => {
+    return gulp
+        .src(path.atouch.src.inject)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildTestsGlobalFTest', () => {
+    return gulp
+        .src(path.atouch.src.test)
+        .pipe(eslint(esrules))
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildAtouchJs', () => {
+    return gulp
+        .src(path.atouch.src.js) // Находим главный файл js atouch
         .pipe(eslint(esrules)) // Проверяем js скрипты на соответствие правилам оформления
         .pipe(eslint.format()) // Выводим отчет по обнаруженным ошибкам
         .pipe(rigger()) // Подключаем независимые файлы
@@ -138,64 +172,55 @@ function build (cb) {
         .pipe(minify()) // Сжимаем js файлы
         .pipe(sourcemaps.write()) // Дописываем карту
         .pipe(gulp.dest(path.atouch.build.js)); // Кладем в файл сборки
+});
 
-    gulp.src(path.atouch.src.tests)
+gulp.task('buildAtouchExapmle', () => {
+    return gulp
+        .src(path.atouch.src.example)
         .pipe(gulp.dest(path.atouch.build.js));
+});
 
-    gulp.src(path.atouch.src.html) // Находим все html файлы
+gulp.task('buildAtouchHtml', () => {
+    return gulp
+        .src(path.atouch.src.html) // Находим все html файлы
         .pipe(gulp.dest(path.atouch.build.html)) // Кладем в файл сборки
         .pipe(reload({stream: true})); // Перезагружаем сервер для обновлений
+});
 
-    cb();
-}
 
-function buildTests (cb) {
-    gulp.src(path.atouch.src.js)
-        .pipe(eslint(esrules))
-        .pipe(eslint.format())
-        .pipe(rigger())
-        .pipe(gulp.dest(path.tests.build.js));
-
-    gulp.src(path.atouch.src.global)
-        .pipe(eslint(esrules))
-        .pipe(eslint.format())
-        .pipe(rigger())
-        .pipe(gulp.dest(path.tests.build.js));
-
-    gulp.src(path.atouch.src.inject)
-        .pipe(eslint(esrules))
-        .pipe(eslint.format())
-        .pipe(rigger())
-        .pipe(gulp.dest(path.tests.build.js));
-
-    gulp.src(path.atouch.src.test)
-        .pipe(eslint(esrules))
-        .pipe(eslint.format())
-        .pipe(rigger())
-        .pipe(gulp.dest(path.tests.build.js));
-
-    cb();
-}
-
-function test (cb) {
-    gulp.src(path.tests.test, {read: false})
+gulp.task('runTests', () => {
+    return gulp
+        .src(path.tests.test, {read: false})
         .pipe(mocha({reporter: 'List'}));
+});
 
-    cb();
-}
+gulp.task('cleanBuild', () => {
+    return rimraf(path.atouch.clean, cb);
+});
 
-function clean (cb) {
-    rimraf(path.atouch.clean, cb);
-    cb();
-}
+gulp.task('web', () => {
+    return browserSync(configAtouch);
+});
 
-exports.clean = series(clean);
-exports.build = series(exports.clean, build);
-exports.buildTests = series(buildTests);
-//exports.buildAll = series(buildTests, build);
-exports.web = series(web);
-exports.test = series(buildTests, test);
-//exports.run = series(exports.clean, exports.buildAll, exports.web, exports.test);
+gulp.task('buildTests', gulp.series(
+    'buildTestsAtouch',
+    'buildTestsGlobalFunctions',
+    'buildTestsGlobalInject',
+    'buildTestsGlobalFTest',
+));
 
-//watch([path.atouch.watch.js, path.atouch.watch.html], build);
-//watch([path.editor.watch.html, path.editor.watch.js, path.editor.watch.style, path.editor.watch.img, path.editor.watch.fonts], buildEditor);
+gulp.task('runBuild', gulp.series(
+    'buildAtouchJs',
+    'buildAtouchExapmle',
+    'buildAtouchHtml'
+));
+
+gulp.task('test', gulp.series(
+    'buildTests',
+    'runTests',
+));
+
+gulp.task('build', gulp.series(
+    'cleanBuild',
+    'runBuild',
+));
