@@ -14,8 +14,6 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {string} name             Service name
-     * @param {Object} classObject      Object registered as service
      * @returns {TEST}                  TEST object
      */
     TEST.prototype.reset = function () {

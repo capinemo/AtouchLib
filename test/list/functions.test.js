@@ -188,6 +188,18 @@ module.exports = function () {
                 assert.deepEqual(coms_buffer, [{param: 0, mode: 'async'}, {param: 1, mode: 'async'}]);
             });
         });
+
+        describe(".filterVariable('123@#$', '')", function() {
+            it("returns: '' (26)", function() {
+                assert.equal(filterVariable('123@#$', ''), '');
+            });
+        });
+
+        describe(".filterVariable([], '')", function() {
+            it("returns: [] (27)", function() {
+                assert.deepEqual(filterVariable([], ''), []);
+            });
+        });
     });
 };
 
