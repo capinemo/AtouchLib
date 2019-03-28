@@ -18,8 +18,11 @@ module.exports = function () {
         });
 
         describe(".isService()", function() {
-            it("returns: false (3)", function() {
-                assert.equal(Inject.isService(), false);
+           it("exeption: Error [empty name given] (3)", function() {
+                assert.throws(
+                    () => Inject.isService()
+                    , /Inject.isService: empty name given/
+                );
             });
         });
 
@@ -29,7 +32,7 @@ module.exports = function () {
             it("exeption: Error [not function given as constructor] (4)", function() {
                 assert.throws(
                     () => Inject.registerService('newService', 'INJECT')
-                    , /Inject: not function given as constructor/
+                    , /Inject.registerService: not function given as constructor/
                 );
             });
         });
@@ -38,7 +41,7 @@ module.exports = function () {
             it("exeption: Error [invalid name given] (5)", function() {
                 assert.throws(
                     () => Inject.registerService(INJECT, INJECT)
-                    , /Inject: invalid name given/
+                    , /Inject.registerService: invalid name given/
                 );
             });
         });
@@ -47,7 +50,7 @@ module.exports = function () {
             it("exeption: Error [empty name given] (6)", function() {
                 assert.throws(
                     () => Inject.registerService('', INJECT)
-                    , /Inject: empty name given/
+                    , /Inject.registerService: empty name given/
                 );
             });
         });
@@ -92,7 +95,7 @@ module.exports = function () {
             it("exeption: Error [given parameter not a function] (13)", function() {
                 assert.throws(
                     () => Inject.createObject('INJECT')
-                    , /Inject: given parameter not a function/
+                    , /Inject.createObject: given parameter not a function/
                 );
             });
         });
@@ -100,6 +103,15 @@ module.exports = function () {
         describe(".createObject(INJECT)", function() {
             it("returns: INJECT (14)", function() {
                 assert.equal(Inject.createObject(INJECT) instanceof INJECT, true);
+            });
+        });
+
+        describe(".getService()", function() {
+           it("exeption: Error [empty name given] (15)", function() {
+                assert.throws(
+                    () => Inject.getService()
+                    , /Inject.getService: empty name given/
+                );
             });
         });
     });

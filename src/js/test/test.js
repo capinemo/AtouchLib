@@ -1,6 +1,6 @@
 /**
  * @class TEST
- * @description Class for saving data of the single test 
+ * @description Class for saving data of the single test
  * @version 0.1.0
  */
 let TEST = (function () {
@@ -39,13 +39,13 @@ let TEST = (function () {
         if (typeof test_id !== 'string') {
             throw new Error('Test.id: not string given in parameter');
         }
-        
+
         if (test_id === '') {
             test_id = genUUID();
         }
-        
+
         test_id = filterVariable(test_id, 'a-zA-Z0-9\-\_');
-        
+
         id = test_id;
         return this;
     };
@@ -62,11 +62,11 @@ let TEST = (function () {
         if (typeof test_name !== 'string') {
             throw new Error('Test.name: not string given in parameter');
         }
-        
+
         if (test_name === '') {
             throw new Error('Test.name: empty string given');
         }
-        
+
         test_name = filterVariable(test_name, 'a-zA-Z0-9\-\_');
 
         name = test_name;
@@ -90,9 +90,8 @@ let TEST = (function () {
         if (typeof test_desc !== 'string') {
             throw new Error('Test.description: not string given in parameter');
         }
-        
-        test_desc = filterVariable(test_desc, 'a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ');
 
+        test_desc = filterVariable(test_desc, 'a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ');
 
         desc = test_desc;
         return this;

@@ -180,7 +180,7 @@ module.exports = function () {
             });
         });
 
-         describe(".setRunOrder(true) in [{param: 0}, {param: 1}]", function() {
+        describe(".setRunOrder(true) in [{param: 0}, {param: 1}]", function() {
              it("changes to: [{param: 0, mode: 'async'}, {param: 1, mode: 'async'}] (25)", function() {
                 global.coms_buffer = [{param: 0}, {param: 1}];
                 global.setRunOrder = functions.setRunOrder;

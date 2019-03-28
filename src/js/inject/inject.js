@@ -19,21 +19,21 @@ let INJECT = (function () {
      */
     INJECT.prototype.registerService = function (name, classObject) {
         if (typeof name === 'object' || typeof name === 'function') {
-            throw new Error('Inject: invalid name given');
+            throw new Error('Inject.registerService: invalid name given');
         }
 
         if (name === '') {
-            throw new Error('Inject: empty name given');
+            throw new Error('Inject.registerService: empty name given');
         }
 
         if (typeof classObject !== 'function') {
-            throw new Error('Inject: not function given as constructor');
+            throw new Error('Inject.registerService: not function given as constructor');
         }
 
         name = filterVariable(name.toString(), 'a-zA-Z0-9_-');
 
         if (services[name]) {
-            console.warn('Inject: given name ' + name + ' already exists. Rewrite service');
+            console.warn('Inject.registerService: given name ' + name + ' already exists. Rewrite service');
         }
 
         services[name] = new classObject;
@@ -48,6 +48,10 @@ let INJECT = (function () {
      * @returns {Boolean}               Result of service searching
      */
     INJECT.prototype.isService = function (name) {
+        if (!name) {
+            throw new Error('Inject.isService: empty name given');
+        }
+
         if (services[name]) {
             return true;
         }
@@ -64,6 +68,10 @@ let INJECT = (function () {
      * @returns {Object}                Registered Object of class
      */
     INJECT.prototype.getService = function (name) {
+        if (!name) {
+            throw new Error('Inject.getService: empty name given');
+        }
+        
         if (!services[name]) {
             return false;
         }
@@ -81,7 +89,7 @@ let INJECT = (function () {
      */
     INJECT.prototype.createObject = function (classObject) {
         if (typeof classObject !== 'function') {
-            throw new Error('Inject: given parameter not a function');
+            throw new Error('Inject.createObject: given parameter not a function');
         }
 
         classObject.prototype.Inject = this;

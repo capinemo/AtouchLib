@@ -64,7 +64,11 @@ function getRandomInt (min, max) {
  * @returns {any}               Clean variable
  */
 function filterVariable (str, regex) {
-    let reg = new RegExp('[^' + regex + ']', 'g');
+    if (!regex) {
+        regex = '\s\S';
+    }
+
+    let reg = new RegExp('[^' + regex.toString() + ']', 'g');
 
     if (typeof str === 'boolean') {
         return !!str;
