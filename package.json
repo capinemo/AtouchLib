@@ -22,9 +22,13 @@
     "imagemin-pngquant": "^6.0.0",
     "rimraf": "^2.6.2"
   },
-  "scripts": {
-    "test": "mocha ./tests/index.js --reporter List"
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    }
   },
+  "scripts": {},
   "keywords": [
     "browser",
     "user",

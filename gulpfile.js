@@ -62,74 +62,13 @@ const path = {
     }
 };
 
-const esrules = {
-    rules: {
-        'strict'                : 'warn',
-        'semi'                  : ['warn', 'always'],
-        'quotes'                : ['warn', 'single'],
-        'indent'                : ['warn', 4, { 'SwitchCase': 1, 'VariableDeclarator': { "var": 1, "let": 1, "const": 1 } }],
-        'no-redeclare'          : ['warn', { 'builtinGlobals': true }],
-        'no-tabs'               : ['warn', { allowIndentationTabs: false }],
-        'space-before-blocks'   : 'warn',
-        'space-before-function-paren': 'warn',
-        'space-in-parens'       : ['warn', 'never'],
-        'space-infix-ops'       : 'warn',
-        'space-unary-ops'       : ['warn', { 'words': true, 'nonwords': false }],
-        'spaced-comment'        : [0, 'always'],
-        'padded-blocks'         : ['warn', { 'blocks': 'never', 'classes': 'always' }],
-        'no-mixed-spaces-and-tabs': 'warn',
-        'linebreak-style'       : [0, 'unix'],
-        'no-lonely-if'          : 'warn',
-        'brace-style'           : 'warn',
-        'one-var-declaration-per-line': ['warn', 'initializations'],
-        'operator-linebreak'    : ['warn', 'before'],
-        'for-direction'         : 'warn',
-        'getter-return'         : 'warn',
-        'no-compare-neg-zero'   : 'warn',
-        'no-cond-assign'        : 'warn',
-        'no-dupe-args'          : 'warn',
-        'no-duplicate-case'     : 'warn',
-        'no-ex-assign'          : 'warn',
-        'no-extra-boolean-cast' : 'warn',
-        'no-extra-semi'         : 'warn',
-        'no-unreachable'        : 'warn',
-        'no-unsafe-finally'     : 'warn',
-        'use-isnan'             : 'warn',
-        'valid-typeof'          : 'warn',
-        'default-case'          : 'warn',
-        'require-jsdoc'         : ['warn', { 'require': {
-                                    'FunctionDeclaration': true
-                                    , 'MethodDefinition': true
-                                    , 'ClassDeclaration': true
-                                    , 'ArrowFunctionExpression': true
-                                    , 'FunctionExpression': true } }
-                                    ],
-        'valid-jsdoc': 'warn',
-        'switch-colon-spacing': 'warn'
-    },
-    globals: [
-
-    ],
-    envs: [
-        'browser'
-    ],
-    parserOptions: {
-        ecmaVersion: 6,
-        sourceType: "module",
-        ecmaFeatures: {
-            jsx: true
-        }
-    }
-};
-
 //watch([path.atouch.watch.js, path.atouch.watch.html], build);
 //watch([path.editor.watch.html, path.editor.watch.js, path.editor.watch.style, path.editor.watch.img, path.editor.watch.fonts], buildEditor);
-
 
 gulp.task('buildTestsAtouch', () => {
     return gulp
         .src(path.atouch.src.js)
-        .pipe(eslint(esrules))
+        .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
@@ -138,7 +77,7 @@ gulp.task('buildTestsAtouch', () => {
 gulp.task('buildTestsGlobalFunctions', () => {
     return gulp
         .src(path.atouch.src.global)
-        .pipe(eslint(esrules))
+        .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
@@ -147,7 +86,7 @@ gulp.task('buildTestsGlobalFunctions', () => {
 gulp.task('buildTestsGlobalInject', () => {
     return gulp
         .src(path.atouch.src.inject)
-        .pipe(eslint(esrules))
+        .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
@@ -156,7 +95,7 @@ gulp.task('buildTestsGlobalInject', () => {
 gulp.task('buildTestsGlobalFTest', () => {
     return gulp
         .src(path.atouch.src.test)
-        .pipe(eslint(esrules))
+        .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
@@ -165,7 +104,7 @@ gulp.task('buildTestsGlobalFTest', () => {
 gulp.task('buildAtouchJs', () => {
     return gulp
         .src(path.atouch.src.js) // Находим главный файл js atouch
-        .pipe(eslint(esrules)) // Проверяем js скрипты на соответствие правилам оформления
+        .pipe(eslint()) // Проверяем js скрипты на соответствие правилам оформления
         .pipe(eslint.format()) // Выводим отчет по обнаруженным ошибкам
         .pipe(rigger()) // Подключаем независимые файлы
         .pipe(sourcemaps.init()) // Инициализируем генерацию карты
