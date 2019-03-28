@@ -1,5 +1,5 @@
 module.exports = function () {
-    const assert = require('assert');
+    const assert = require('chai').assert;
     const atouch = require("../atouch/atouch.js");
     const ATOUCH = atouch.ATOUCH;
     const Atouch = new ATOUCH();
