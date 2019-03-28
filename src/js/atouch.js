@@ -40,6 +40,8 @@ var atouch;
             DEBUG_MODE = debug || false,
             _;
 
+        //= global/dom.functions.js
+
         //= global/global.functions.js
 
         //= inject/inject.js

@@ -52,13 +52,13 @@ const path = {
     },
     tests : {
         build : {
-            js: 'tests/atouch/'
+            js: 'test/atouch/'
         },
-        test : 'tests/index.js',
+        test : 'test/index.test.js',
         watch : {
             js: 'src/js/**/*.js'
         },
-        clean: './tests/'
+        clean: './test/'
     }
 };
 

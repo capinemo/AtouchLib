@@ -20,6 +20,7 @@
     "gulp-wait": "0.0.2",
     "gulp.spritesmith": "^6.9.0",
     "imagemin-pngquant": "^6.0.0",
+    "nyc": "^13.3.0",
     "rimraf": "^2.6.2"
   },
   "eslintConfig": {
@@ -28,7 +29,18 @@
       "node": true
     }
   },
-  "scripts": {},
+  "nyc": {
+    "all": true,
+    "include": [
+      "test/atouch/*.js"
+    ],
+    "exclude": [
+      "test/**/*.test.js"
+    ]
+  },
+  "scripts": {
+    "test": "gulp buildTests && nyc mocha"
+  },
   "keywords": [
     "browser",
     "user",
