@@ -4,10 +4,10 @@
  * @version 0.1.0
  */
 let TEST = (function () {
-    let id = '',
-        name = '',
-        desc = '',
-        chain = [];
+    let id_buf = '',
+        name_buf = '',
+        desc_buf = '',
+        chain_buf = [];
 
     /**
      * Clear all data in the current test
@@ -17,10 +17,10 @@ let TEST = (function () {
      * @returns {TEST}                  TEST object
      */
     TEST.prototype.reset = function () {
-        id = '';
-        name = '';
-        desc = '';
-        chain = [];
+        id_buf = '';
+        name_buf = '';
+        desc_buf = '';
+        chain_buf = [];
 
         return this;
     };
@@ -44,7 +44,7 @@ let TEST = (function () {
 
         test_id = filterVariable(test_id, 'a-zA-Z0-9\-\_');
 
-        id = test_id;
+        id_buf = test_id;
         return this;
     };
 
@@ -67,10 +67,10 @@ let TEST = (function () {
 
         test_name = filterVariable(test_name, 'a-zA-Z0-9\-\_');
 
-        name = test_name;
+        name_buf = test_name;
 
-        if (!id) {
-            id = genUUID();
+        if (!id_buf) {
+            id_buf = genUUID();
         }
 
         return this;
@@ -91,7 +91,7 @@ let TEST = (function () {
 
         test_desc = filterVariable(test_desc, 'a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ');
 
-        desc = test_desc;
+        desc_buf = test_desc;
         return this;
     };
 
@@ -101,19 +101,19 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {ATOUCH} atouch           ATOUCH object
+     * @param {ATOUCH} Atouch           ATOUCH object
      * @returns {TEST}                  TEST object
      */
-    TEST.prototype.chain = function (atouch) {
-        if (!(atouch instanceof ATOUCH)) {
+    TEST.prototype.chain = function (Atouch) {
+        if (!(Atouch instanceof ATOUCH)) {
             throw new Error('Test.chain: not Atouch object given in parameter');
         }
 
-        if (typeof atouch.getCollectedTasks !== 'function') {
+        if (typeof Atouch.getCollectedTasks !== 'function') {
             throw new Error('Test.chain: invalid interface of Atouch object. Need a getCollectedTasks function');
         }
 
-        chain = atouch.getCollectedTasks();
+        chain_buf = Atouch.getCollectedTasks();
         return this;
     };
 
@@ -125,7 +125,7 @@ let TEST = (function () {
      * @returns {string}                Current test id
      */
     TEST.prototype.getId = function () {
-        return id;
+        return id_buf;
     };
 
     /**
@@ -136,7 +136,7 @@ let TEST = (function () {
      * @returns {string}                Current test name
      */
     TEST.prototype.getName = function () {
-        return name;
+        return name_buf;
     };
 
     /**
@@ -147,7 +147,7 @@ let TEST = (function () {
      * @returns {string}                Current test description
      */
     TEST.prototype.getDesc = function () {
-        return desc;
+        return desc_buf;
     };
 
     /**
@@ -158,7 +158,7 @@ let TEST = (function () {
      * @returns {Array}                 Current test chain
      */
     TEST.prototype.getChain = function () {
-        return chain;
+        return chain_buf;
     };
 
     /**
