@@ -4,7 +4,7 @@ module.exports = function () {
     const atouch = require("../atouch/atouch.js");
     global.ATOUCH = atouch.ATOUCH;
     const Atouch = new ATOUCH();
-    Atouch.reset().go('').check({});
+    Atouch.go('').check({});
 
     const functions = require('../atouch/global.functions.js');
     global.filterVariable = functions.filterVariable;
@@ -34,7 +34,7 @@ module.exports = function () {
             });
         });
 
-        describe(".chain()", function() {
+        describe(".chain(Atouch.go('').check({}))", function() {
             it("return: TEST (4)", function() {
                 assert.equal(Test.chain(Atouch) instanceof TEST, true);
             });
@@ -53,7 +53,7 @@ module.exports = function () {
         });
 
         describe(".getDesc()", function() {
-            it("return: 'FirstTestDescription' (5)", function() {
+            it("return: 'FirstTestDescription' (7)", function() {
                 assert.equal(Test.getDesc(), 'FirstTestDescription');
             });
         });
