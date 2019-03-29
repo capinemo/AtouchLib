@@ -12,7 +12,7 @@
 
 //= head.js
 
-var atouch;
+var Atouch;
 
 (function (global, debug = false) {
     /**
@@ -29,7 +29,7 @@ var atouch;
             Editor = null,
             Server = null,
             Unit = null,
-            Config = {
+            config = {
                 no_gui: false,
                 no_report: false,
                 stop_error: false
@@ -153,7 +153,7 @@ var atouch;
 
     try {
         (function () {
-            global.atouch = new ATOUCH;
+            global.Atouch = new ATOUCH;
         })();
     } catch (e) {
         console.warn(e);
