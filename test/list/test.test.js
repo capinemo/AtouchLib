@@ -4,7 +4,7 @@ module.exports = function () {
     const atouch = require("../atouch/atouch.js");
     global.ATOUCH = atouch.ATOUCH;
     const Atouch = new ATOUCH();
-    Atouch.go('').check({});
+    Atouch.reset().go('').check({});
 
     const functions = require('../atouch/global.functions.js');
     global.filterVariable = functions.filterVariable;
