@@ -3,8 +3,6 @@ module.exports = function () {
 
     const atouch = require("../atouch/atouch.js");
     global.ATOUCH = atouch.ATOUCH;
-    const Atouch = new ATOUCH();
-    Atouch.reset().go('').check({});
 
     const functions = require('../atouch/global.functions.js');
     global.filterVariable = functions.filterVariable;
@@ -14,9 +12,12 @@ module.exports = function () {
     const TEST = test.TEST;
     const Test = new TEST();
 
-
     describe("Test:", function() {
+        const Atouch = new ATOUCH();
+
         describe(".id('FirstTestId')", function() {
+            Atouch.go('').check({});
+
             it("return: TEST (1)", function() {
                 assert.equal(Test.id('FirstTestId') instanceof TEST, true);
             });

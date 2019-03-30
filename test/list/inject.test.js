@@ -4,10 +4,11 @@ module.exports = function () {
     global.filterVariable = functions.filterVariable;
     const inject = require('../atouch/inject');
     const INJECT = inject.INJECT;
-    const Inject = new INJECT();
 
     describe("Inject:", function() {
-        describe('typeof', function() {
+        const Inject = new INJECT();
+
+        describe("typeof", function() {
             it("returns: object (1)", function() {
                 assert.equal(typeof Inject, 'object');
             });
