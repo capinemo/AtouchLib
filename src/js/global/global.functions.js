@@ -100,7 +100,7 @@ function setRunOrder (mode = false) {
     }
 
     if (!(coms_buffer instanceof Array)) {
-        throw new Error('getRandomInt: need a array');
+        throw new Error('setRunOrder: need a array');
     }
 
     coms_buffer.forEach(function (item, key, arr) {

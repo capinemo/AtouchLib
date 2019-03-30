@@ -140,7 +140,7 @@ module.exports = function () {
                 global.setRunOrder = functions.setRunOrder;
                 assert.throws(
                     () => setRunOrder()
-                    , /getRandomInt: need a array/
+                    , /setRunOrder: need a array/
                 );
             });
         });
