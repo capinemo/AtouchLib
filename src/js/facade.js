@@ -5,7 +5,13 @@
  */
 
 /**
- * Initialize parameters of library <br />
+ * Creates new TEST object
+ * @type TEST
+ */
+ATOUCH.prototype.Test = new TEST();
+
+/**
+ * Initialize parameters of current test <br />
  * <br />
  * Using example: atouch.config({no_gui: true, no_report: true}) <br />
  * <br />
@@ -13,6 +19,8 @@
  * ~ no_gui = false|true [default:false] (Hide browser gui panel)<br />
  * ~ no_report = false|true [default:false] (No send test report to server)<br />
  * ~ stop_error = false|true [default:false] (Stop test if error)<br />
+ * ~ wait_timeout = integer [default:10] (Waiting step execution finish before
+ * alert failure in test)<br />
  * <br />
  * Value 'no_report' used if tests loaded from server. Tests from local <br />
  * script never sends report to server.
@@ -28,14 +36,37 @@ ATOUCH.prototype.config = function (params) {
     }
 
     for (let key in params) {
-        if (params.hasOwnProperty(key) && Config.hasOwnProperty(key)) {
-            Config[key] = filterVariable(params[key], 'a-zA-Z0-9\.\,');
+        if (params.hasOwnProperty(key) && config.hasOwnProperty(key)) {
+            config[key] = filterVariable(params[key], 'a-z0-9\.\,');
         } else {
             console.warn('Atouch.config: given parameter ' + key + ' not exists');
         }
     }
 
     return this;
+};
+
+/**
+ * Returns value of parameter in current test
+ *
+ * @public
+ *
+ * @param {string} name             Name of test parameter
+ * @returns {any}                   Saved parameter value
+ */
+ATOUCH.prototype.checkConfigParam = function (name = '') {
+    if (name === '') {
+        throw new Error('Atouch.checkConfigParam: empty parameter name');
+    }
+
+    name = filterVariable(name.toString(), 'a-z_');
+
+    if (typeof config[name] === 'undefined') {
+        console.warn('Atouch.checkConfigParam: given parameter ' + name + ' not exists.');
+        return false;
+    }
+
+    return config[name];
 };
 
 /**
@@ -60,13 +91,12 @@ ATOUCH.prototype.config = function (params) {
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.prepare = function (test) {
-    if (typeof test !== 'object' || !(test instanceof TEST)) {
-        throw new Error('Atouch.prepare: not Test object given in collection');
+    if (!(test instanceof TEST)) {
+        throw new Error('Atouch.prepare: not Test object given in parameter');
     }
 
     if (!test.getName()) {
         throw new Error('Atouch.prepare: Given empty test');
-        return;
     }
 
     if (Collections[test.getName()]) {
@@ -101,8 +131,10 @@ ATOUCH.prototype.collect = function (name, self) {
         throw new Error('Atouch.collect: not string given in collection name');
     }
 
+    name = filterVariable(name.toString(), '-a-zA-Z0-9\.\,_ ');
+
     if (!(self instanceof ATOUCH)) {
-        throw new Error('Atouch.collect: not Atouch object given in collection');
+        throw new Error('Atouch.collect: not Atouch object given in parameter');
     }
 
     if (coms_buffer.length === 0) {
@@ -149,6 +181,10 @@ ATOUCH.prototype.run = function (str) {
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.sync = function (self) {
+    if (!(self instanceof ATOUCH)) {
+        throw new Error('Atouch.sync: not Atouch object given in parameter');
+    }
+
     setRunOrder(false);
     return this;
 };
@@ -174,6 +210,10 @@ ATOUCH.prototype.sync = function (self) {
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.async = function (self) {
+    if (!(self instanceof ATOUCH)) {
+        throw new Error('Atouch.async: not Atouch object given in parameter');
+    }
+
     setRunOrder(true);
     return this;
 };
@@ -379,8 +419,15 @@ ATOUCH.prototype.select = function (param) {
 };
 
 ATOUCH.prototype.reset = function () {
+    for (let key in config) {
+        if (config.hasOwnProperty(key)) {
+            config[key] = false;
+        }
+    }
 
     coms_buffer = [];
+    this.Test.reset();
+
     return this;
 };
 
@@ -430,11 +477,4 @@ ATOUCH.prototype.getCollectedTasks = function () {
 
     return tmp;
 };
-
-/**
- * Creates new TEST object
- * @type TEST
- */
-ATOUCH.prototype.test = new TEST();
-
 
