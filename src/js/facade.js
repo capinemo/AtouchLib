@@ -19,7 +19,7 @@ ATOUCH.prototype.Test = new TEST();
  * ~ no_gui = false|true [default:false] (Hide browser gui panel)<br />
  * ~ no_report = false|true [default:false] (No send test report to server)<br />
  * ~ stop_error = false|true [default:false] (Stop test if error)<br />
- * ~ wait_timeout = integer [default:10] (Waiting step execution finish before
+ * ~ wait_timeout = integer [default:3] (Waiting step execution finish before
  * alert failure in test)<br />
  * <br />
  * Value 'no_report' used if tests loaded from server. Tests from local <br />
@@ -245,6 +245,12 @@ ATOUCH.prototype.page = function (param) {
 };
 
 ATOUCH.prototype.go = function (param) {
+    /*if (typeof param !== 'string') {
+        throw new Error('Atouch.go: not string given');
+    }
+
+    name = filterVariable(name.toString(), '-a-zA-Z0-9\.\,_ ');
+    */
 
     coms_buffer.push({action: 'go', params: param});
     return this;
@@ -252,7 +258,7 @@ ATOUCH.prototype.go = function (param) {
 
 ATOUCH.prototype.reload = function (param) {
 
-    coms_buffer.push({action: 'reload', params: param});
+    coms_buffer.push({action: 'reload'});
     return this;
 };
 
@@ -419,11 +425,10 @@ ATOUCH.prototype.select = function (param) {
 };
 
 ATOUCH.prototype.reset = function () {
-    for (let key in config) {
-        if (config.hasOwnProperty(key)) {
-            config[key] = false;
-        }
-    }
+    config.no_gui = false;
+    config.no_report = false;
+    config.stop_error = false;
+    config.wait_timeout = 3;
 
     coms_buffer = [];
     this.Test.reset();
@@ -464,7 +469,8 @@ ATOUCH.prototype.messageFromEditor = function (str) {
 };
 
 /**
- * Returns and cleand commands buffer
+ * Returns and clean commands buffer. Used by Test class for getting collected <br />
+ * test therefore must be a public.
  *
  * @public
  *

@@ -167,19 +167,19 @@ module.exports = function () {
             });
         });
 
-        describe("Atouch3.sync(Atouch3.go('').check({}))", function() {
+        describe(".sync(Atouch3.go('').check({}))", function() {
             it("returns: ATOUCH (23)", function() {
                 assert.equal(Atouch3.sync(Atouch3.go('').check({})) instanceof ATOUCH, true);
             });
         });
 
-        describe("Atouch3.async(Atouch3.go('').check({}))", function() {
+        describe(".async(Atouch3.go('').check({}))", function() {
             it("returns: ATOUCH (24)", function() {
                 assert.equal(Atouch3.async(Atouch3.go('').check({})) instanceof ATOUCH, true);
             });
         });
 
-        describe("Atouch3.sync(Atouch3.Test)", function() {
+        describe(".sync(Atouch3.Test)", function() {
             it("exeption: Error [not Atouch object given in parameter] (25)", function() {
                 assert.throws(
                     () => Atouch3.sync(Atouch3.Test)
@@ -188,7 +188,7 @@ module.exports = function () {
             });
         });
 
-        describe("Atouch3.async(Atouch3.Test)", function() {
+        describe(".async(Atouch3.Test)", function() {
             it("exeption: Error [not Atouch object given in parameter] (26)", function() {
                 assert.throws(
                     () => Atouch3.async(Atouch3.Test)
@@ -197,9 +197,25 @@ module.exports = function () {
             });
         });
 
-        describe("Atouch3.async(Atouch3.reset())", function() {
+        describe("Atouch.async(Atouch3.reset())", function() {
             it("returns: ATOUCH (27)", function() {
                 assert.equal(Atouch3.async(Atouch3.reset()) instanceof ATOUCH, true);
+            });
+        });
+
+        const Atouch4 = new ATOUCH();
+
+        describe(".getCollectedTasks()", function() {
+            it("returns: [] (28)", function() {
+                ;
+                assert.deepEqual(Atouch4.getCollectedTasks(), []);
+            });
+        });
+
+        describe(".go('').check({}).getCollectedTasks()", function() {
+            it("returns: [{action: 'go', params: ''}, {action: 'check', params: {}}] (29)", function() {
+                Atouch4.go('').check({});
+                assert.deepEqual(Atouch4.getCollectedTasks(), [{action: 'go', params: ''}, {action: 'check', params: {}}]);
             });
         });
     });
