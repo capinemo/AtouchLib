@@ -42,7 +42,7 @@ let TEST = (function () {
             test_id = genUUID();
         }
 
-        test_id = filterVariable(test_id, 'a-zA-Z0-9\-\_');
+        test_id = filterVariable(test_id, '[^a-zA-Z0-9\-\_]');
 
         id_buf = test_id;
         return this;
@@ -65,7 +65,7 @@ let TEST = (function () {
             throw new Error('Test.name: empty string given');
         }
 
-        test_name = filterVariable(test_name, 'a-zA-Z0-9\-\_');
+        test_name = filterVariable(test_name, '[^a-zA-Z0-9\-\_]');
 
         name_buf = test_name;
 
@@ -89,7 +89,7 @@ let TEST = (function () {
             throw new Error('Test.description: not string given in parameter');
         }
 
-        test_desc = filterVariable(test_desc, 'a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ');
+        test_desc = filterVariable(test_desc, '[^a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ]');
 
         desc_buf = test_desc;
         return this;

@@ -37,7 +37,7 @@ ATOUCH.prototype.config = function (params) {
 
     for (let key in params) {
         if (params.hasOwnProperty(key) && config.hasOwnProperty(key)) {
-            config[key] = filterVariable(params[key], 'a-z0-9\.\,');
+            config[key] = filterVariable(params[key], '[^a-z0-9\.\,]');
         } else {
             console.warn('Atouch.config: given parameter ' + key + ' not exists');
         }
@@ -59,7 +59,7 @@ ATOUCH.prototype.checkConfigParam = function (name = '') {
         throw new Error('Atouch.checkConfigParam: empty parameter name');
     }
 
-    name = filterVariable(name.toString(), 'a-z_');
+    name = filterVariable(name.toString(), '[^a-z_]');
 
     if (typeof config[name] === 'undefined') {
         console.warn('Atouch.checkConfigParam: given parameter ' + name + ' not exists.');
@@ -131,7 +131,7 @@ ATOUCH.prototype.collect = function (name, self) {
         throw new Error('Atouch.collect: not string given in collection name');
     }
 
-    name = filterVariable(name.toString(), '-a-zA-Z0-9\.\,_ ');
+    name = filterVariable(name.toString(), '[^-a-zA-Z0-9\.\,_ ]');
 
     if (!(self instanceof ATOUCH)) {
         throw new Error('Atouch.collect: not Atouch object given in parameter');
@@ -249,7 +249,7 @@ ATOUCH.prototype.go = function (param) {
         throw new Error('Atouch.go: not string given');
     }
 
-    name = filterVariable(name.toString(), '-a-zA-Z0-9\.\,_ ');
+    name = filterVariable(name.toString(), '[^-a-zA-Z0-9\.\,_ ]');
     */
 
     coms_buffer.push({action: 'go', params: param});

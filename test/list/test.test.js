@@ -13,7 +13,7 @@ module.exports = function () {
     const Test = new TEST();
 
     describe("Test:", function() {
-        const Atouch = new ATOUCH();
+        /*const Atouch = new ATOUCH();
 
         describe(".id('FirstTestId')", function() {
             Atouch.go('').check({});
@@ -222,6 +222,6 @@ module.exports = function () {
                Test.name('123');
                assert.match(Test.getId(), /^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/);
            });
-        });
+        });*/
     });
 };

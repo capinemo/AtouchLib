@@ -4,7 +4,7 @@ module.exports = function () {
     global.ATOUCH = atouch.ATOUCH;
 
     describe("Atouch:", function() {
-        const Atouch1 = new ATOUCH();
+        /*const Atouch1 = new ATOUCH();
 
         describe("typeof", function() {
             it("returns: object (1)", function() {
@@ -217,6 +217,6 @@ module.exports = function () {
                 Atouch4.go('').check({});
                 assert.deepEqual(Atouch4.getCollectedTasks(), [{action: 'go', params: ''}, {action: 'check', params: {}}]);
             });
-        });
+        });*/
     });
 };

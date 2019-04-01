@@ -30,7 +30,7 @@ let INJECT = (function () {
             throw new Error('Inject.registerService: not function given as constructor');
         }
 
-        name = filterVariable(name.toString(), 'a-zA-Z0-9_-');
+        name = filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
 
         if (services[name]) {
             console.warn('Inject.registerService: given name ' + name + ' already exists. Rewrite service');
@@ -71,7 +71,7 @@ let INJECT = (function () {
         if (!name) {
             throw new Error('Inject.getService: empty name given');
         }
-        
+
         if (!services[name]) {
             return false;
         }
