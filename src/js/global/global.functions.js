@@ -110,6 +110,106 @@ function setRunOrder (mode = false) {
     });
 }
 
+function validateCommandsBuffer () {
+    let regex = {
+        url: '[^-a-zA-Z0-9\.\,_\:\%\/\@]',
+    }
+
+    let total = {
+        go: {
+            type: 'string',
+            regex: regex.url
+        },
+        reload: {
+            type: null
+        },
+        back: {
+            type: null
+        },
+        forward: {
+            type: null
+        },
+        exists: {
+            type: 'object',
+            target: 'one'
+        },
+        check: {
+            type: 'object',
+            target: 'any'
+        },
+        csscheck : {
+            type: 'object'
+        },
+        jscheck : {
+            type: 'object'
+        },
+        cookcheck : {
+            type: 'object'
+        },
+        cookdel : {
+            type: 'string'
+        },
+        print : {
+            type: 'object'
+        },
+        fill : {
+            type: 'object'
+        },
+        clear : {
+            type: 'object'
+        },
+        click : {
+            type: 'object'
+        },
+        dblclick : {
+            type: 'object'
+        },
+        down : {
+            type: 'object'
+        },
+        up : {
+            type: 'object'
+        },
+        focus : {
+            type: 'object'
+        },
+        move : {
+            type: 'object'
+        },
+        scrollby : {
+            type: 'object'
+        },
+        scrollto : {
+            type: 'object'
+        },
+        attach : {
+            type: 'object'
+        },
+        come : {
+            type: 'object'
+        },
+        leave : {
+            type: 'object'
+        },
+        over : {
+            type: 'object'
+        },
+        out : {
+            type: 'object'
+        },
+        pull : {
+            type: 'object'
+        },
+        mark : {
+            type: 'object'
+        },
+        select : {
+            type: 'object'
+        }
+    }
+
+}
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {filterVariable, genUUID, getRandomInt, capitalizeFirstLetter, setRunOrder};
 }
