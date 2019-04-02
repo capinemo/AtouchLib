@@ -73,7 +73,8 @@ ATOUCH.prototype.checkConfigParam = function (name = '') {
  * Saves test for further use <br />
  * <br />
  * Using example:
- * <pre>atouch.prepare(
+ * <pre>
+ *  atouch.prepare(
  *      atouch.test
  *          .name('FirstTestInJavaScript')
  *          .chain(
@@ -113,7 +114,8 @@ ATOUCH.prototype.prepare = function (test) {
  * Saves to buffer commands collection for further use <br />
  * <br />
  * Using example:
- * <pre>atouch.collect('NewCollectionName',
+ * <pre>
+ *  atouch.collect('NewCollectionName',
  *      atouch
  *          .jscheck({vars: 'myObj.option.first', equal: 'test'})
  *          .jscheck({vars: 'myArr[2]', equal: 31})
@@ -168,7 +170,8 @@ ATOUCH.prototype.run = function (str) {
  *
  * <br />
  * Using example:
- * <pre>atouch.sync(
+ * <pre>
+ *  atouch.sync(
  *      atouch
  *          .jscheck({vars: 'myObj.option.first', equal: 'test'})
  *          .jscheck({vars: 'myArr[2]', equal: 31})
@@ -197,7 +200,8 @@ ATOUCH.prototype.sync = function (self) {
  *
  * <br />
  * Using example:
- * <pre>atouch.async(
+ * <pre>
+ *  atouch.async(
  *      atouch
  *          .jscheck({vars: 'myObj.option.first', equal: 'test'})
  *          .jscheck({vars: 'myArr[2]', equal: 31})
@@ -239,76 +243,435 @@ ATOUCH.prototype.until = function (str) {
 };
 
 ATOUCH.prototype.page = function (param) {
-
     coms_buffer.push({action: 'page', params: param});
     return this;
 };
 
+/**
+ * Open the given url. If parameter not specified saves empty string. <br />
+ * At the test running time instead empty string using current page url
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .go('https://mysite.org')
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .go()
+ * </pre>
+ *
+ * @public
+ *
+ * @param {string} param            Targer url
+ * @returns {ATOUCH}                ATOUCH object
+ */
 ATOUCH.prototype.go = function (param) {
-    /*if (typeof param !== 'string') {
-        throw new Error('Atouch.go: not string given');
+    if (!param) {
+        param = '';
     }
-
-    name = filterVariable(name.toString(), '[^-a-zA-Z0-9\.\,_ ]');
-    */
 
     coms_buffer.push({action: 'go', params: param});
     return this;
 };
 
-ATOUCH.prototype.reload = function (param) {
-
+/**
+ * Reload current page.
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .reload()
+ * </pre>
+ *
+ * @public
+ *
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.reload = function () {
     coms_buffer.push({action: 'reload'});
     return this;
 };
 
-ATOUCH.prototype.back = function (param) {
-
-    coms_buffer.push({action: 'back', params: param});
+/**
+ * Loads previous in browser history page.
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .back()
+ * </pre>
+ *
+ * @public
+ *
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.back = function () {
+    coms_buffer.push({action: 'back'});
     return this;
 };
 
-ATOUCH.prototype.forward = function (param) {
-
-    coms_buffer.push({action: 'forward', params: param});
+/**
+ * Loads next in browser history page.
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .forward()
+ * </pre>
+ *
+ * @public
+ *
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.forward = function () {
+    coms_buffer.push({action: 'forward'});
     return this;
 };
 
+/**
+ * Checks that element exists on page. Element description must <br />
+ * have specified format: <br />
+ * ~ id - {id: 'elem_with_id'} <br />
+ * ~ tag & index - {tag: 'input', index: 1} <br />
+ * ~ class & index - {class: 'notice_block', index: 0} <br />
+ * ~ name & index - {name: 'name_field', index: 2} <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .exists({class: 'notice_block', index: 0})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
 ATOUCH.prototype.exists = function (param) {
-
     coms_buffer.push({action: 'exists', params: param});
     return this;
 };
 
-ATOUCH.prototype.check = function (param) {
-
+/**
+ * Checks that element/elements content meets certain conditions. Elements <br />
+ * description must have specified format: <br />
+ * ~ id - {id: 'elem_with_id'} <br />
+ * ~ tag [& index] - {tag: 'textarea'}, {tag: 'input', index: 1} <br />
+ * ~ class [& index] - {class: 'bottom'}, {class: 'notice_block', index: 0} <br />
+ * ~ name [& index] - {name: 'username'}, {name: 'name_field', index: 2} <br />
+ * Condition description must have specified format:
+ * ~ equal - content of element has full matches with given sample <br />
+ * ~ has - content of element has partial matches with given sample <br />
+ * ~ anyequal - content of any element in collection has full matches with <br />
+ * given sample <br />
+ * ~ anyhas - content of any element in collection has partial matches with <br />
+ * given sample <br />
+ * ~ allequal - content of all elements in collection has full matches with <br />
+ * given sample <br />
+ * ~ allhas - content of all elements in collection has partial matches with <br />
+ * given sample <br />
+ * If the element has a value, checking uses this field, otherwise it <br />
+ * checks for innerHTML
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .check({tag: 'textarea', anyequal: 'Input your name'})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .check({class: 'head_notice', index: 0, has: 'name is empty'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+/*ATOUCH.prototype.check = function (param) {
     coms_buffer.push({action: 'check', params: param});
     return this;
-};
+};*/
 
-ATOUCH.prototype.csscheck = function (param) {
-
+/**
+ * Checks that element css style meets certain conditions. Elements <br />
+ * description must have specified format: <br />
+ * ~ id - {id: 'elem_with_id'} <br />
+ * ~ tag & index - {tag: 'input', index: 1} <br />
+ * ~ class & index - {class: 'notice_block', index: 0} <br />
+ * ~ name & index - {name: 'name_field', index: 2} <br />
+ * Condition description must have specified format:
+ * ~ has - style of element has full matches with given object with properties <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .csscheck({tag: 'textarea', index: 0, has: {'resize': 'none'}})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .csscheck({id: 'top_menu', has: {'color': '#006666', '-webkit-border-radius': '7px'}})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+/*ATOUCH.prototype.csscheck = function (param) {
     coms_buffer.push({action: 'csscheck', params: param});
     return this;
-};
+};*/
 
-ATOUCH.prototype.jscheck = function (param) {
-
+/**
+ * Checks that javascript variable meets certain conditions. <br />
+ * Variable must have specified format:
+ * ~ vars - {vars: 'js_variable'}, {vars: 'js_arrya[0]}, <br />
+ * {vars: 'js_object.elem.subelem[3]'}
+ * Condition description must have specified format:
+ * ~ has - content of variable has partial matches with given sample<br />
+ * ~ equal - content of variable has full matches with given sample<br />
+ * ~ type - typeof of variable equal to given type<br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .jscheck({tag: 'textarea', index: 0, has: {'resize': 'none'}})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .jscheck({id: 'top_menu', has: {'color': '#006666', '-webkit-border-radius': '7px'}})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+/*ATOUCH.prototype.jscheck = function (param) {
     coms_buffer.push({action: 'jscheck', params: param});
     return this;
-};
+};*/
 
-ATOUCH.prototype.cookcheck = function (param) {
-
+/*ATOUCH.prototype.cookcheck = function (param) {
     coms_buffer.push({action: 'cookcheck', params: param});
     return this;
-};
+};*/
 
-ATOUCH.prototype.cookdel = function (param) {
-
-    coms_buffer.push({action: 'cookdel', params: param});
+/**
+ * Checks that content of element|element style|js variable|cookie partially <br />
+ * meets certain conditions. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ id (DOM Element) - {id: 'elem_with_id'} <br />
+ * ~ tag & index (DOM Element) - {tag: 'input', index: 1} <br />
+ * ~ class & index (DOM Element) - {class: 'notice_block', index: 0} <br />
+ * ~ name & index (DOM Element) - {name: 'name_field', index: 2} <br />
+ * ~ js (javascript variable) - {js: 'var_name'} or {js: 'var_obj.sub_arr[2]'} <br />
+ * ~ cookie (cookie variable) - {cookie: 'cook_name'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected partial of content. If given DOM Element <br />
+ * checks it value field if exists, otherwise innerHTML. If given js <br />
+ * variable or cookie, it compares with given sample. <br />
+ * ~ css - object with list of css styles, expected on target DOM Element.
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .has({tag: 'textarea', index: 0, value: 'your name'})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .has({js: 'elemList.names', value: 'user name'})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .has({tag: 'textarea', index: 0, css: {'resize': 'none'}})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.has = function (param) {
+    coms_buffer.push({action: 'has', params: param});
     return this;
 };
+
+/**the most stringent check
+ * Checks that content of element|js variable|cookie fully <br />
+ * meets certain conditions. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ id (DOM Element) - {id: 'elem_with_id'} <br />
+ * ~ tag & index (DOM Element) - {tag: 'input', index: 1} <br />
+ * ~ class & index (DOM Element) - {class: 'notice_block', index: 0} <br />
+ * ~ name & index (DOM Element) - {name: 'name_field', index: 2} <br />
+ * ~ js (javascript variable) - {js: 'var_name'} or {js: 'var_obj.sub_arr[2]'} <br />
+ * ~ cookie (cookie variable) - {cookie: 'cook_name'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected content. If given DOM Element has value field, <br />
+ * sample compares with it, otherwise with innerHTML. If given js <br />
+ * variable or cookie, it compares with given sample. <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .equal({tag: 'textarea', index: 0, value: 'your name'})
+ * </pre>
+ * or
+ * <pre>
+ *  atouch
+ *      .equal({js: 'elemList.names', value: 'user name'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.equal = function (param) {
+    coms_buffer.push({action: 'equal', params: param});
+    return this;
+};
+
+/**
+ * Checks that content of all elements in html collection contain <br />
+ * given condition. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ id (DOM Element) - {id: 'elem_with_id'} <br />
+ * ~ tag [& index] (DOM Element|Collection) - {tag: 'input'} <br />
+ * ~ class [& index] (DOM Element|Collection) - {class: 'notice_block'} <br />
+ * ~ name [& index] (DOM Element|Collection) - {name: 'name_field'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected content. If given DOM Element has value field, <br />
+ * sample compares with it, otherwise with innerHTML. <br />
+ * If given one element in target description, this function work <br />
+ * as ATOUCH.prototype.has. <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .allhas({tag: 'textarea', value: 'your name'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.allhas = function (param) {
+    coms_buffer.push({action: 'allhas', params: param});
+    return this;
+};
+
+/**
+ * Checks that content of all elements in html collection corresponds <br />
+ * with given condition. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ id (DOM Element) - {id: 'elem_with_id'} <br />
+ * ~ tag [& index] (DOM Element|Collection) - {tag: 'input'} <br />
+ * ~ class [& index] (DOM Element|Collection) - {class: 'notice_block'} <br />
+ * ~ name [& index] (DOM Element|Collection) - {name: 'name_field'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected content. If given DOM Element has value field, <br />
+ * sample compares with it, otherwise with innerHTML. <br />
+ * If given one element in target description, this function work <br />
+ * as ATOUCH.prototype.equal. <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .allhas({tag: 'textarea', value: 'Input your name'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.allequal = function (param) {
+    coms_buffer.push({action: 'allequal', params: param});
+    return this;
+};
+
+/**
+ * Checks that content at least one element in html collection contain <br />
+ * given condition. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ tag (DOM Collection) - {tag: 'input'} <br />
+ * ~ class (DOM Collection) - {class: 'notice_block'} <br />
+ * ~ name (DOM Collection) - {name: 'name_field'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected content. If given DOM Elements has value field, <br />
+ * sample compares with it, otherwise with innerHTML. <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .anyhas({tag: 'textarea', value: 'your name'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.anyhas = function (param) {
+    coms_buffer.push({action: 'anyhas', params: param});
+    return this;
+};
+
+/**
+ * Checks that content at least one element in html collection corresponds <br />
+ * with given condition. <br />
+ * <br />
+ * Target description must have specified format: <br />
+ * ~ tag (DOM Collection) - {tag: 'input'} <br />
+ * ~ class (DOM Collection) - {class: 'notice_block'} <br />
+ * ~ name (DOM Collection) - {name: 'name_field'} <br />
+ * <br />
+ * Condition description must have specified format:
+ * ~ value - sample of expected content. If given DOM Elements has value field, <br />
+ * sample compares with it, otherwise with innerHTML. <br />
+ * <br />
+ * Using example:<br />
+ * <pre>
+ *  atouch
+ *      .anyequal({tag: 'textarea', value: 'Input your name'})
+ * </pre>
+ *
+ * @public
+ *
+ * @param {Object} params           Object with parameters
+ * @returns {ATOUCH}                ATOUCH object
+ */
+ATOUCH.prototype.anyequal = function (param) {
+    coms_buffer.push({action: 'anyequal', params: param});
+    return this;
+};
+
+/*
+ATOUCH.prototype.cookdel = function (param) {
+    coms_buffer.push({action: 'cookdel', params: param});
+    return this;
+};*/
 
 ATOUCH.prototype.print = function (param) {
 

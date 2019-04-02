@@ -207,7 +207,6 @@ module.exports = function () {
 
         describe(".getCollectedTasks()", function() {
             it("returns: [] (28)", function() {
-                ;
                 assert.deepEqual(Atouch4.getCollectedTasks(), []);
             });
         });
@@ -218,5 +217,14 @@ module.exports = function () {
                 assert.deepEqual(Atouch4.getCollectedTasks(), [{action: 'go', params: ''}, {action: 'check', params: {}}]);
             });
         });*/
+
+        const Atouch5 = new ATOUCH();
+
+        describe(".go()", function() {
+            it("returns: ATOUCH (30)", function() {
+                global.window = {location:{href: 'http://atouch.picum.ru/'}};
+                assert.equal(Atouch5.go() instanceof ATOUCH, true);
+            });
+        });
     });
 };

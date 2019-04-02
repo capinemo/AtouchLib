@@ -10,7 +10,7 @@ Atouch
     .collect('MasterLogin20',
         Atouch.click({class: 'menu_button', index: 1})
             .while(
-                Atouch.csscheck({name: 'user_phone', index: 0, style: {'resize': 'none'}})
+                Atouch.csscheck({name: 'user_phone', index: 0, has: {'resize': 'none'}})
             )
             .use('VideoCheck')
     )

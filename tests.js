@@ -161,6 +161,16 @@ test_list = {
             {'action':'check','params':{class: 'menu_button', index: 0, has: [2, 5]}}, // E 4103
             {'action':'check','params':{class: 'menu_button', equal: 'Mouse controller'}}, // E 4104
 
+            {'action':'anyequal','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'allequal','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'equal','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'has','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'allhas','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'anyhas','params':{class: 'menu_button', value: 'Mouse controller'}},
+            {'action':'equal','params':{js: 'store.arr', value: ['30', 21, 31, 32, 40], strong: false}},
+            {'action':'equal','params':{class: 'store', css: {'color': '#ABC9', 'padding': '7px'}}},
+            {'action':'equal','params':{cookie: 'test_cook', value: 'controller'}},
+
             {'action':'jscheck','params':{vars: 'store', equal: 'My test string'}}, // S
             {'action':'jscheck','params':{vars: 'store1', equal: null}}, // S
             {'action':'jscheck','params':{vars: 'myArr', equal: myArr}}, // S
@@ -205,18 +215,18 @@ test_list = {
             {'action':'jscheck','params':{vars: 'myObj', key: 'length', equal: 2}}, // E 4203
             {'action':'jscheck','params':{vars: 'right'}}, // E 4204
 
-            {'action':'csscheck','params':{class: 'menu_button', index: 0, style: {'margin-bottom': '10px', 'text-decoration': 'none'}}}, // S
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#006666', 'font-size': '30px'}}}, // S
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#066'}}}, // S
-            {'action':'csscheck','params':{class: 'menu_button', index: 0, style: {'padding-right': '10px'}}}, // S
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#066', 'padding': '7px'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#Ab9', 'padding': '7px'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#AS9', 'padding': '7px'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#ABC9', 'padding': '7px'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#006666', 'padding': '7px', 'background': '#e0e0ff'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', index: 0, style: {'color': '#006666', '-webkit-border-radius': '7px'}}}, // E 4000
-            {'action':'csscheck','params':{tag: 'h1', style: {'color': '#006666', 'padding': '7px'}}}, // E 4001
-            {'action':'csscheck','params':{tag: 'h1', index: 2, style: {'color': '#006666', 'padding': '7px'}}}, // E 4002
+            {'action':'csscheck','params':{class: 'menu_button', index: 0, has: {'margin-bottom': '10px', 'text-decoration': 'none'}}}, // S
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#006666', 'font-size': '30px'}}}, // S
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#066'}}}, // S
+            {'action':'csscheck','params':{class: 'menu_button', index: 0, has: {'padding-right': '10px'}}}, // S
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#066', 'padding': '7px'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#Ab9', 'padding': '7px'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#AS9', 'padding': '7px'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#ABC9', 'padding': '7px'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#006666', 'padding': '7px', 'background': '#e0e0ff'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', index: 0, has: {'color': '#006666', '-webkit-border-radius': '7px'}}}, // E 4000
+            {'action':'csscheck','params':{tag: 'h1', has: {'color': '#006666', 'padding': '7px'}}}, // E 4001
+            {'action':'csscheck','params':{tag: 'h1', index: 2, has: {'color': '#006666', 'padding': '7px'}}}, // E 4002
             {'action':'csscheck','params':{tag: 'h1'}}, // E 4300
 
             {'action':'cookcheck','params':{cook: 'test_cook', has: 'controller'}}, // S
