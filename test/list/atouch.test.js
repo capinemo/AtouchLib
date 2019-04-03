@@ -2,19 +2,87 @@ module.exports = function () {
     const assert = require('chai').assert;
     const atouch = require("../atouch/atouch.js");
     global.ATOUCH = atouch.ATOUCH;
+    const Atouch = new ATOUCH();
+
+    const com1 = {js: 'myObj.option.5', value: 'test'},
+        com2 = {js: 'myArr[2]', value: 31},
+        com3 = {id: 'mouse_test'},
+        com4 = {class: 'menu_button', index: 1},
+        com5 = {name: 'user_phone', index: 0, css: {'resize': 'none'}},
+        com6 = {class: 'menu_button', index: 0},
+        com7 = {name: 'user_login', index: 0, input: 'Master'},
+        com8 = {name: 'user_login', index: 0, input: 'User1'};
+
+    Atouch
+        .config({no_gui: true})
+        .collect('VideoCheck',
+            Atouch.async(
+                Atouch.equal(com1).equal(com2).exists(com3)
+            )
+        )
+        .collect('MasterLogin20',
+            Atouch.click(com4).has(com5)
+        )
+        .collect('ListenersLogin10',
+            Atouch.click(com6).wait(10)
+        )
+        .prepare(
+            Atouch.Test.name('test_htmlcheck').chain(
+                    Atouch.sync(
+                        Atouch.print(com7).wait(20).click(com6)
+                    )
+                )
+        )
+        .prepare(
+            Atouch.Test.id('User1Login').name('test_htmlcheck1')
+                .desc('Short html checking').chain(
+                    Atouch.sync(
+                        Atouch.print(com8)
+                    )
+                )
+        )
+        .run()
+        /*.run(
+            Atouch.async(
+                Atouch
+                    .tab()
+                    .tab('file:///D:/work/project/Atouch/library/build/index.html' + '?p=0', 'MasterLogin20')
+                    .tab('file:///D:/work/project/Atouch/library/build/index.html' + '?p=1', 'User1Login')
+            )
+        )*/;
 
     describe("Atouch:", function() {
-        /*const Atouch1 = new ATOUCH();
-
         describe("typeof", function() {
             it("returns: object (1)", function() {
-                assert.equal(typeof Atouch1, 'object');
+                assert.equal(typeof Atouch, 'object');
             });
 
             it("returns : ATOUCH (2)", function() {
-                assert.equal(Atouch1.constructor.name, 'ATOUCH');
+                assert.equal(Atouch.constructor.name, 'ATOUCH');
             });
         });
+
+        describe(".checkConfigParam('no_gui')", function() {
+            it("returns: true (3)", function() {
+                assert.equal(Atouch.checkConfigParam('no_gui'), true);
+            });
+        });
+
+        describe(".checkConfigParam('no_report')", function() {
+            it("returns: false (4)", function() {
+                assert.equal(Atouch.checkConfigParam('no_report'), false);
+            });
+        });
+
+        describe(".checkConfigParam('no_rep')", function() {
+            it("returns: false (5)", function() {
+                assert.equal(Atouch.checkConfigParam('no_rep'), false);
+            });
+        });
+
+        /*const Atouch1 = new ATOUCH();
+
+
 
         describe(".config({no_gui: true})", function() {
             it("returns: ATOUCH (3)", function() {
@@ -22,23 +90,6 @@ module.exports = function () {
             });
         });
 
-        describe(".checkConfigParam('no_gui')", function() {
-            it("returns: true (4)", function() {
-                assert.equal(Atouch1.checkConfigParam('no_gui'), true);
-            });
-        });
-
-        describe(".checkConfigParam('no_report')", function() {
-            it("returns: false (5)", function() {
-                assert.equal(Atouch1.checkConfigParam('no_report'), false);
-            });
-        });
-
-        describe(".checkConfigParam('no_rep')", function() {
-            it("returns: false (6)", function() {
-                assert.equal(Atouch1.checkConfigParam('no_rep'), false);
-            });
-        });
 
         describe(".config('no_gui')", function() {
             it("exeption: Error [not object given] (7)", function() {

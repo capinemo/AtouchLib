@@ -5,10 +5,10 @@ const test = require('./list/test.test');
 const atouch = require('./list/atouch.test');
 
 
-functions();
+//functions();
 
-inject();
-test();
+//inject();
+//test();
 
 
 atouch();

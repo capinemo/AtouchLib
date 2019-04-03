@@ -468,7 +468,7 @@ ATOUCH.prototype.exists = function (param) {
  * ~ js (javascript variable) - {js: 'var_name'} or {js: 'var_obj.sub_arr[2]'} <br />
  * ~ cookie (cookie variable) - {cookie: 'cook_name'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected partial of content. If given HTMLElement <br />
  * checks it value field if exists, otherwise innerHTML. If given js <br />
  * variable or cookie, it compares with given sample. <br />
@@ -515,7 +515,7 @@ ATOUCH.prototype.has = function (param) {
  * ~ js (javascript variable) - {js: 'var_name'} or {js: 'var_obj.sub_arr[2]'} <br />
  * ~ cookie (cookie variable) - {cookie: 'cook_name'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected content. If given HTMLElement has value field, <br />
  * sample compares with it, otherwise with innerHTML. If given js <br />
  * variable or cookie, it compares with given sample. <br />
@@ -554,7 +554,7 @@ ATOUCH.prototype.equal = function (param) {
  * ~ class [& index] (HTMLElement|HTMLCollection) - {class: 'notice_block'} <br />
  * ~ name [& index] (HTMLElement|HTMLCollection) - {name: 'name_field'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected content. If given HTMLElement has value field, <br />
  * sample compares with it, otherwise with innerHTML. <br />
  * If given one element in target description, this function work <br />
@@ -589,7 +589,7 @@ ATOUCH.prototype.allhas = function (param) {
  * ~ class [& index] (HTMLElement|HTMLCollection) - {class: 'notice_block'} <br />
  * ~ name [& index] (HTMLElement|HTMLCollection) - {name: 'name_field'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected content. If given HTMLElement has value field, <br />
  * sample compares with it, otherwise with innerHTML. <br />
  * If given one element in target description, this function work <br />
@@ -623,7 +623,7 @@ ATOUCH.prototype.allequal = function (param) {
  * ~ class (HTMLCollection) - {class: 'notice_block'} <br />
  * ~ name (HTMLCollection) - {name: 'name_field'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected content. If given HTMLElements has value field, <br />
  * sample compares with it, otherwise with innerHTML. <br />
  * If you want to check the matches without without regard to variable type <br />
@@ -655,7 +655,7 @@ ATOUCH.prototype.anyhas = function (param) {
  * ~ class (HTMLCollection) - {class: 'notice_block'} <br />
  * ~ name (HTMLCollection) - {name: 'name_field'} <br />
  * <br />
- * Condition description must have specified format:
+ * Condition description must have specified format: <br />
  * ~ value - sample of expected content. If given HTMLElements has value field, <br />
  * sample compares with it, otherwise with innerHTML. <br />
  * If you want to check the matches without without regard to variable type <br />
@@ -687,13 +687,13 @@ ATOUCH.prototype.anyequal = function (param) {
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
  * <br />
- * Input description must have specified format:
+ * Input description must have specified format: <br />
  * ~ input - string for printing in input element. <br />
  * <br />
- * For emulation of keyboard shortcuts used specified labels:
- * ^SHIFT^ - emulates keydown, keypress and keyup events for SHIFT
- * #SHIFT# - emulates keydown, upkeypress events for SHIFT
- * %SHIFT% - emulates keyup event for SHIFT
+ * For emulation of keyboard shortcuts used specified labels: <br />
+ * ^SHIFT^ - emulates keydown, keypress and keyup events for SHIFT <br />
+ * #SHIFT# - emulates keydown, upkeypress events for SHIFT <br />
+ * %SHIFT% - emulates keyup event for SHIFT <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -720,13 +720,13 @@ ATOUCH.prototype.print = function (param) {
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
  * <br />
- * Input description must have specified format:
+ * Input description must have specified format: <br />
  * ~ input - string for printing in input element. <br />
  * <br />
- * For emulation of keyboard shortcuts used specified labels:
- * ^SHIFT^ - emulates keydown, keypress and keyup events for SHIFT
- * #SHIFT# - emulates keydown, upkeypress events for SHIFT
- * %SHIFT% - emulates keyup event for SHIFT
+ * For emulation of keyboard shortcuts used specified labels: <br />
+ * ^SHIFT^ - emulates keydown, keypress and keyup events for SHIFT <br />
+ * #SHIFT# - emulates keydown, upkeypress events for SHIFT <br />
+ * %SHIFT% - emulates keyup event for SHIFT <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -903,7 +903,7 @@ ATOUCH.prototype.focus = function (param) {
  * ~ tag & index (HTMLElement) - {tag: 'input', index: 1} <br />
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
- * ~ x & y (integer) - absolute coordinates on the page
+ * ~ x & y (integer) - absolute coordinates on the page <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -930,7 +930,7 @@ ATOUCH.prototype.move = function (param) {
  * Emulates a page scrolling by absolute page coordinates. <br />
  * <br />
  * Target description must have specified format: <br />
- * ~ x & y (integer) - absolute coordinates on the page
+ * ~ x & y (integer) - absolute coordinates on the page <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -952,7 +952,7 @@ ATOUCH.prototype.scrollby = function (param) {
  * Emulates the scrolling relative to the current coordinates. <br />
  * <br />
  * Target description must have specified format: <br />
- * ~ x & y (integer) - relative coordinates
+ * ~ x & y (integer) - relative coordinates <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -979,8 +979,8 @@ ATOUCH.prototype.scrollto = function (param) {
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
  * <br />
- * For selecting attached file use spicified format:
- * ~ file (string|array of string) - full name of file(s)
+ * For selecting attached file use spicified format: <br />
+ * ~ file (string|array of string) - full name of file(s) <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -1112,8 +1112,8 @@ ATOUCH.prototype.out = function (param) {
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
  * <br />
- * News coordinates for dropping must have specified format:
- * ~ x & y (integer) - new coordinates for dropping
+ * News coordinates for dropping must have specified format: <br />
+ * ~ x & y (integer) - new coordinates for dropping <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -1139,9 +1139,9 @@ ATOUCH.prototype.dragdrop = function (param) {
  * ~ class & index (HTMLSelectElement) - {class: 'notice_select', index: 0} <br />
  * ~ name & index (HTMLSelectElement) - {name: 'select_me', index: 2} <br />
  * <br />
- * Selected option must have specified format:
- * ~ num (integer) - order number of selected option
- * ~ value (string) - field value of selected option
+ * Selected option must have specified format: <br />
+ * ~ num (integer) - order number of selected option <br />
+ * ~ value (string) - field value of selected option <br />
  * <br />
  * Using example:<br />
  * <pre>
@@ -1246,8 +1246,8 @@ ATOUCH.prototype.getCollectedTasks = function () {
  * ~ class & index (HTMLElement) - {class: 'notice_block', index: 0} <br />
  * ~ name & index (HTMLElement) - {name: 'name_field', index: 2} <br />
  * <br />
- * News coordinates for dropping must have specified format:
- * ~ x & y (integer) - new coordinates for dropping
+ * News coordinates for dropping must have specified format: <br />
+ * ~ x & y (integer) - new coordinates for dropping <br />
  * <br />
  * Using example:<br />
  * <pre>
