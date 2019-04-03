@@ -46,8 +46,8 @@ Atouch
     .run(
         Atouch.async(
             Atouch
-                .page()
-                .page('file:///D:/work/project/Atouch/library/build/index.html' + '?p=0', 'MasterLogin20')
-                .page('file:///D:/work/project/Atouch/library/build/index.html' + '?p=1', 'User1Login')
+                .tab()
+                .tab('file:///D:/work/project/Atouch/library/build/index.html' + '?p=0', 'MasterLogin20')
+                .tab('file:///D:/work/project/Atouch/library/build/index.html' + '?p=1', 'User1Login')
         )
     );
