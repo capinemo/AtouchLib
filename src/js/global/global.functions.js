@@ -110,10 +110,17 @@ function setRunOrder (mode = false) {
     });
 }
 
+/**
+ * Validation and checking actions list from coms_buffer
+ *
+ * @private
+ *
+ * @returns {boolean}           True if success
+ */
 function validateCommandsBuffer () {
     let regex = {
         url: '[^-a-zA-Z0-9\.\,_\:\%\/\@]',
-    }
+    };
 
     let total = {
         go: {
@@ -206,8 +213,7 @@ function validateCommandsBuffer () {
         select : {
             type: 'object'
         }
-    }
-
+    };
 }
 
 if (typeof module !== 'undefined' && module.exports) {
