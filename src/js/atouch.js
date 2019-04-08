@@ -76,7 +76,7 @@ var Atouch;
             SL = new INJECT;
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
-            if (typeof LANG !== 'undefined') {
+            /*if (typeof LANG !== 'undefined') {
                 SL.registerService('Lang', LANG);
                 if (DEBUG_MODE) console.info('MODULE: LANG loaded to SL');
             }
@@ -84,14 +84,14 @@ var Atouch;
             if (typeof DEBUG !== 'undefined') {
                 SL.registerService('Debug', DEBUG);
                 if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to SL');
-            }
+            }*/
 
             if (typeof STORAGE !== 'undefined') {
                 SL.registerService('Storage', STORAGE);
                 if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to SL');
             }
 
-            if (typeof RUNNER !== 'undefined') {
+            /*if (typeof RUNNER !== 'undefined') {
                 Runner = SL.createObject(RUNNER);
                 if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to SL');
             }
@@ -146,7 +146,7 @@ var Atouch;
                 });
 
                 //Runner.runTest();
-            });
+            });*/
 
             return this;
         }
