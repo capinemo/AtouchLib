@@ -16,12 +16,12 @@ ATOUCH.prototype.Test = new TEST();
  * Using example: Atouch.config({no_gui: true, no_report: true}) <br />
  * <br />
  * Values: <br />
- * ~ no_gui = false|true [default:false] (Hide browser gui panel)<br />
- * ~ no_report = false|true [default:false] (No send test report to server)<br />
- * ~ stop_error = false|true [default:false] (Stop test if error)<br />
- * ~ wait_timeout = integer [default:3] (Waiting step execution finish before
- * ~ print_speed = float [default:50] (Speed of text printing)
- * ~ mouse_speed = float [default:30] (Speed of text printing)
+ * ~ no_gui = false => false|true (Hide browser gui panel)<br />
+ * ~ no_report = false => false|true (No send test report to server)<br />
+ * ~ stop_error = false => false|true (Stop test if error)<br />
+ * ~ wait_timeout = 3 => integer (>0) (Waiting step execution finish before
+ * ~ print_speed = 50 => float (1-100) (Speed of text printing)
+ * ~ mouse_speed = 30 => float (1-100) (Speed of mouse moving)
  * alert failure in test)<br />
  * <br />
  * Value 'no_report' used if tests loaded from server. Tests from local <br />
@@ -302,7 +302,7 @@ ATOUCH.prototype.async = function (self) {
  *  Atouch.run(
  *      Atouch
  *          .click({class: 'menu_button', index: 0})
- *          .wait(5.56)
+ *          .sleep(5.56)
  * ) </pre>
  *
  * @public
@@ -310,12 +310,12 @@ ATOUCH.prototype.async = function (self) {
  * @param {float} sec               Count of seconds for waiting
  * @returns {ATOUCH}                ATOUCH object
  */
-ATOUCH.prototype.wait = function (sec = 0) {
+ATOUCH.prototype.sleep = function (sec = 0) {
     if (!sec) {
         sec = 1;
     }
 
-    coms_buffer.push({action: 'wait', params: sec});
+    coms_buffer.push({action: 'sleep', params: sec});
     return this;
 };
 
