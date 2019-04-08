@@ -13,10 +13,10 @@ module.exports = function () {
     const Test = new TEST();
 
     describe("Test:", function() {
-        /*const Atouch = new ATOUCH();
+        const Atouch = new ATOUCH();
 
         describe(".id('FirstTestId')", function() {
-            Atouch.go('').check({});
+            Atouch.go('');
 
             it("return: TEST (1)", function() {
                 assert.equal(Test.id('FirstTestId') instanceof TEST, true);
@@ -35,7 +35,7 @@ module.exports = function () {
             });
         });
 
-        describe(".chain(Atouch.go('').check({}))", function() {
+        describe(".chain(Atouch.go(''))", function() {
             it("return: TEST (4)", function() {
                 assert.equal(Test.chain(Atouch) instanceof TEST, true);
             });
@@ -60,8 +60,8 @@ module.exports = function () {
         });
 
         describe(".getChain()", function() {
-            it("return: [{action: 'go', params: ''}, {action: 'check', params: {}}] (8)", function() {
-                assert.deepEqual(Test.getChain(), [{action: 'go', params: ''}, {action: 'check', params: {}}]);
+            it("return: [{action: 'go', params: ''}] (8)", function() {
+                assert.deepEqual(Test.getChain(), [{action: 'go', params: ''}]);
             });
         });
 
@@ -222,6 +222,6 @@ module.exports = function () {
                Test.name('123');
                assert.match(Test.getId(), /^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/);
            });
-        });*/
+        });
     });
 };
