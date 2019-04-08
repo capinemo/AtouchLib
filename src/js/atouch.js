@@ -30,9 +30,12 @@ var Atouch;
             Server = null,
             Unit = null,
             config = {
-                no_gui: false,
-                no_report: false,
-                stop_error: false
+                no_gui: false, // Hide browser gui panel (true|false)
+                no_report: false, // (No send test report to server (true|false)
+                stop_error: false, // Stop test if error (true|false)
+                wait_timeout: 3, // Waiting step execution finish before (0-...)
+                print_speed: 50, // Speed of text printing (0-100)
+                mouse_speed: 30, // Speed of mouse moving (0-100)
             },
             Tests = {},
             Collections = {},
