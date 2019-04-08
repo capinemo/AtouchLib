@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (Parent) {
     const assert = require('chai').assert;
 
     const atouch = require("../atouch/atouch.js");
@@ -10,34 +10,35 @@ module.exports = function () {
 
     const test = require('../atouch/test.js');
     const TEST = test.TEST;
-    const Test = new TEST();
+    const Atouch = new ATOUCH();
+    let Test = new TEST();
+
+    if (Parent && Parent instanceof ATOUCH) {
+        Test = Parent.Test;
+    }
 
     describe("Test:", function() {
-        const Atouch = new ATOUCH();
-
         describe(".id('FirstTestId')", function() {
-            Atouch.go('');
-
             it("return: TEST (1)", function() {
-                assert.equal(Test.id('FirstTestId') instanceof TEST, true);
+                assert.equal(Test.id('FirstTestId') instanceof Test.constructor, true);
             });
         });
 
         describe(".name('FirstTest')", function() {
             it("return: TEST (2)", function() {
-                assert.equal(Test.name('FirstTest') instanceof TEST, true);
+                assert.equal(Test.name('FirstTest') instanceof Test.constructor, true);
             });
         });
 
         describe(".desc('FirstTestDescription')", function() {
             it("return: TEST (3)", function() {
-                assert.equal(Test.desc('FirstTestDescription') instanceof TEST, true);
+                assert.equal(Test.desc('FirstTestDescription') instanceof Test.constructor, true);
             });
         });
 
         describe(".chain(Atouch.go(''))", function() {
             it("return: TEST (4)", function() {
-                assert.equal(Test.chain(Atouch) instanceof TEST, true);
+                assert.equal(Test.chain(Atouch.go('')) instanceof Test.constructor, true);
             });
         });
 
@@ -67,7 +68,7 @@ module.exports = function () {
 
         describe(".reset()", function() {
             it("return: TEST (9)", function() {
-                assert.equal(Test.reset() instanceof TEST, true);
+                assert.equal(Test.reset() instanceof Test.constructor, true);
             });
         });
 
@@ -106,7 +107,7 @@ module.exports = function () {
 
         describe(".id('First_$Test123&-Id@')", function() {
             it("return: TEST (15)", function() {
-                assert.equal(Test.id('First_$Test123&-Id@') instanceof TEST, true);
+                assert.equal(Test.id('First_$Test123&-Id@') instanceof Test.constructor, true);
             });
         });
 
@@ -118,7 +119,7 @@ module.exports = function () {
 
         describe(".id('')", function() {
             it("return: TEST (16)", function() {
-                assert.equal(Test.id('') instanceof TEST, true);
+                assert.equal(Test.id('') instanceof Test.constructor, true);
             });
         });
 
@@ -157,7 +158,7 @@ module.exports = function () {
 
         describe(".name('First_$Test123&-Name@')", function() {
             it("return: TEST (21)", function() {
-                assert.equal(Test.name('First_$Test123&-Name@') instanceof TEST, true);
+                assert.equal(Test.name('First_$Test123&-Name@') instanceof Test.constructor, true);
             });
         });
 
@@ -168,7 +169,7 @@ module.exports = function () {
         });
 
         describe(".desc(123)", function() {
-            it("exeption: Error [not string given in parameter] (19)", function() {
+            it("exeption: Error [not string given in parameter] (23)", function() {
                 assert.throws(
                     () => Test.desc(123)
                     , /Test.description: not string given in parameter/
@@ -177,19 +178,19 @@ module.exports = function () {
         });
 
         describe(".desc('First_$Test123&-Описание-Ёё.@')", function() {
-            it("return: TEST (21)", function() {
-                assert.equal(Test.desc('First_$Test123&-Описание-Ёё.@') instanceof TEST, true);
+            it("return: TEST (27)", function() {
+                assert.equal(Test.desc('First_$Test123&-Описание-Ёё.@') instanceof Test.constructor, true);
             });
         });
 
         describe(".getDesc()", function() {
-             it("return: 'First_Test123-Описание-Ёё.' (22)", function() {
+             it("return: 'First_Test123-Описание-Ёё.' (28)", function() {
                 assert.equal(Test.getDesc(), 'First_Test123-Описание-Ёё.');
             });
         });
 
         describe(".chain(123)", function() {
-            it("exeption: Error [not Atouch object given in parameter] (23)", function() {
+            it("exeption: Error [not Atouch object given in parameter] (29)", function() {
                 assert.throws(
                     () => Test.chain(123)
                     , /Test.chain: not Atouch object given in parameter/

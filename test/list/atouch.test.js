@@ -1,6 +1,7 @@
 module.exports = function () {
     const assert = require('chai').assert;
     const atouch = require("../atouch/atouch.js");
+    const test = require('./test.test');
     global.ATOUCH = atouch.ATOUCH;
 
     const com1 = {js: 'myObj.option.5', value: 'test'},
@@ -614,6 +615,58 @@ module.exports = function () {
             });
         });
 
+        describe(".messageFromEditor()", function() {
+            it("returns: false (102)", function() {
+                assert.equal(Atouch.messageFromEditor(), false);
+            });
+        });
+
+        describe(".messageFromEditor('Atouch editor ready')", function() {
+            it("returns: true (103)", function() {
+                assert.equal(Atouch.messageFromEditor('Atouch editor ready'), true);
+            });
+        });
+
+        describe(".messageFromEditor('Atouch start record')", function() {
+            it("returns: true (104)", function() {
+                assert.equal(Atouch.messageFromEditor('Atouch start record'), true);
+            });
+        });
+
+        describe(".messageFromEditor('Atouch stop record')", function() {
+            it("returns: true (105)", function() {
+                assert.equal(Atouch.messageFromEditor('Atouch stop record'), true);
+            });
+        });
+
+        describe(".messageFromEditor('Atouch run record')", function() {
+            it("returns: true (106)", function() {
+                assert.equal(Atouch.messageFromEditor('Atouch run record'), true);
+            });
+        });
+
+        describe(".messageFromEditor('Atouch stop')", function() {
+            it("returns: false (107)", function() {
+                assert.equal(Atouch.messageFromEditor('Atouch stop'), false);
+            });
+        });
+
+        describe(".sleep()", function() {
+            it("return: ATOUCH (108)", function() {
+                assert.equal(Atouch.reset().sleep() instanceof ATOUCH, true);
+            });
+
+            it("getCollectedTasks: [{action: 'sleep', params: 1}] (109)", function() {
+                assert.deepEqual(Atouch.getCollectedTasks()
+                , [{action: 'sleep', params: 1}]);
+            });
+        });
+
+        describe(".config({no_guis: 'zeroNUM-0.12'})", function() {
+            it("returns: ATOUCH (110)", function() {
+                assert.equal(Atouch1.config({no_guis: 'zeroNUM-0.12'}) instanceof ATOUCH, true);
+            });
+        });
 
     /*Atouch
         .config({no_gui: true})
@@ -654,4 +707,6 @@ module.exports = function () {
         );*/
 
     });
+
+    test(new ATOUCH());
 };
