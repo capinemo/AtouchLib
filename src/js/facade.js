@@ -1202,6 +1202,10 @@ ATOUCH.prototype.messageFromEditor = function (str) {
         return false;
     } */
 
+    if (!str) {
+        return false;
+    }
+
     switch (str) {
         case 'Atouch editor ready':
             // SL.getService('Editor').setIsRedactor(messageToEditor);
@@ -1215,7 +1219,7 @@ ATOUCH.prototype.messageFromEditor = function (str) {
         case 'Atouch run record':
             break;
         default:
-            break;
+            return false;
     }
 
     return true;

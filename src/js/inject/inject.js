@@ -153,6 +153,8 @@ let INJECT = (function () {
      * @returns {none}                  No return
      */
     INJECT.prototype.saveTotalState = function (reload = false) {
+        if (!this.getService('Storage')) return;
+
         let global_state = {};
 
         for (let key in states) {
@@ -193,6 +195,8 @@ let INJECT = (function () {
      * @returns {none}                  No return
      */
     INJECT.prototype.cleanTotalState = function () {
+        if (!this.getService('Storage')) return;
+
         this.getService('Storage').cleanState();
     };
 
