@@ -6,7 +6,7 @@
 let UNIT = (function () {
     /**
      * @constructor
-     * 
+     *
      * @returns {UNIT}        UNIT object
      */
     function UNIT () {
@@ -15,3 +15,7 @@ let UNIT = (function () {
 
     return UNIT;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {UNIT};
+}

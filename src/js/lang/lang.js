@@ -85,3 +85,7 @@ let LANG = (function () {
 
     return LANG;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {LANG};
+}

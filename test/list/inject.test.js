@@ -1,6 +1,6 @@
 module.exports = function () {
     const assert = require('chai').assert;
-    const functions = require('../atouch/global.functions.js');
+    const functions = require('../atouch/global.functions');
     global.filterVariable = functions.filterVariable;
     const inject = require('../atouch/inject');
     const INJECT = inject.INJECT;

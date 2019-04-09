@@ -94,3 +94,7 @@ let STORAGE = (function () {
 
     return STORAGE;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {STORAGE};
+}

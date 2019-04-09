@@ -6,7 +6,7 @@
 let SERVER = (function () {
     /**
      * @constructor
-     * 
+     *
      * @returns {SERVER}             SERVER object
      */
     function SERVER () {
@@ -15,3 +15,7 @@ let SERVER = (function () {
 
     return SERVER;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {SERVER};
+}

@@ -73,3 +73,7 @@ let EDITOR = (function () {
 function messageToEditor (str) {
     window.parent.postMessage(str, domain);
 }
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {EDITOR};
+}

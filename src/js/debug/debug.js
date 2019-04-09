@@ -6,7 +6,7 @@
 let DEBUG = (function () {
     /**
      * @constructor
-     * 
+     *
      * @returns {DEBUG}             DEBUG object
      */
     function DEBUG () {
@@ -15,3 +15,7 @@ let DEBUG = (function () {
 
     return DEBUG;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {DEBUG};
+}
