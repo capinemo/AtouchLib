@@ -68,7 +68,7 @@ let LANG = (function () {
      * @returns {LANG}              LANG object
      */
     function LANG (selectLang = null) {
-        let saved_lang = this.getLanguage();
+        /*let saved_lang = this.getLanguage();
 
         if (saved_lang) {
             curr_lang = saved_lang;
@@ -78,7 +78,7 @@ let LANG = (function () {
             curr_lang = 'ru';
         }
 
-        this.setLanguage(curr_lang);
+        this.setLanguage(curr_lang);*/
 
         return this;
     }

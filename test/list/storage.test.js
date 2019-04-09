@@ -6,12 +6,12 @@ module.exports = function () {
     const Storage = new STORAGE();
 
     describe("Storage:", function() {
-        describe(".id('FirstTestId')", function() {
+        describe("instanceof", function() {
             it("return: STORAGE (1)", function() {
                 assert.equal(Storage instanceof STORAGE, true);
             });
         });
 
-        
+
     });
 };

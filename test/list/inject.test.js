@@ -8,13 +8,13 @@ module.exports = function () {
     describe("Inject:", function() {
         const Inject = new INJECT();
 
-        describe("typeof", function() {
-            it("returns: object (1)", function() {
+        describe("instanceof", function() {
+            it("returns: typeof -> object (1)", function() {
                 assert.equal(typeof Inject, 'object');
             });
 
-            it("returns : INJECT (2)", function() {
-                assert.equal(Inject.constructor.name, 'INJECT');
+            it("returns : instanceof -> INJECT (2)", function() {
+                assert.equal(Inject instanceof INJECT, true);
             });
         });
 
