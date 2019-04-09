@@ -51,7 +51,7 @@ var Atouch;
 
         // = lang/lang.js
 
-        // = storage/storage.js
+        //= storage/storage.js
 
         // = runner/runner.js
 
