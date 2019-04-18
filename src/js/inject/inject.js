@@ -6,7 +6,7 @@
 
 let INJECT = (function () {
     let services = {},
-        states = {};
+        functions = {};
 
     //= inject.services.js
 

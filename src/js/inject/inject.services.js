@@ -50,6 +50,23 @@ INJECT.prototype.isService = function (name) {
 };
 
 /**
+ * Return array with available services names
+ *
+ * @public
+ *
+ * @returns {Array}                 List of available services names
+ */
+INJECT.prototype.listService = function () {
+    let list = [];
+
+    for (key in services) {
+        list.push(key);
+    }
+
+    return list;
+};
+
+/**
  * Return service by name
  *
  * @public
@@ -57,13 +74,13 @@ INJECT.prototype.isService = function (name) {
  * @param {string} name             Service name
  * @returns {Object}                Registered Object of class
  */
-INJECT.prototype.getService = function (name) {
+INJECT.prototype.Service = function (name) {
     if (!name) {
-        throw new Error('Inject.getService: empty name given');
+        throw new Error('Inject.Service: empty name given');
     }
 
     if (!services[name]) {
-        return false;
+        throw new Error('Inject.Service: service not exists');
     }
 
     return services[name];
