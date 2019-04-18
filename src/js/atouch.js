@@ -15,6 +15,20 @@
 var Atouch;
 
 (function (global, debug = false) {
+    //= inject/inject.js
+
+    // = storage/storage.js
+
+    // = runner/runner.js
+
+    // = editor/editor.js
+
+    // = server/server.js
+
+    // = test/test.js
+
+    // = unit/unit.js
+
     /**
      * @class ATOUCH
      * @description Global class for Atouch - in browser testing site library
@@ -35,7 +49,7 @@ var Atouch;
                 stop_error: false, // Stop test if error (true|false)
                 wait_timeout: 3, // Waiting step execution finish before (0-...)
                 print_speed: 50, // Speed of text printing (0-100)
-                mouse_speed: 30, // Speed of mouse moving (0-100)
+                mouse_speed: 30 // Speed of mouse moving (0-100)
             },
             Tests = {},
             Collections = {},
@@ -43,29 +57,21 @@ var Atouch;
             DEBUG_MODE = debug || false,
             _;
 
-        //= global/dom.functions.js
-
-        //= global/global.functions.js
-
-        //= inject/inject.js
+        //= iface/iface.js
 
         // = lang/lang.js
 
-        //= storage/storage.js
-
-        // = runner/runner.js
-
-        // = iface/iface.js
-
-        // = editor/editor.js
-
-        // = server/server.js
-
-        //= test/test.js
-
-        // = unit/unit.js
+        // = inject.extends.js
 
         //= facade.js
+
+        /**
+         * Creates new TEST object
+         * @type TEST
+         */
+        if (typeof TEST !== 'undefined') {
+            ATOUCH.prototype.Test = new TEST();
+        }
 
         /**
          * @constructor
@@ -76,7 +82,7 @@ var Atouch;
             SL = new INJECT;
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
-            /*if (typeof LANG !== 'undefined') {
+            if (typeof LANG !== 'undefined') {
                 SL.registerService('Lang', LANG);
                 if (DEBUG_MODE) console.info('MODULE: LANG loaded to SL');
             }
@@ -84,14 +90,14 @@ var Atouch;
             if (typeof DEBUG !== 'undefined') {
                 SL.registerService('Debug', DEBUG);
                 if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to SL');
-            }*/
+            }
 
             if (typeof STORAGE !== 'undefined') {
                 SL.registerService('Storage', STORAGE);
                 if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to SL');
             }
 
-            /*if (typeof RUNNER !== 'undefined') {
+            if (typeof RUNNER !== 'undefined') {
                 Runner = SL.createObject(RUNNER);
                 if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to SL');
             }
@@ -122,31 +128,31 @@ var Atouch;
                 global.parent.postMessage('atouch script ready', domain);
             }
 
-            if (typeof global.document === 'undefined'
-                    || typeof global.document.addEventListener === 'undefined'
+            if (typeof global.document !== 'undefined'
+                    && typeof global.document.addEventListener !== 'undefined'
             ) {
-                return this;
+                global.document.addEventListener('DOMContentLoaded', function () {
+                    // For working window.history.back and window.history.forward
+                    // in Firefox (running JS after loading to returned page)
+                    window.onunload = function () {};
+
+                    global.document.addEventListener('StartTest', function (e) {
+                        global.onunload = function () {
+                            SL.saveTotalState(true);
+                            if (DEBUG_MODE) console.info('EVENT: StartTest');
+                        };
+                    });
+
+                    global.document.addEventListener('FinishTest', function (e) {
+                        global.onunload = function () {};
+                        if (DEBUG_MODE) console.info('EVENT: FinishTest');
+                    });
+                });
             }
 
-            global.document.addEventListener('DOMContentLoaded', function () {
-                // For working window.history.back and window.history.forward
-                // in Firefox (running JS after loading to returned page)
-                window.onunload = function () {};
-
-                global.document.addEventListener('StartTest', function (e) {
-                    global.onunload = function () {
-                        SL.saveTotalState(true);
-                        if (DEBUG_MODE) console.info('EVENT: StartTest');
-                    };
-                });
-
-                global.document.addEventListener('FinishTest', function (e) {
-                    global.onunload = function () {};
-                    if (DEBUG_MODE) console.info('EVENT: FinishTest');
-                });
-
-                //Runner.runTest();
-            });*/
+            if (Runner) {
+                Runner.runTest();
+            }
 
             return this;
         }
