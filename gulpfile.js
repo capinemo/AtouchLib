@@ -40,7 +40,7 @@ const path = {
             html: 'src/html/*.html',
             js: 'src/js/atouch.js',
             example: 'src/js/tests.js',
-            global: 'src/js/global/global.functions.js',
+            //global: 'src/js/global/global.functions.js',
             inject: 'src/js/inject/inject.js',
             test: 'src/js/test/test.js',
             storage: 'src/js/storage/storage.js',
@@ -78,14 +78,14 @@ gulp.task('buildTestsAtouch', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalFunctions', () => {
+/*gulp.task('buildTestsGlobalFunctions', () => {
     return gulp
         .src(path.atouch.src.global)
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
-});
+});*/
 
 gulp.task('buildTestsGlobalInject', () => {
     return gulp
@@ -147,13 +147,13 @@ gulp.task('buildAtouchJs', () => {
         .pipe(eslint()) // Проверяем js скрипты на соответствие правилам оформления
         .pipe(eslint.format()) // Выводим отчет по обнаруженным ошибкам
         .pipe(rigger()) // Подключаем независимые файлы
-        .pipe(sourcemaps.init()) // Инициализируем генерацию карты
+        //.pipe(sourcemaps.init()) // Инициализируем генерацию карты
         .pipe(minify()) // Сжимаем js файлы
-        .pipe(sourcemaps.write()) // Дописываем карту
+        //.pipe(sourcemaps.write()) // Дописываем карту
         .pipe(gulp.dest(path.atouch.build.js)); // Кладем в файл сборки
 });
 
-gulp.task('buildAtouchExapmle', () => {
+gulp.task('buildAtouchExample', () => {
     return gulp
         .src(path.atouch.src.example)
         .pipe(gulp.dest(path.atouch.build.js));
@@ -173,7 +173,7 @@ gulp.task('runTests', () => {
         .pipe(mocha({reporter: 'List'}));
 });
 
-gulp.task('cleanBuild', () => {
+gulp.task('cleanBuild', (cb) => {
     return rimraf(path.atouch.clean, cb);
 });
 
@@ -183,7 +183,7 @@ gulp.task('web', () => {
 
 gulp.task('buildTests', gulp.series(
     'buildTestsAtouch',
-    'buildTestsGlobalFunctions',
+    //'buildTestsGlobalFunctions',
     'buildTestsGlobalInject',
     'buildTestsGlobalTest',
     'buildTestsGlobalStorage',
@@ -194,7 +194,7 @@ gulp.task('buildTests', gulp.series(
 
 gulp.task('runBuild', gulp.series(
     'buildAtouchJs',
-    'buildAtouchExapmle',
+    'buildAtouchExample',
     'buildAtouchHtml'
 ));
 

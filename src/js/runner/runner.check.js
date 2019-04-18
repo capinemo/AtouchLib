@@ -122,7 +122,7 @@ function getJsTarget (data) {
  *
  * @param {Any} string      Given parameter
  * @returns {Any}           Given parameter or converted string
- * 
+ *
  * @deprecated NOT VALID STRING FORMAT
  * TODO: change search string fromat
  */
@@ -157,26 +157,26 @@ function getElementObject (data) {
         find = document.getElementById(data.id);
     } else if (data.tag && data.index >= 0) {
         find = document.getElementsByTagName(data.tag)[data.index];
-        
+
         if (typeof find === 'undefined') {
             find = null;
         }
     } else if (data.name && data.index >= 0) {
         find = document.getElementsByName(data.name)[data.index];
-        
+
         if (typeof find === 'undefined') {
             find = null;
         }
     } else if (data.class && data.index >= 0) {
         find = document.getElementsByClassName(data.class)[data.index];
-        
+
         if (typeof find === 'undefined') {
             find = null;
         }
     } else {
         return false;
     }
-    
+
     return find;
 }
 
@@ -206,8 +206,6 @@ function getElementsCollection (data) {
 
     return find;
 }
-
-//= check/runner.cookie.js
 
 //= check/runner.check.html.js
 
