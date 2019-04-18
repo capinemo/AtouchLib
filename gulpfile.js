@@ -40,8 +40,8 @@ const path = {
             html: 'src/html/*.html',
             js: 'src/js/atouch.js',
             example: 'src/js/tests.js',
-            //global: 'src/js/global/global.functions.js',
             inject: 'src/js/inject/inject.js',
+            injectExtend: 'src/js/inject.extends.js',
             test: 'src/js/test/test.js',
             storage: 'src/js/storage/storage.js',
             lang: 'src/js/lang/lang.js',
@@ -78,18 +78,18 @@ gulp.task('buildTestsAtouch', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-/*gulp.task('buildTestsGlobalFunctions', () => {
+gulp.task('buildTestsGlobalInject', () => {
     return gulp
-        .src(path.atouch.src.global)
+        .src(path.atouch.src.inject)
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
         .pipe(gulp.dest(path.tests.build.js));
-});*/
+});
 
-gulp.task('buildTestsGlobalInject', () => {
+gulp.task('buildTestsGlobalinjectExtend', () => {
     return gulp
-        .src(path.atouch.src.inject)
+        .src(path.atouch.src.injectExtend)
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
@@ -183,8 +183,8 @@ gulp.task('web', () => {
 
 gulp.task('buildTests', gulp.series(
     'buildTestsAtouch',
-    //'buildTestsGlobalFunctions',
     'buildTestsGlobalInject',
+    'buildTestsGlobalinjectExtend',
     'buildTestsGlobalTest',
     'buildTestsGlobalStorage',
     'buildTestsGlobalLang',

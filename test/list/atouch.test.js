@@ -2,6 +2,8 @@ module.exports = function () {
     const assert = require('chai').assert;
     const atouch = require("../atouch/atouch.js");
     const test = require('./test.test');
+    const inject = require('../atouch/inject');
+    const INJECT = inject.INJECT;
     global.ATOUCH = atouch.ATOUCH;
 
     const com1 = {js: 'myObj.option.5', value: 'test'},

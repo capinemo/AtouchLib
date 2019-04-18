@@ -2,21 +2,16 @@ Atouch
     .config({no_gui: true})
     .collect('VideoCheck',
         Atouch.async(
-            Atouch.jscheck({vars: 'myObj.option.5', equal: 'test'})
-                .jscheck({vars: 'myArr[2]', equal: 31})
+            Atouch
                 .exists({id: 'mouse_test'})
         )
     )
     .collect('MasterLogin20',
         Atouch.click({class: 'menu_button', index: 1})
-            .while(
-                Atouch.csscheck({name: 'user_phone', index: 0, has: {'resize': 'none'}})
-            )
             .use('VideoCheck')
     )
     .collect('ListenersLogin10',
         Atouch.click({class: 'menu_button', index: 0})
-            .wait(10)
             .use('VideoCheck')
     )
     .prepare(
@@ -26,7 +21,6 @@ Atouch
                 Atouch.sync(
                     Atouch.print({name: 'user_login', index: 0, input: 'Master'})
                         .use('MasterLogin20')
-                        .wait(20)
                         .click({class: 'menu_button', index: 0})
                 )
             )

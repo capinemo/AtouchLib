@@ -7,14 +7,15 @@ let TEST = (function () {
     let id_buf = '',
         name_buf = '',
         desc_buf = '',
-        chain_buf = [];
+        chain_buf = [],
+        SL = null;
 
     /**
      * Clear all data in the current test
      *
      * @public
      *
-     * @returns {TEST}                  TEST object
+     * @returns {TEST}              TEST object
      */
     TEST.prototype.reset = function () {
         id_buf = '';
@@ -30,8 +31,8 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {string} test_id          New test id
-     * @returns {TEST}                  TEST object
+     * @param {string} test_id      New test id
+     * @returns {TEST}              TEST object
      */
     TEST.prototype.id = function (test_id) {
         if (typeof test_id !== 'string') {
@@ -39,10 +40,10 @@ let TEST = (function () {
         }
 
         if (test_id === '') {
-            test_id = genUUID();
+            test_id = SL.genUUID();
         }
 
-        test_id = filterVariable(test_id, '[^a-zA-Z0-9\-\_]');
+        test_id = SL.filterVariable(test_id, '[^a-zA-Z0-9\-\_]');
 
         id_buf = test_id;
         return this;
@@ -53,8 +54,8 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {string} test_name        New test name
-     * @returns {TEST}                  TEST object
+     * @param {string} test_name    New test name
+     * @returns {TEST}              TEST object
      */
     TEST.prototype.name = function (test_name) {
         if (typeof test_name !== 'string') {
@@ -65,12 +66,12 @@ let TEST = (function () {
             throw new Error('Test.name: empty string given');
         }
 
-        test_name = filterVariable(test_name, '[^a-zA-Z0-9\-\_]');
+        test_name = SL.filterVariable(test_name, '[^a-zA-Z0-9\-\_]');
 
         name_buf = test_name;
 
         if (!id_buf) {
-            id_buf = genUUID();
+            id_buf = SL.genUUID();
         }
 
         return this;
@@ -81,15 +82,15 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {string} test_desc        New name description
-     * @returns {TEST}                  TEST object
+     * @param {string} test_desc    New name description
+     * @returns {TEST}              TEST object
      */
     TEST.prototype.desc = function (test_desc) {
         if (typeof test_desc !== 'string') {
             throw new Error('Test.description: not string given in parameter');
         }
 
-        test_desc = filterVariable(test_desc, '[^a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ]');
+        test_desc = SL.filterVariable(test_desc, '[^a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ]');
 
         desc_buf = test_desc;
         return this;
@@ -101,8 +102,8 @@ let TEST = (function () {
      *
      * @public
      *
-     * @param {ATOUCH} Atouch           ATOUCH object
-     * @returns {TEST}                  TEST object
+     * @param {ATOUCH} Atouch       ATOUCH object
+     * @returns {TEST}              TEST object
      */
     TEST.prototype.chain = function (Atouch) {
         if (!(Atouch instanceof ATOUCH)) {
@@ -122,7 +123,7 @@ let TEST = (function () {
      *
      * @public
      *
-     * @returns {string}                Current test id
+     * @returns {string}            Current test id
      */
     TEST.prototype.getId = function () {
         return id_buf;
@@ -133,7 +134,7 @@ let TEST = (function () {
      *
      * @public
      *
-     * @returns {string}                Current test name
+     * @returns {string}            Current test name
      */
     TEST.prototype.getName = function () {
         return name_buf;
@@ -144,7 +145,7 @@ let TEST = (function () {
      *
      * @public
      *
-     * @returns {string}                Current test description
+     * @returns {string}            Current test description
      */
     TEST.prototype.getDesc = function () {
         return desc_buf;
@@ -155,7 +156,7 @@ let TEST = (function () {
      *
      * @public
      *
-     * @returns {Array}                 Current test chain
+     * @returns {Array}             Current test chain
      */
     TEST.prototype.getChain = function () {
         return chain_buf;
@@ -164,10 +165,17 @@ let TEST = (function () {
     /**
      * @constructor
      *
-     * @returns {TEST}             TEST object
+     * @param {INJECT} DI           Service container with functions <br />
+     *                              filterVariable and genUUID
+     * @returns {TEST}              TEST object
      */
-    function TEST () {
-        return this;
+    function TEST (DI) {
+        if (DI && DI instanceof INJECT) {
+            SL = DI;
+            return this;
+        }
+
+        throw new Error('TEST: to constructor given invalid service locator');
     }
 
     return TEST;

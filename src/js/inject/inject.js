@@ -70,7 +70,7 @@ let INJECT = (function () {
     }
 
     return INJECT;
-})(global);
+})();
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {INJECT};

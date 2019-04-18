@@ -25,7 +25,7 @@ var Atouch;
 
     // = server/server.js
 
-    // = test/test.js
+    //= test/test.js
 
     // = unit/unit.js
 
@@ -61,15 +61,7 @@ var Atouch;
 
         // = lang/lang.js
 
-        // = facade.js
-
-        /**
-         * Creates new TEST object
-         * @type TEST
-         */
-        if (typeof TEST !== 'undefined') {
-            ATOUCH.prototype.Test = new TEST();
-        }
+        //= facade.js
 
         /**
          * @constructor
@@ -81,7 +73,14 @@ var Atouch;
 
             //= inject.extends.js
 
-            console.log(SL.getPageScroll());
+            /**
+             * Creates new TEST object
+             * @type TEST
+             */
+            if (typeof TEST !== 'undefined') {
+                ATOUCH.prototype.Test = new TEST(SL);
+            }
+
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
             if (typeof LANG !== 'undefined') {
@@ -162,16 +161,16 @@ var Atouch;
         return ATOUCH;
     })();
 
-    try {
-        (function () {
-            global.Atouch = new ATOUCH;
-        })();
-    } catch (e) {
-        console.warn(e);
-    }
-
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = {ATOUCH};
+    } else {
+        try {
+            (function () {
+                global.Atouch = new ATOUCH;
+            })();
+        } catch (e) {
+            console.warn(e);
+        }
     }
 })(typeof window !== 'undefined' ? window : this, true);
 

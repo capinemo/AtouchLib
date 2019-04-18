@@ -1,20 +1,24 @@
 module.exports = function (Parent) {
     const assert = require('chai').assert;
-
+    const inject = require("../atouch/inject.js");
     const atouch = require("../atouch/atouch.js");
-    global.ATOUCH = atouch.ATOUCH;
-
-    const functions = require('../atouch/global.functions.js');
-    global.filterVariable = functions.filterVariable;
-    global.genUUID = functions.genUUID;
-
     const test = require('../atouch/test.js');
-    const TEST = test.TEST;
-    const Atouch = new ATOUCH();
-    let Test = new TEST();
+
+    global.INJECT = inject.INJECT;
+    global.ATOUCH = atouch.ATOUCH;
+    global.TEST = test.TEST;
+
+    let Test,
+        Atouch;
 
     if (Parent && Parent instanceof ATOUCH) {
         Test = Parent.Test;
+        Atouch = Parent;
+    } else {
+        global.SL = new INJECT ();
+        require('../atouch/inject.extends.js');
+        Test = new TEST(SL);
+        Atouch = new ATOUCH();
     }
 
     describe("Test:", function() {
@@ -223,6 +227,24 @@ module.exports = function (Parent) {
                Test.name('123');
                assert.match(Test.getId(), /^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/);
            });
+        });
+
+        describe("new TEST()", function() {
+            it("exeption: Error [to constructor given invalid service locator] (27)", function() {
+                assert.throws(
+                    () => new TEST()
+                    , /TEST: to constructor given invalid service locator/
+                );
+            });
+        });
+
+        describe("new TEST(new Date())", function() {
+            it("exeption: Error [to constructor given invalid service locator] (28)", function() {
+                assert.throws(
+                    () => new TEST(new Date())
+                    , /TEST: to constructor given invalid service locator/
+                );
+            });
         });
     });
 };
