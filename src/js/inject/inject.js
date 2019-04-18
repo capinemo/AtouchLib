@@ -39,10 +39,6 @@ let INJECT = (function () {
         }
     };
 
-    //= inject.services.js
-
-    //= inject.functions.js
-
     /**
      * Creates new instance of class and injects self
      *
@@ -59,6 +55,10 @@ let INJECT = (function () {
         classObject.prototype.Inject = this;
         return new classObject;
     };
+
+    //= inject.services.js
+
+    //= inject.functions.js
 
     /**
      * @constructor

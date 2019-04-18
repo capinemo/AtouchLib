@@ -5,7 +5,7 @@
  *
  * @returns {Object}              Object {x:0, y:0} with scroll sizes
  */
-INJECT.prototype.getPageScroll = function () {
+SL.registerProcedure('getPageScroll', function () {
     if (typeof global.document === 'undefined') {
         return {x: 0, y: 0};
     }
@@ -14,7 +14,7 @@ INJECT.prototype.getPageScroll = function () {
         x: window.pageXOffset || document.documentElement.scrollLeft,
         y: window.pageYOffset || document.documentElement.scrollTop
     };
-};
+});
 
 /**
  * Makes first letter to uppercase, other letters to lowercase
@@ -24,14 +24,14 @@ INJECT.prototype.getPageScroll = function () {
  * @param {string} str          Given string
  * @returns {string}            Converted string
  */
-INJECT.prototype.capitalizeFirstLetter = function (str) {
+SL.registerProcedure('capitalizeFirstLetter', function (str) {
     if (typeof str !== 'string') {
         throw new Error('capitalizeFirstLetter: not string given');
     }
 
     str = str.toLowerCase();
     return str.charAt(0).toUpperCase() + str.slice(1);
-};
+});
 
 /**
  * Generate random integer between limits
@@ -42,7 +42,7 @@ INJECT.prototype.capitalizeFirstLetter = function (str) {
  * @param {integer} max         Maximal integer in range
  * @returns {integer}           Generated number
  */
-INJECT.prototype.getRandomInt = function (min, max) {
+SL.registerProcedure('getRandomInt', function (min, max) {
     if (typeof min === 'undefined' || typeof max === 'undefined') {
         throw new Error('getRandomInt: needed parameter not given');
     }
@@ -56,38 +56,7 @@ INJECT.prototype.getRandomInt = function (min, max) {
     }
 
     return Math.floor(Math.random() * (+max + 1 - +min)) + +min;
-};
-
-/**
- * Filtering given variable with sanitizing via RegExp
- *
- * @private
- *
- * @param {any} str             Given variable
- * @param {string} regex        Template string for RexExp constructor
- * @returns {any}               Clean variable
- */
-INJECT.prototype.filterVariable = function (str, regex) {
-    if (!regex) {
-        regex = '[^\s\S]';
-    }
-
-    let reg = new RegExp(regex.toString(), 'g');
-
-    if (typeof str === 'boolean') {
-        return !!str;
-    } else if (typeof str === 'number') {
-        return +(str.toString().replace(reg, ''));
-    } else if (typeof str === 'string') {
-        return str.toString().replace(reg, '');
-    } else if (typeof str === 'undefined') {
-        return;
-    } else if (str === null) {
-        return null;
-    } else {
-        return str;
-    }
-};
+});
 
 /**
  * Generates new uuid with Crypto API
@@ -96,13 +65,13 @@ INJECT.prototype.filterVariable = function (str, regex) {
  *
  * @returns {string}            UUID
  */
-INJECT.prototype.genUUID = function () {
+SL.registerProcedure('genUUID', function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         let r = Math.random() * 16 | 0,
             v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     });
-};
+});
 
 /**
  * Sets execution mode to all commands in buffer
@@ -112,7 +81,7 @@ INJECT.prototype.genUUID = function () {
  * @param {boolean} mode        true = async/false == sync (default: sync)
  * @returns {none}              No return
  */
-INJECT.prototype.setRunOrder = function (mode = false) {
+SL.registerProcedure('setRunOrder', function (mode = false) {
     if (typeof coms_buffer === 'undefined') {
         return;
     }
@@ -126,7 +95,7 @@ INJECT.prototype.setRunOrder = function (mode = false) {
             arr[key].mode = mode ? 'async' : 'sync';
         }
     });
-};
+});
 
 /**
  * Load saved state of Atouch from cookie
@@ -136,7 +105,7 @@ INJECT.prototype.setRunOrder = function (mode = false) {
  * @param {string} name         Cookie name
  * @returns {string|null}       Data with saved state from cookie
  */
-INJECT.prototype.getCookieContent = function (name) {
+SL.registerProcedure('getCookieContent', function (name) {
     let matches;
 
     if (typeof name !== 'string') {
@@ -157,7 +126,7 @@ INJECT.prototype.getCookieContent = function (name) {
     }
 
     return matches ? decodeURIComponent(matches[1]) : undefined;
-};
+});
 
 /**
  * Remove cookie with saved state of Atouch
@@ -167,13 +136,13 @@ INJECT.prototype.getCookieContent = function (name) {
  * @param {string} name         Cookie name
  * @returns {none}              No return
  */
-INJECT.prototype.clearCookieContent = function (name) {
+SL.registerProcedure('clearCookieContent', function (name) {
     if (typeof global.document === 'undefined') {
         return {x: 0, y: 0};
     }
 
     global.document.cookie = name + '=;path=/;expires=-1';
-};
+});
 
 /**
  * Restore total state and send to modules<br />
@@ -195,9 +164,9 @@ INJECT.prototype.clearCookieContent = function (name) {
  * @param {Function} setter         State restoring function
  * @returns {none}                  No return
  */
-INJECT.prototype.setModuleStateCallback = function (instance, getter, setter) {
+SL.registerProcedure('setModuleStateCallback', function (instance, getter, setter) {
     states[instance.constructor.name] = {get: getter, set: setter, module: instance};
-};
+});
 
 /**
  * Load state changes from modules and save total state
@@ -208,8 +177,8 @@ INJECT.prototype.setModuleStateCallback = function (instance, getter, setter) {
  *                                  reloading during test execution
  * @returns {none}                  No return
  */
-INJECT.prototype.saveTotalState = function (reload = false) {
-    if (!this.getService('Storage')) return;
+SL.registerProcedure('saveTotalState', function (reload = false) {
+    if (!this.isService('Storage')) return;
 
     let global_state = {};
 
@@ -221,8 +190,8 @@ INJECT.prototype.saveTotalState = function (reload = false) {
         global_state.RUNNER.progress = 'reload';
     }
 
-    this.getService('Storage').saveState(global_state);
-};
+    this.Service('Storage').saveState(global_state);
+});
 
 /**
  * Restore total state and send to modules
@@ -231,17 +200,17 @@ INJECT.prototype.saveTotalState = function (reload = false) {
  *
  * @returns {none}                  No return
  */
-INJECT.prototype.loadTotalState = function () {
-    if (!this.getService('Storage')) return;
+SL.registerProcedure('loadTotalState', function () {
+    if (!this.isService('Storage')) return;
 
-    let global_state = this.getService('Storage').loadState();
+    let global_state = this.Service('Storage').loadState();
 
     for (let key in global_state) {
         if (states[key]) {
             states[key]['set'](global_state[key]);
         }
     }
-};
+});
 
 /**
  * Remove total state from storage
@@ -250,34 +219,11 @@ INJECT.prototype.loadTotalState = function () {
  *
  * @returns {none}                  No return
  */
-INJECT.prototype.cleanTotalState = function () {
-    if (!this.getService('Storage')) return;
+SL.registerProcedure('cleanTotalState', function () {
+    if (!this.isService('Storage')) return;
 
-    this.getService('Storage').cleanState();
-};
-
-/**
- * Load list of available tests
- *
- * @public
- *
- * @returns {array}         Available tests
- */
-INJECT.prototype.getAvailableTests = function () {
-    return []; // ! TODO
-};
-
-/**
- * Running test selected in interface
- *
- * @public
- *
- * @param {string} test_id          Selected test id
- * @returns {none}                  No return
- */
-INJECT.prototype.runSelectedTest = function (test_id) {
-    Runner.runTest(test_id);
-};
+    this.Service('Storage').cleanState();
+});
 
 /**
  * Validation and checking actions list from coms_buffer
@@ -286,7 +232,7 @@ INJECT.prototype.runSelectedTest = function (test_id) {
  *
  * @returns {boolean}           True if success
  */
-INJECT.prototype.validateCommandsBuffer = function () {
+SL.registerProcedure('validateCommandsBuffer', function () {
     let regex = {
         url: '[^-a-zA-Z0-9\.\,_\:\%\/\@]',
     };
@@ -383,4 +329,27 @@ INJECT.prototype.validateCommandsBuffer = function () {
             type: 'object'
         }
     };
-};
+});
+
+/**
+ * Load list of available tests
+ *
+ * @public
+ *
+ * @returns {array}         Available tests
+ */
+/*SL.registerProcedure('getAvailableTests', function () {
+    return []; // ! TODO
+});*/
+
+/**
+ * Running test selected in interface
+ *
+ * @public
+ *
+ * @param {string} test_id          Selected test id
+ * @returns {none}                  No return
+ */
+/*SL.registerProcedure('runSelectedTest', function (test_id) {
+    Runner.runTest(test_id);
+});*/

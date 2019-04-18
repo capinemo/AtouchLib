@@ -1206,13 +1206,13 @@ ATOUCH.prototype.messageFromEditor = function (str) {
 
     switch (str) {
         case 'Atouch editor ready':
-            // SL.getService('Editor').setIsRedactor(messageToEditor);
+            // SL.Service('Editor').setIsRedactor(messageToEditor);
             break;
         case 'Atouch start record':
-            // SL.getService('Editor').startRecord();
+            // SL.Service('Editor').startRecord();
             break;
         case 'Atouch stop record':
-            // SL.getService('Editor').stopRecord();
+            // SL.Service('Editor').stopRecord();
             break;
         case 'Atouch run record':
             break;

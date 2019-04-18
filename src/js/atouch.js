@@ -57,13 +57,11 @@ var Atouch;
             DEBUG_MODE = debug || false,
             _;
 
-        //= iface/iface.js
+        // = iface/iface.js
 
         // = lang/lang.js
 
-        // = inject.extends.js
-
-        //= facade.js
+        // = facade.js
 
         /**
          * Creates new TEST object
@@ -80,6 +78,10 @@ var Atouch;
          */
         function ATOUCH () {
             SL = new INJECT;
+
+            //= inject.extends.js
+
+            console.log(SL.getPageScroll());
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
             if (typeof LANG !== 'undefined') {
