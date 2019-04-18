@@ -8,53 +8,7 @@ module.exports = function () {
     global.setRunOrder = functions.setRunOrder;
 
     describe("global.functions:", function() {
-        describe(".filterVariable('asd123#-$123', '[^a-zA-Z0-9_-]')", function() {
-            it("returns: 'asd123-123' (1)", function() {
-                assert.equal(filterVariable('asd123#-$123', '[^a-zA-Z0-9_-]'), 'asd123-123');
-            });
-        });
 
-        describe(".filterVariable('AaSsDd123#-$123', '[^a-z]')", function() {
-            it("returns: 'asd' (2)", function() {
-                assert.equal(filterVariable('AaSsDd123#-$123', '[^a-z]'), 'asd');
-            });
-        });
-
-        describe(".filterVariable(false, '[^a-z]')", function() {
-            it("returns: false (3)", function() {
-                assert.equal(filterVariable(false, '[^a-z]'), false);
-            });
-        });
-
-        describe(".filterVariable(false, '[^0-9]')", function() {
-            it("returns: false (4)", function() {
-                assert.equal(filterVariable(false, '[^0-9]'), false);
-            });
-        });
-
-        describe(".filterVariable(123.66, '[^0-9]')", function() {
-            it("returns: 12366 (5)", function() {
-                assert.notEqual(filterVariable(123.66, '[^0-9]'), 123.66);
-            });
-        });
-
-        describe(".filterVariable(123.66, '[^0-9\.\,\-]')", function() {
-            it("returns: 123.66 (6)", function() {
-                assert.equal(filterVariable(123.66, '[^0-9\.\,\-]'), 123.66);
-            });
-        });
-
-        describe(".filterVariable(null, '[^0-9\.\,\-]')", function() {
-            it("returns: null (7)", function() {
-                assert.equal(filterVariable(null, '[^0-9\.\,\-]'), null);
-            });
-        });
-
-        describe(".filterVariable(undefined, '[^0-9\.\,\-]')", function() {
-            it("returns: undefined (8)", function() {
-                assert.equal(filterVariable(undefined, '[^0-9\.\,\-]'), undefined);
-            });
-        });
 
         describe(".genUUID()", function() {
             it("returns: UUID string (9)", function() {
@@ -189,17 +143,6 @@ module.exports = function () {
             });
         });
 
-        describe(".filterVariable('123@#$', '')", function() {
-            it("returns: '' (26)", function() {
-                assert.equal(filterVariable('123@#$', ''), '');
-            });
-        });
-
-        describe(".filterVariable([], '')", function() {
-            it("returns: [] (27)", function() {
-                assert.deepEqual(filterVariable([], ''), []);
-            });
-        });
     });
 };
 

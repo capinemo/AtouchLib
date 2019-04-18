@@ -8,6 +8,37 @@ let INJECT = (function () {
     let services = {},
         functions = {};
 
+    /**
+     * Filtering given variable with sanitizing via RegExp
+     *
+     * @private
+     *
+     * @param {any} str             Given variable
+     * @param {string} regex        Template string for RexExp constructor
+     * @returns {any}               Clean variable
+     */
+    INJECT.prototype.filterVariable = function (str, regex) {
+        if (!regex) {
+            regex = '[^\s\S]';
+        }
+
+        let reg = new RegExp(regex.toString(), 'g');
+
+        if (typeof str === 'boolean') {
+            return !!str;
+        } else if (typeof str === 'number') {
+            return +(str.toString().replace(reg, ''));
+        } else if (typeof str === 'string') {
+            return str.toString().replace(reg, '');
+        } else if (typeof str === 'undefined') {
+            return;
+        } else if (str === null) {
+            return null;
+        } else {
+            return str;
+        }
+    };
+
     //= inject.services.js
 
     //= inject.functions.js

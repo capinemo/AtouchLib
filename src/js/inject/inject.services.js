@@ -20,7 +20,7 @@ INJECT.prototype.registerService = function (name, classObject) {
         throw new Error('Inject.registerService: not function given as constructor');
     }
 
-    name = filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
+    name = this.filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
 
     if (services[name]) {
         console.warn('Inject.registerService: given name ' + name + ' already exists. Rewrite service');

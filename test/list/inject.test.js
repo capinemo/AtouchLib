@@ -243,5 +243,65 @@ module.exports = function () {
                 );
             });
         });
+
+        describe(".filterVariable('asd123#-$123', '[^a-zA-Z0-9_-]')", function() {
+            it("returns: 'asd123-123' (33)", function() {
+                assert.equal(Inject.filterVariable('asd123#-$123', '[^a-zA-Z0-9_-]'), 'asd123-123');
+            });
+        });
+
+        describe(".filterVariable('AaSsDd123#-$123', '[^a-z]')", function() {
+            it("returns: 'asd' (34)", function() {
+                assert.equal(Inject.filterVariable('AaSsDd123#-$123', '[^a-z]'), 'asd');
+            });
+        });
+
+        describe(".filterVariable(false, '[^a-z]')", function() {
+            it("returns: false (35)", function() {
+                assert.equal(filterVariable(false, '[^a-z]'), false);
+            });
+        });
+
+        describe(".filterVariable(false, '[^0-9]')", function() {
+            it("returns: false (36)", function() {
+                assert.equal(Inject.filterVariable(false, '[^0-9]'), false);
+            });
+        });
+
+        describe(".filterVariable(123.66, '[^0-9]')", function() {
+            it("returns: 12366 (37)", function() {
+                assert.notEqual(Inject.filterVariable(123.66, '[^0-9]'), 123.66);
+            });
+        });
+
+        describe(".filterVariable(123.66, '[^0-9\.\,\-]')", function() {
+            it("returns: 123.66 (38)", function() {
+                assert.equal(Inject.filterVariable(123.66, '[^0-9\.\,\-]'), 123.66);
+            });
+        });
+
+        describe(".filterVariable(null, '[^0-9\.\,\-]')", function() {
+            it("returns: null (7)", function() {
+                assert.equal(Inject.filterVariable(null, '[^0-9\.\,\-]'), null);
+            });
+        });
+
+        describe(".filterVariable(undefined, '[^0-9\.\,\-]')", function() {
+            it("returns: undefined (8)", function() {
+                assert.equal(Inject.filterVariable(undefined, '[^0-9\.\,\-]'), undefined);
+            });
+        });
+
+        describe(".filterVariable('123@#$', '')", function() {
+            it("returns: '' (26)", function() {
+                assert.equal(Inject.filterVariable('123@#$', ''), '');
+            });
+        });
+
+        describe(".filterVariable([], '')", function() {
+            it("returns: [] (27)", function() {
+                assert.deepEqual(Inject.filterVariable([], ''), []);
+            });
+        });
     });
 };

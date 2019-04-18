@@ -20,7 +20,7 @@ INJECT.prototype.registerProcedure = function (name, subroutine) {
         throw new Error('Inject.registerProcedure: not function given as subroutines');
     }
 
-    name = filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
+    name = this.filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
 
     if (functions[name] || INJECT.prototype.hasOwnProperty(name)) {
         throw new Error('Inject.registerProcedure: name of subroutine is used');
