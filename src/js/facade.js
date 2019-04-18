@@ -5,12 +5,6 @@
  */
 
 /**
- * Creates new TEST object
- * @type TEST
- */
-ATOUCH.prototype.Test = new TEST();
-
-/**
  * Initialize parameters of current test <br />
  * <br />
  * Using example: Atouch.config({no_gui: true, no_report: true}) <br />
@@ -29,17 +23,21 @@ ATOUCH.prototype.Test = new TEST();
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
-ATOUCH.prototype.config = function (params) {
-    if (typeof params !== 'object') {
+ATOUCH.prototype.config = function (param) {
+    if (typeof param !== 'object') {
         throw new Error('Atouch.config: not object given');
     }
 
-    for (let key in params) {
-        if (params.hasOwnProperty(key) && config.hasOwnProperty(key)) {
-            config[key] = filterVariable(params[key], '[^a-z0-9\.\,]');
+    if (typeof filterVariable === 'undefined') {
+        throw new Error('Atouch.config: need a function filterVariable');
+    }
+
+    for (let key in param) {
+        if (param.hasOwnProperty(key) && config.hasOwnProperty(key)) {
+            config[key] = filterVariable(param[key], '[^a-z0-9\.\,]');
         } else {
             console.warn('Atouch.config: given parameter ' + key + ' not exists');
         }
@@ -448,7 +446,7 @@ ATOUCH.prototype.forward = function () {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.exists = function (param) {
@@ -495,7 +493,7 @@ ATOUCH.prototype.exists = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.has = function (param) {
@@ -536,7 +534,7 @@ ATOUCH.prototype.has = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.equal = function (param) {
@@ -571,7 +569,7 @@ ATOUCH.prototype.equal = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.allhas = function (param) {
@@ -606,7 +604,7 @@ ATOUCH.prototype.allhas = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.allequal = function (param) {
@@ -638,7 +636,7 @@ ATOUCH.prototype.allequal = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.anyhas = function (param) {
@@ -670,7 +668,7 @@ ATOUCH.prototype.anyhas = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.anyequal = function (param) {
@@ -703,7 +701,7 @@ ATOUCH.prototype.anyequal = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.print = function (param) {
@@ -736,7 +734,7 @@ ATOUCH.prototype.print = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.fill = function (param) {
@@ -761,7 +759,7 @@ ATOUCH.prototype.fill = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.clear = function (param) {
@@ -786,7 +784,7 @@ ATOUCH.prototype.clear = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.click = function (param) {
@@ -811,7 +809,7 @@ ATOUCH.prototype.click = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.dblclick = function (param) {
@@ -836,7 +834,7 @@ ATOUCH.prototype.dblclick = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.down = function (param) {
@@ -861,7 +859,7 @@ ATOUCH.prototype.down = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.up = function (param) {
@@ -886,7 +884,7 @@ ATOUCH.prototype.up = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.focus = function (param) {
@@ -918,7 +916,7 @@ ATOUCH.prototype.focus = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.move = function (param) {
@@ -940,7 +938,7 @@ ATOUCH.prototype.move = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.scrollby = function (param) {
@@ -962,7 +960,7 @@ ATOUCH.prototype.scrollby = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.scrollto = function (param) {
@@ -995,7 +993,7 @@ ATOUCH.prototype.scrollto = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.attach = function (param) {
@@ -1020,7 +1018,7 @@ ATOUCH.prototype.attach = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.enter = function (param) {
@@ -1045,7 +1043,7 @@ ATOUCH.prototype.enter = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.leave = function (param) {
@@ -1070,7 +1068,7 @@ ATOUCH.prototype.leave = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.over = function (param) {
@@ -1095,7 +1093,7 @@ ATOUCH.prototype.over = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.out = function (param) {
@@ -1123,7 +1121,7 @@ ATOUCH.prototype.out = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.dragdrop = function (param) {
@@ -1156,7 +1154,7 @@ ATOUCH.prototype.dragdrop = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 ATOUCH.prototype.select = function (param) {
@@ -1261,7 +1259,7 @@ ATOUCH.prototype.getCollectedTasks = function () {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 /*ATOUCH.prototype.mark = function (param) {
@@ -1309,7 +1307,7 @@ ATOUCH.prototype.cookdel = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 /*ATOUCH.prototype.check = function (param) {
@@ -1340,7 +1338,7 @@ ATOUCH.prototype.cookdel = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 /*ATOUCH.prototype.csscheck = function (param) {
@@ -1371,7 +1369,7 @@ ATOUCH.prototype.cookdel = function (param) {
  *
  * @public
  *
- * @param {Object} params           Object with parameters
+ * @param {Object} param            Object with parameters
  * @returns {ATOUCH}                ATOUCH object
  */
 /*ATOUCH.prototype.jscheck = function (param) {
