@@ -62,9 +62,9 @@ module.exports = function () {
             });
         });
 
-        describe(".getService('testService')", function() {
+        describe(".Service('testService')", function() {
             it("returns: INJECT (8)", function() {
-                assert.equal(Inject.getService('testService') instanceof INJECT, true);
+                assert.equal(Inject.Service('testService') instanceof INJECT, true);
             });
         });
 
@@ -107,11 +107,139 @@ module.exports = function () {
             });
         });
 
-        describe(".getService()", function() {
+        describe(".Service()", function() {
            it("exeption: Error [empty name given] (15)", function() {
                 assert.throws(
-                    () => Inject.getService()
-                    , /Inject.getService: empty name given/
+                    () => Inject.Service()
+                    , /Inject.Service: empty name given/
+                );
+            });
+        });
+
+        describe(".Service('MissingService')", function() {
+           it("exeption: Error [service not exists] (16)", function() {
+                assert.throws(
+                    () => Inject.Service('MissingService')
+                    , /Inject.Service: service not exists/
+                );
+            });
+        });
+
+        describe(".listService()", function() {
+            it("returns: ['testService', 'newService1'] (17)", function() {
+                assert.deepEqual(Inject.listService(), ['testService', 'newService1']);
+            });
+        });
+
+        describe(".isProcedure()", function() {
+           it("exeption: Error [empty name given] (18)", function() {
+                assert.throws(
+                    () => Inject.isProcedure()
+                    , /Inject.isProcedure: empty name given/
+                );
+            });
+        });
+
+        Inject.registerProcedure('newTrueFunction', () => {return true;});
+
+        describe(".registerProcedure('newFalseFunction', false)", function() {
+            it("exeption: Error [not function given as subroutines] (19)", function() {
+                assert.throws(
+                    () => Inject.registerProcedure('newFalseFunction', false)
+                    , /Inject.registerProcedure: not function given as subroutines/
+                );
+            });
+        });
+
+        describe(".registerProcedure(INJECT, () => {return false;})", function() {
+            it("exeption: Error [invalid name given] (20)", function() {
+                assert.throws(
+                    () => Inject.registerProcedure(INJECT, () => {return false;})
+                    , /Inject.registerProcedure: invalid name given/
+                );
+            });
+        });
+
+        describe(".registerProcedure('', () => {return false;})", function() {
+            it("exeption: Error [empty name given] (21)", function() {
+                assert.throws(
+                    () => Inject.registerProcedure('', () => {return false;})
+                    , /Inject.registerProcedure: empty name given/
+                );
+            });
+        });
+
+        describe(".isProcedure('newTrueFunction')", function() {
+            it("returns: true (22)", function() {
+                assert.equal(Inject.isProcedure('newTrueFunction'), true);
+            });
+        });
+
+        describe(".newTrueFunction('')", function() {
+            it("returns: Function (23)", function() {
+                assert.equal(Inject.newTrueFunction instanceof Function, true);
+            });
+        });
+
+        describe(".registerProcedure('newFalseFunction', () => {return false;})", function() {
+            it("returns: undefined (24)", function() {
+                assert.equal(Inject.registerProcedure('newFalseFunction', () => {return false;}), undefined);
+            });
+        });
+
+        describe(".isProcedure('newTrue#$Function!')", function() {
+            it("returns: false (25)", function() {
+                assert.equal(Inject.isProcedure('newTrue#$Function!'), false);
+            });
+        });
+
+        describe(".isProcedure('newTrueFunction')", function() {
+            it("returns: true (26)", function() {
+                assert.equal(Inject.isProcedure('newTrueFunction'), true);
+            });
+        });
+
+        describe(".registerProcedure('newTrue#$Function!', () => {return 2;)", function() {
+           it("exeption: Error [name of subroutine is used] (27)", function() {
+                assert.throws(
+                    () => Inject.registerProcedure('newTrue#$Function!', () => {return 2;})
+                    , /Inject.registerProcedure: name of subroutine is used/
+                );
+            });
+        });
+
+        describe(".MissingService('')", function() {
+           it("exeption: Error [is not a function] (28)", function() {
+                assert.throws(
+                    () => Inject.MissingService('')
+                    , /Inject.MissingService is not a function/
+                );
+            });
+        });
+
+        describe(".listProcedure()", function() {
+            it("returns: ['testService', 'newService1'] (29)", function() {
+                assert.deepEqual(Inject.listProcedure(), ['newTrueFunction', 'newFalseFunction']);
+            });
+        });
+
+        describe(".newTrueFunction()", function() {
+            it("returns: true (30)", function() {
+                assert.equal(Inject.newTrueFunction(), true);
+            });
+        });
+
+        describe(".newFalseFunction()", function() {
+            it("returns: false (31)", function() {
+                assert.equal(Inject.newFalseFunction(), false);
+            });
+        });
+
+        describe(".registerProcedure('isProcedure', () => {return 2;)", function() {
+           it("exeption: Error [name of subroutine is used] (32)", function() {
+                assert.throws(
+                    () => Inject.registerProcedure('isProcedure', () => {return 2;})
+                    , /Inject.registerProcedure: name of subroutine is used/
                 );
             });
         });
