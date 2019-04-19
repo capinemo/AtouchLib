@@ -25,30 +25,30 @@ module.exports = function () {
             });
         });
 
-        InjectS.registerService('testService', INJECT);
+        InjectS.registerService('testService', new INJECT());
 
         describe(".registerService('newService', 'INJECT')", function() {
-            it("exeption: Error [not function given as constructor] (4)", function() {
+            it("exeption: Error [not object given as service] (4)", function() {
                 assert.throws(
                     () => InjectS.registerService('newService', 'INJECT')
-                    , /Inject.registerService: not function given as constructor/
+                    , /Inject.registerService: not object given as service/
                 );
             });
         });
 
-        describe(".registerService(INJECT, INJECT)", function() {
+        describe(".registerService(INJECT, new INJECT())", function() {
             it("exeption: Error [invalid name given] (5)", function() {
                 assert.throws(
-                    () => InjectS.registerService(INJECT, INJECT)
+                    () => InjectS.registerService(INJECT, new INJECT())
                     , /Inject.registerService: invalid name given/
                 );
             });
         });
 
-        describe(".registerService('', INJECT)", function() {
+        describe(".registerService('', new INJECT())", function() {
             it("exeption: Error [empty name given] (6)", function() {
                 assert.throws(
-                    () => InjectS.registerService('', INJECT)
+                    () => InjectS.registerService('', new INJECT())
                     , /Inject.registerService: empty name given/
                 );
             });
@@ -66,15 +66,15 @@ module.exports = function () {
             });
         });
 
-        describe(".registerService('testService', INJECT)", function() {
+        describe(".registerService('testService', new INJECT())", function() {
             it("returns: undefined (9)", function() {
-                assert.equal(InjectS.registerService('testService', INJECT), undefined);
+                assert.equal(InjectS.registerService('testService', new INJECT()), undefined);
             });
         });
 
-        describe(".registerService('new#$Service1!', INJECT)", function() {
+        describe(".registerService('new#$Service1!', new INJECT())", function() {
             it("returns: undefined (10)", function() {
-                assert.equal(InjectS.registerService('new#$Service1!', INJECT), undefined);
+                assert.equal(InjectS.registerService('new#$Service1!', new INJECT()), undefined);
             });
         });
 

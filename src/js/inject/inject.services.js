@@ -16,8 +16,8 @@ INJECT.prototype.registerService = function (name, classObject) {
         throw new Error('Inject.registerService: empty name given');
     }
 
-    if (typeof classObject !== 'function') {
-        throw new Error('Inject.registerService: not function given as constructor');
+    if (typeof classObject !== 'object') {
+        throw new Error('Inject.registerService: not object given as service');
     }
 
     name = this.filterVariable(name.toString(), '[^a-zA-Z0-9_-]');
@@ -26,7 +26,7 @@ INJECT.prototype.registerService = function (name, classObject) {
         console.warn('Inject.registerService: given name ' + name + ' already exists. Rewrite service');
     }
 
-    services[name] = new classObject;
+    services[name] = classObject;
 };
 
 /**
