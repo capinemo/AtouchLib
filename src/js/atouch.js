@@ -52,6 +52,7 @@ var Atouch;
                 print_speed: 50, // Speed of text printing (0-100)
                 mouse_speed: 30 // Speed of mouse moving (0-100)
             },
+            callbacks = {},
             Tests = {},
             Collections = {},
             ScriptParser = {},
@@ -60,7 +61,7 @@ var Atouch;
 
         //= lang/lang.js
 
-        // = iface/iface.js
+        //= iface/iface.js
 
         //= facade.js
 
@@ -120,7 +121,7 @@ var Atouch;
             }
 
             if (typeof IFACE !== 'undefined') {
-                SL.registerService('Iface', new IFACE(Debug));
+                SL.registerService('Iface', new IFACE(SL, Debug));
                 if (DEBUG_MODE) console.info('MODULE: IFACE loaded to ATOUCH');
             }
 

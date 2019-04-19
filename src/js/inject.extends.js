@@ -180,7 +180,7 @@ if (!SL.isProcedure('clearCookieContent')) {
  */
 if (!SL.isProcedure('setModuleStateCallback')) {
     SL.registerProcedure('setModuleStateCallback', function (instance, getter, setter) {
-        states[instance.constructor.name] = {get: getter, set: setter, module: instance};
+        callbacks[instance.constructor.name] = {get: getter, set: setter, module: instance};
     });
 }
 
@@ -199,8 +199,8 @@ if (!SL.isProcedure('saveTotalState')) {
 
         let global_state = {};
 
-        for (let key in states) {
-            global_state[key] = states[key]['get']();
+        for (let key in callbacks) {
+            global_state[key] = callbacks[key]['get']();
         }
 
         if (reload && global_state.RUNNER) {
@@ -225,8 +225,8 @@ if (!SL.isProcedure('loadTotalState')) {
         let global_state = this.Service('Storage').loadState();
 
         for (let key in global_state) {
-            if (states[key]) {
-                states[key]['set'](global_state[key]);
+            if (callbacks[key]) {
+                callbacks[key]['set'](global_state[key]);
             }
         }
     });
@@ -244,6 +244,33 @@ if (!SL.isProcedure('cleanTotalState')) {
         if (!this.isService('Storage')) return;
 
         this.Service('Storage').cleanState();
+    });
+}
+
+/**
+ * Running test selected in interface
+ *
+ * @public
+ *
+ * @param {string} test_id          Selected test id
+ * @returns {none}                  No return
+ */
+if (!SL.isProcedure('runSelectedTest')) {
+    SL.registerProcedure('runSelectedTest', function (test_id) {
+        Runner.runTest(test_id);
+    });
+}
+
+/**
+ * Load list of available tests
+ *
+ * @public
+ *
+ * @returns {array}         Available tests
+ */
+if (!SL.isProcedure('getAvailableTests')) {
+    SL.registerProcedure('getAvailableTests', function () {
+        return []; // ! TODO
     });
 }
 
@@ -354,26 +381,3 @@ if (!SL.isProcedure('validateCommandsBuffer')) {
         };
     });
 }
-
-/**
- * Load list of available tests
- *
- * @public
- *
- * @returns {array}         Available tests
- */
-/*if (!SL.isProcedure('getAvailableTests')) SL.registerProcedure('getAvailableTests', function () {
-    return []; // ! TODO
-});*/
-
-/**
- * Running test selected in interface
- *
- * @public
- *
- * @param {string} test_id          Selected test id
- * @returns {none}                  No return
- */
-/*if (!SL.isProcedure('runSelectedTest')) SL.registerProcedure('runSelectedTest', function (test_id) {
-    Runner.runTest(test_id);
-});*/

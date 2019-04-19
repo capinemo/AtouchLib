@@ -5,7 +5,8 @@
  */
 
 let IFACE = (function () {
-    let Inject = null,          // Global Facade Object
+    let Debug = null,           //
+        Inject = null,
         dom = {},               // List of HTML elements with text (for translating)
         action = {},            // List of HTML elements with actions (for events)
         lang = null,            // List of traslation texts from LANG service
@@ -570,11 +571,17 @@ let IFACE = (function () {
     /**
      * @constructor
      *
+     * @param {INJECT} inject       INJECT object
+     * @param {DEBUG} debug         DEBUG object
      * @returns {IFACE}             IFACE object
      */
-    function IFACE () {
-        if (this.Inject) {
-            Inject = this.Inject;
+    function IFACE (inject, debug) {
+        if (debug instanceof DEBUG) {
+            Debug = debug;
+        }
+
+        if (inject instanceof INJECT) {
+            Inject = inject;
             Inject.setModuleStateCallback(this
                 , function () {
                     return state;
