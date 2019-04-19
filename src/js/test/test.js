@@ -39,11 +39,13 @@ let TEST = (function () {
             throw new Error('Test.id: not string given in parameter');
         }
 
-        if (test_id === '') {
+        if (test_id === '' && SL) {
             test_id = SL.genUUID();
         }
 
-        test_id = SL.filterVariable(test_id, '[^a-zA-Z0-9\-\_]');
+        if (SL) {
+            test_id = SL.filterVariable(test_id, '[^a-zA-Z0-9\-\_]');
+        }
 
         id_buf = test_id;
         return this;
@@ -66,11 +68,13 @@ let TEST = (function () {
             throw new Error('Test.name: empty string given');
         }
 
-        test_name = SL.filterVariable(test_name, '[^a-zA-Z0-9\-\_]');
+        if (SL) {
+            test_name = SL.filterVariable(test_name, '[^a-zA-Z0-9\-\_]');
+        }
 
         name_buf = test_name;
 
-        if (!id_buf) {
+        if (!id_buf && SL) {
             id_buf = SL.genUUID();
         }
 
@@ -90,7 +94,9 @@ let TEST = (function () {
             throw new Error('Test.description: not string given in parameter');
         }
 
-        test_desc = SL.filterVariable(test_desc, '[^a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ]');
+        if (SL) {
+            test_desc = SL.filterVariable(test_desc, '[^a-zA-Zа-яА-ЯёЁ0-9\-\_\.\, ]');
+        }
 
         desc_buf = test_desc;
         return this;
@@ -165,17 +171,15 @@ let TEST = (function () {
     /**
      * @constructor
      *
-     * @param {INJECT} DI           Service container with functions <br />
-     *                              filterVariable and genUUID
      * @returns {TEST}              TEST object
      */
-    function TEST (DI) {
-        if (DI && DI instanceof INJECT) {
-            SL = DI;
-            return this;
+    function TEST () {
+        if (TEST.prototype.Inject && TEST.prototype.Inject.filterVariable
+                && TEST.prototype.Inject.genUUID) {
+            SL = TEST.prototype.Inject;
         }
 
-        throw new Error('TEST: to constructor given invalid service locator');
+        return this;
     }
 
     return TEST;

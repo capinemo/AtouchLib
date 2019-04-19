@@ -7,7 +7,7 @@ const unit = require('./list/unit.test');
 const atouch = require('./list/atouch.test');
 
 inject();
-//storage();
+storage();
 //lang();
 //server();
 //unit();

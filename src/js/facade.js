@@ -31,13 +31,9 @@ ATOUCH.prototype.config = function (param) {
         throw new Error('Atouch.config: not object given');
     }
 
-    if (typeof filterVariable === 'undefined') {
-        throw new Error('Atouch.config: need a function filterVariable');
-    }
-
     for (let key in param) {
         if (param.hasOwnProperty(key) && config.hasOwnProperty(key)) {
-            config[key] = filterVariable(param[key], '[^a-z0-9\.\,]');
+            config[key] = SL.filterVariable(param[key], '[^a-z0-9\.\,]');
         } else {
             console.warn('Atouch.config: given parameter ' + key + ' not exists');
         }
@@ -59,7 +55,7 @@ ATOUCH.prototype.checkConfigParam = function (name = '') {
         throw new Error('Atouch.checkConfigParam: empty parameter name');
     }
 
-    name = filterVariable(name.toString(), '[^a-z_]');
+    name = SL.filterVariable(name.toString(), '[^a-z_]');
 
     if (typeof config[name] === 'undefined') {
         console.warn('Atouch.checkConfigParam: given parameter ' + name + ' not exists.');
@@ -133,7 +129,7 @@ ATOUCH.prototype.collect = function (name, self) {
         throw new Error('Atouch.collect: not string given in collection name');
     }
 
-    name = filterVariable(name.toString(), '[^-a-zA-Z0-9\.\,_ ]');
+    name = SL.filterVariable(name.toString(), '[^-a-zA-Z0-9\.\,_ ]');
 
     if (!(self instanceof ATOUCH)) {
         throw new Error('Atouch.collect: not Atouch object given in parameter');
@@ -256,7 +252,7 @@ ATOUCH.prototype.sync = function (self) {
         throw new Error('Atouch.sync: not Atouch object given in parameter');
     }
 
-    setRunOrder(false);
+    SL.setRunOrder(false);
     return this;
 };
 
@@ -286,7 +282,7 @@ ATOUCH.prototype.async = function (self) {
         throw new Error('Atouch.async: not Atouch object given in parameter');
     }
 
-    setRunOrder(true);
+    SL.setRunOrder(true);
     return this;
 };
 

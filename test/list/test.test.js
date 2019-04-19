@@ -17,7 +17,7 @@ module.exports = function (Parent) {
     } else {
         global.SL = new INJECT ();
         require('../atouch/inject.extends.js');
-        Test = new TEST(SL);
+        Test = SL.createObject(TEST);
         Atouch = new ATOUCH();
     }
 
@@ -229,7 +229,7 @@ module.exports = function (Parent) {
            });
         });
 
-        describe("new TEST()", function() {
+        /*describe("new TEST()", function() {
             it("exeption: Error [to constructor given invalid service locator] (27)", function() {
                 assert.throws(
                     () => new TEST()
@@ -245,6 +245,6 @@ module.exports = function (Parent) {
                     , /TEST: to constructor given invalid service locator/
                 );
             });
-        });
+        });*/
     });
 };

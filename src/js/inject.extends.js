@@ -5,16 +5,18 @@
  *
  * @returns {Object}              Object {x:0, y:0} with scroll sizes
  */
-SL.registerProcedure('getPageScroll', function () {
-    if (typeof global.document === 'undefined') {
-        return {x: 0, y: 0};
-    }
+if (!SL.isProcedure('getPageScroll')) {
+    SL.registerProcedure('getPageScroll', function () {
+        if (typeof global.document === 'undefined') {
+            return {x: 0, y: 0};
+        }
 
-    return {
-        x: window.pageXOffset || document.documentElement.scrollLeft,
-        y: window.pageYOffset || document.documentElement.scrollTop
-    };
-});
+        return {
+            x: window.pageXOffset || document.documentElement.scrollLeft,
+            y: window.pageYOffset || document.documentElement.scrollTop
+        };
+    });
+}
 
 /**
  * Makes first letter to uppercase, other letters to lowercase
@@ -24,14 +26,16 @@ SL.registerProcedure('getPageScroll', function () {
  * @param {string} str          Given string
  * @returns {string}            Converted string
  */
-SL.registerProcedure('capitalizeFirstLetter', function (str) {
-    if (typeof str !== 'string') {
-        throw new Error('capitalizeFirstLetter: not string given');
-    }
+if (!SL.isProcedure('capitalizeFirstLetter')) {
+    SL.registerProcedure('capitalizeFirstLetter', function (str) {
+        if (typeof str !== 'string') {
+            throw new Error('capitalizeFirstLetter: not string given');
+        }
 
-    str = str.toLowerCase();
-    return str.charAt(0).toUpperCase() + str.slice(1);
-});
+        str = str.toLowerCase();
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    });
+}
 
 /**
  * Generate random integer between limits
@@ -42,21 +46,23 @@ SL.registerProcedure('capitalizeFirstLetter', function (str) {
  * @param {integer} max         Maximal integer in range
  * @returns {integer}           Generated number
  */
-SL.registerProcedure('getRandomInt', function (min, max) {
-    if (typeof min === 'undefined' || typeof max === 'undefined') {
-        throw new Error('getRandomInt: needed parameter not given');
-    }
+if (!SL.isProcedure('getRandomInt')) {
+    SL.registerProcedure('getRandomInt', function (min, max) {
+        if (typeof min === 'undefined' || typeof max === 'undefined') {
+            throw new Error('getRandomInt: needed parameter not given');
+        }
 
-    if (typeof min !== 'number' || typeof max !== 'number') {
-        throw new Error('getRandomInt: parameters must have a integer type');
-    }
+        if (typeof min !== 'number' || typeof max !== 'number') {
+            throw new Error('getRandomInt: parameters must have a integer type');
+        }
 
-    if (min > max) {
-        throw new Error('getRandomInt: second number must be more than first');
-    }
+        if (min > max) {
+            throw new Error('getRandomInt: second number must be more than first');
+        }
 
-    return Math.floor(Math.random() * (+max + 1 - +min)) + +min;
-});
+        return Math.floor(Math.random() * (+max + 1 - +min)) + +min;
+    });
+}
 
 /**
  * Generates new uuid with Crypto API
@@ -65,13 +71,15 @@ SL.registerProcedure('getRandomInt', function (min, max) {
  *
  * @returns {string}            UUID
  */
-SL.registerProcedure('genUUID', function () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        let r = Math.random() * 16 | 0,
-            v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
+if (!SL.isProcedure('genUUID')) {
+    SL.registerProcedure('genUUID', function () {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            let r = Math.random() * 16 | 0,
+                v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     });
-});
+}
 
 /**
  * Sets execution mode to all commands in buffer
@@ -81,21 +89,23 @@ SL.registerProcedure('genUUID', function () {
  * @param {boolean} mode        true = async/false == sync (default: sync)
  * @returns {none}              No return
  */
-SL.registerProcedure('setRunOrder', function (mode = false) {
-    if (typeof coms_buffer === 'undefined') {
-        return;
-    }
-
-    if (!(coms_buffer instanceof Array)) {
-        throw new Error('setRunOrder: need a array');
-    }
-
-    coms_buffer.forEach(function (item, key, arr) {
-        if (typeof arr[key] === 'object') {
-            arr[key].mode = mode ? 'async' : 'sync';
+if (!SL.isProcedure('setRunOrder')) {
+    SL.registerProcedure('setRunOrder', function (mode = false) {
+        if (typeof coms_buffer === 'undefined') {
+            return;
         }
+
+        if (!(coms_buffer instanceof Array)) {
+            throw new Error('setRunOrder: need a array');
+        }
+
+        coms_buffer.forEach(function (item, key, arr) {
+            if (typeof arr[key] === 'object') {
+                arr[key].mode = mode ? 'async' : 'sync';
+            }
+        });
     });
-});
+}
 
 /**
  * Load saved state of Atouch from cookie
@@ -105,28 +115,30 @@ SL.registerProcedure('setRunOrder', function (mode = false) {
  * @param {string} name         Cookie name
  * @returns {string|null}       Data with saved state from cookie
  */
-SL.registerProcedure('getCookieContent', function (name) {
-    let matches;
+if (!SL.isProcedure('getCookieContent')) {
+    SL.registerProcedure('getCookieContent', function (name) {
+        let matches;
 
-    if (typeof name !== 'string') {
-        return null;
-    }
+        if (typeof name !== 'string') {
+            return null;
+        }
 
-    if (typeof global.document === 'undefined') {
-        return null;
-    }
+        if (typeof global.document === 'undefined') {
+            return null;
+        }
 
-    matches = global.document.cookie.match(new RegExp('(?:^|; )'
-        + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')
-        + '=([^;]*)'
-    ));
+        matches = global.document.cookie.match(new RegExp('(?:^|; )'
+            + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1')
+            + '=([^;]*)'
+        ));
 
-    if (matches.length === 1 || matches[1] === '') {
-        return null;
-    }
+        if (matches.length === 1 || matches[1] === '') {
+            return null;
+        }
 
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-});
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    });
+}
 
 /**
  * Remove cookie with saved state of Atouch
@@ -136,13 +148,15 @@ SL.registerProcedure('getCookieContent', function (name) {
  * @param {string} name         Cookie name
  * @returns {none}              No return
  */
-SL.registerProcedure('clearCookieContent', function (name) {
-    if (typeof global.document === 'undefined') {
-        return {x: 0, y: 0};
-    }
+if (!SL.isProcedure('clearCookieContent')) {
+    SL.registerProcedure('clearCookieContent', function (name) {
+        if (typeof global.document === 'undefined') {
+            return {x: 0, y: 0};
+        }
 
-    global.document.cookie = name + '=;path=/;expires=-1';
-});
+        global.document.cookie = name + '=;path=/;expires=-1';
+    });
+}
 
 /**
  * Restore total state and send to modules<br />
@@ -164,9 +178,11 @@ SL.registerProcedure('clearCookieContent', function (name) {
  * @param {Function} setter         State restoring function
  * @returns {none}                  No return
  */
-SL.registerProcedure('setModuleStateCallback', function (instance, getter, setter) {
-    states[instance.constructor.name] = {get: getter, set: setter, module: instance};
-});
+if (!SL.isProcedure('setModuleStateCallback')) {
+    SL.registerProcedure('setModuleStateCallback', function (instance, getter, setter) {
+        states[instance.constructor.name] = {get: getter, set: setter, module: instance};
+    });
+}
 
 /**
  * Load state changes from modules and save total state
@@ -177,21 +193,23 @@ SL.registerProcedure('setModuleStateCallback', function (instance, getter, sette
  *                                  reloading during test execution
  * @returns {none}                  No return
  */
-SL.registerProcedure('saveTotalState', function (reload = false) {
-    if (!this.isService('Storage')) return;
+if (!SL.isProcedure('saveTotalState')) {
+    SL.registerProcedure('saveTotalState', function (reload = false) {
+        if (!this.isService('Storage')) return;
 
-    let global_state = {};
+        let global_state = {};
 
-    for (let key in states) {
-        global_state[key] = states[key]['get']();
-    }
+        for (let key in states) {
+            global_state[key] = states[key]['get']();
+        }
 
-    if (reload && global_state.RUNNER) {
-        global_state.RUNNER.progress = 'reload';
-    }
+        if (reload && global_state.RUNNER) {
+            global_state.RUNNER.progress = 'reload';
+        }
 
-    this.Service('Storage').saveState(global_state);
-});
+        this.Service('Storage').saveState(global_state);
+    });
+}
 
 /**
  * Restore total state and send to modules
@@ -200,17 +218,19 @@ SL.registerProcedure('saveTotalState', function (reload = false) {
  *
  * @returns {none}                  No return
  */
-SL.registerProcedure('loadTotalState', function () {
-    if (!this.isService('Storage')) return;
+if (!SL.isProcedure('loadTotalState')) {
+    SL.registerProcedure('loadTotalState', function () {
+        if (!this.isService('Storage')) return;
 
-    let global_state = this.Service('Storage').loadState();
+        let global_state = this.Service('Storage').loadState();
 
-    for (let key in global_state) {
-        if (states[key]) {
-            states[key]['set'](global_state[key]);
+        for (let key in global_state) {
+            if (states[key]) {
+                states[key]['set'](global_state[key]);
+            }
         }
-    }
-});
+    });
+}
 
 /**
  * Remove total state from storage
@@ -219,11 +239,13 @@ SL.registerProcedure('loadTotalState', function () {
  *
  * @returns {none}                  No return
  */
-SL.registerProcedure('cleanTotalState', function () {
-    if (!this.isService('Storage')) return;
+if (!SL.isProcedure('cleanTotalState')) {
+    SL.registerProcedure('cleanTotalState', function () {
+        if (!this.isService('Storage')) return;
 
-    this.Service('Storage').cleanState();
-});
+        this.Service('Storage').cleanState();
+    });
+}
 
 /**
  * Validation and checking actions list from coms_buffer
@@ -232,104 +254,106 @@ SL.registerProcedure('cleanTotalState', function () {
  *
  * @returns {boolean}           True if success
  */
-SL.registerProcedure('validateCommandsBuffer', function () {
-    let regex = {
-        url: '[^-a-zA-Z0-9\.\,_\:\%\/\@]',
-    };
+if (!SL.isProcedure('validateCommandsBuffer')) {
+    SL.registerProcedure('validateCommandsBuffer', function () {
+        let regex = {
+            url: '[^-a-zA-Z0-9\.\,_\:\%\/\@]',
+        };
 
-    let total = {
-        go: {
-            type: 'string',
-            regex: regex.url
-        },
-        reload: {
-            type: null
-        },
-        back: {
-            type: null
-        },
-        forward: {
-            type: null
-        },
-        exists: {
-            type: 'object',
-            target: 'one'
-        },
-        check: {
-            type: 'object',
-            target: 'any'
-        },
-        csscheck : {
-            type: 'object'
-        },
-        jscheck : {
-            type: 'object'
-        },
-        cookcheck : {
-            type: 'object'
-        },
-        cookdel : {
-            type: 'string'
-        },
-        print : {
-            type: 'object'
-        },
-        fill : {
-            type: 'object'
-        },
-        clear : {
-            type: 'object'
-        },
-        click : {
-            type: 'object'
-        },
-        dblclick : {
-            type: 'object'
-        },
-        down : {
-            type: 'object'
-        },
-        up : {
-            type: 'object'
-        },
-        focus : {
-            type: 'object'
-        },
-        move : {
-            type: 'object'
-        },
-        scrollby : {
-            type: 'object'
-        },
-        scrollto : {
-            type: 'object'
-        },
-        attach : {
-            type: 'object'
-        },
-        come : {
-            type: 'object'
-        },
-        leave : {
-            type: 'object'
-        },
-        over : {
-            type: 'object'
-        },
-        out : {
-            type: 'object'
-        },
-        pull : {
-            type: 'object'
-        },
-        mark : {
-            type: 'object'
-        },
-        select : {
-            type: 'object'
-        }
-    };
-});
+        let total = {
+            go: {
+                type: 'string',
+                regex: regex.url
+            },
+            reload: {
+                type: null
+            },
+            back: {
+                type: null
+            },
+            forward: {
+                type: null
+            },
+            exists: {
+                type: 'object',
+                target: 'one'
+            },
+            check: {
+                type: 'object',
+                target: 'any'
+            },
+            csscheck : {
+                type: 'object'
+            },
+            jscheck : {
+                type: 'object'
+            },
+            cookcheck : {
+                type: 'object'
+            },
+            cookdel : {
+                type: 'string'
+            },
+            print : {
+                type: 'object'
+            },
+            fill : {
+                type: 'object'
+            },
+            clear : {
+                type: 'object'
+            },
+            click : {
+                type: 'object'
+            },
+            dblclick : {
+                type: 'object'
+            },
+            down : {
+                type: 'object'
+            },
+            up : {
+                type: 'object'
+            },
+            focus : {
+                type: 'object'
+            },
+            move : {
+                type: 'object'
+            },
+            scrollby : {
+                type: 'object'
+            },
+            scrollto : {
+                type: 'object'
+            },
+            attach : {
+                type: 'object'
+            },
+            come : {
+                type: 'object'
+            },
+            leave : {
+                type: 'object'
+            },
+            over : {
+                type: 'object'
+            },
+            out : {
+                type: 'object'
+            },
+            pull : {
+                type: 'object'
+            },
+            mark : {
+                type: 'object'
+            },
+            select : {
+                type: 'object'
+            }
+        };
+    });
+}
 
 /**
  * Load list of available tests
@@ -338,7 +362,7 @@ SL.registerProcedure('validateCommandsBuffer', function () {
  *
  * @returns {array}         Available tests
  */
-/*SL.registerProcedure('getAvailableTests', function () {
+/*if (!SL.isProcedure('getAvailableTests')) SL.registerProcedure('getAvailableTests', function () {
     return []; // ! TODO
 });*/
 
@@ -350,6 +374,6 @@ SL.registerProcedure('validateCommandsBuffer', function () {
  * @param {string} test_id          Selected test id
  * @returns {none}                  No return
  */
-/*SL.registerProcedure('runSelectedTest', function (test_id) {
+/*if (!SL.isProcedure('runSelectedTest')) SL.registerProcedure('runSelectedTest', function (test_id) {
     Runner.runTest(test_id);
 });*/

@@ -25,7 +25,7 @@ function tabList () {
     }
 
     state.tab = 'iface_tab_test_title';
-    head_elem.innerHTML = lang[state.tab];
+    head_elem.innerHTML = lang ? lang[state.tab] : '';
     test_select.innerHTML = '';
 
     if (Inject) {
@@ -69,7 +69,7 @@ function tabOptions () {
     }
 
     state.tab = 'iface_tab_option_title';
-    head_elem.innerHTML = lang[state.tab];
+    head_elem.innerHTML = lang ? lang[state.tab] : '';
     lang_select.innerHTML = '';
 
     for (let line in lang_list) {
@@ -107,7 +107,7 @@ function tabAuth () {
     }
 
     state.tab = 'iface_tab_auth_title';
-    head_elem.innerHTML = lang[state.tab];
+    head_elem.innerHTML = lang ? lang[state.tab] : '';
 }
 
 /**
@@ -132,7 +132,7 @@ function tabReport () {
     }
 
     state.tab = 'iface_tab_report_title';
-    head_elem.innerHTML = lang[state.tab];
+    head_elem.innerHTML = lang ? lang[state.tab] : '';
 }
 
 /**
@@ -157,7 +157,7 @@ function changePanelVisible (show = false) {
         collapse.style.right = '2px';
         collapse.style.background = '#0cb1b3';
         collapse.innerHTML = '&#9654;';
-        collapse.title = lang.iface_button_hide_panel;
+        collapse.title = lang ? lang.iface_button_hide_panel : '';
     } else {
         // hide panel
         panel.style.right = '-269px';
@@ -169,7 +169,7 @@ function changePanelVisible (show = false) {
         collapse.style.right = '273px';
         collapse.style.background = 'none';
         collapse.innerHTML = '&#9664;';
-        collapse.title = lang.iface_button_show_panel;
+        collapse.title = lang ? lang.iface_button_show_panel : '';
     }
 }
 
@@ -233,7 +233,7 @@ function loadEventListeners () {
     panel.onmouseout = changePanelTransparencyToLast;
     panel.onmouseover = changePanelTransparencyToMax;
     opacity.oninput = changePanelTransparency;
-    
+
     options_change.onclick = function () {
         changeLang(lang_select.value);
         state.opacity = +opacity.value;
@@ -250,7 +250,7 @@ function loadEventListeners () {
     document.addEventListener('FinishTest', function (e) {
         changePanelVisible(true);
     });
-    
+
     document.addEventListener('StartTest', function (e) {
         changePanelVisible();
     });

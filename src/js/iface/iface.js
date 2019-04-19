@@ -131,7 +131,7 @@ let IFACE = (function () {
                 id    : 'atouch_iface-panel-collapse',
                 tag   : 'div',
                 inner : '&#9654;',
-                var   : 'lang.iface_button_hide_panel',
+                var   : 'iface_button_hide_panel',
                 target: 'title',
                 action: 'click',
                 task  : 'changePanelVisible',
@@ -165,7 +165,7 @@ let IFACE = (function () {
                 child : [{
                     id    : 'atouch_iface-head-button-list',
                     tag   : 'div',
-                    var   : 'lang.iface_tab_test_title',
+                    var   : 'iface_tab_test_title',
                     target: 'title',
                     style : group_css.list_but,
                     inner : '&#9776;',
@@ -175,7 +175,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-head-button-auth',
                     tag   : 'div',
-                    var   : 'lang.iface_tab_auth_title',
+                    var   : 'iface_tab_auth_title',
                     target: 'title',
                     style : group_css.list_but,
                     inner : '&#9735;',
@@ -185,7 +185,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-head-button-options',
                     tag   : 'div',
-                    var   : 'lang.iface_tab_option_title',
+                    var   : 'iface_tab_option_title',
                     target: 'title',
                     style : group_css.list_but,
                     inner : '&#9881;',
@@ -195,7 +195,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-head-button-report',
                     tag   : 'div',
-                    var   : 'lang.iface_tab_report_title',
+                    var   : 'iface_tab_report_title',
                     target: 'title',
                     style : group_css.list_but,
                     inner : '&#9027;',
@@ -219,7 +219,7 @@ let IFACE = (function () {
                 child : [{
                     id    : 'atouch_iface-panel-content-title',
                     tag   : 'h5',
-                    var   : 'lang.iface_tab_test_title',
+                    var   : 'iface_tab_test_title',
                     target: 'innerHTML',
                     style : {
                         height: '15px',
@@ -234,7 +234,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-panel-content-test-select',
                     tag   : 'select',
-                    var   : 'lang.iface_tab_test_select_test',
+                    var   : 'iface_tab_test_select_test',
                     target: 'title',
                     clas  : 'panel_elem list_elem',
                     style : group_css.select,
@@ -243,7 +243,7 @@ let IFACE = (function () {
                     id    : 'atouch_iface-panel-content-test-start',
                     tag   : 'input',
                     type  : 'button',
-                    var   : 'lang.iface_tab_test_button_start',
+                    var   : 'iface_tab_test_button_start',
                     target: 'value',
                     clas  : 'panel_elem list_elem',
                     style : group_css.button,
@@ -255,7 +255,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-panel-content-lang-select',
                     tag   : 'select',
-                    var   : 'lang.iface_tab_option_select_lang',
+                    var   : 'iface_tab_option_select_lang',
                     target: 'title',
                     clas  : 'panel_elem option_elem',
                     style : group_css.select,
@@ -266,7 +266,7 @@ let IFACE = (function () {
                 }, {
                     id    : 'atouch_iface-panel-content-opacity-label',
                     tag   : 'span',
-                    var   : 'lang.iface_range_opacity_level',
+                    var   : 'iface_range_opacity_level',
                     target: 'innerHTML',
                     clas  : 'panel_elem option_elem',
                     style: {
@@ -290,7 +290,7 @@ let IFACE = (function () {
                     id    : 'atouch_iface-panel-content-options-change',
                     tag   : 'input',
                     type  : 'button',
-                    var   : 'lang.iface_tab_option_change_lang',
+                    var   : 'iface_tab_option_change_lang',
                     target: 'value',
                     clas  : 'panel_elem option_elem',
                     style : group_css.button,
@@ -473,11 +473,21 @@ let IFACE = (function () {
      */
     function loadAttributes () {
         for (let key in dom) {
-            dom[key][0][dom[key][1]] = eval(dom[key][2]);
+            //console.log(dom[key][0], dom[key][1], dom[key][2]);
+            try {
+                dom[key][0][dom[key][1]] = eval(dom[key][2]);
+            } catch (e) {
+                console.warn(e.message);
+            }
+
         }
 
         for (let key in action) {
-            action[key][0].addEventListener(action[key][1], eval(action[key][2]));
+            try {
+                action[key][0].addEventListener(action[key][1], eval(action[key][2]));
+            } catch (e) {
+                console.warn(e.message);
+            }
         }
     }
 
@@ -491,10 +501,10 @@ let IFACE = (function () {
      */
     function changeLang (tag) {
         let head_elem = document.getElementById('atouch_iface-panel-content-title');
-        
+
         if (Inject && Inject.isService('Lang')) {
-            Inject.getService('Lang').setLanguage(tag);
-            lang = Inject.getService('Lang').text;
+            Inject.Service('Lang').setLanguage(tag);
+            lang = Inject.Service('Lang').text;
         } else {
             return;
         }
@@ -522,12 +532,12 @@ let IFACE = (function () {
             return false;
         }
     }
-    
+
     /**
      * Brings the state of the instance to the loaded object
-     * 
+     *
      * @private
-     * 
+     *
      * @returns {none}              No return
      */
     function applyLoadedState () {
@@ -546,7 +556,7 @@ let IFACE = (function () {
      */
     IFACE.prototype.showPanel = function () {
         if (!lang) {
-            return false;
+            //return false;
         }
 
         buildInterface(iface_frame);
@@ -577,8 +587,8 @@ let IFACE = (function () {
         }
 
         if (Inject && Inject.isService('Lang')) {
-            lang = Inject.getService('Lang').text;
-            lang_list = Inject.getService('Lang').lang_list;
+            lang = Inject.Service('Lang').text;
+            lang_list = Inject.Service('Lang').lang_list;
         }
 
         this.showPanel();

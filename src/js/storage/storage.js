@@ -25,11 +25,13 @@ let STORAGE = (function () {
         let new_date = new Date(Date.now() + storedie),
             utc_date = new_date.toUTCString();
 
-        try {
+        if (typeof global_object.localStorage !== 'undefined') {
             localStorage.setItem(storekey, save_data);
-        } catch (e) {
+        } else if (typeof global.document !== 'undefined') {
             save_data = encodeURIComponent(save_data);
             document.cookie = storekey + '=' + save_data + ';path=/;expires=' + utc_date;
+        } else {
+            return;
         }
     };
 
@@ -45,10 +47,12 @@ let STORAGE = (function () {
         let load_data,
             loaded_data;
 
-        try {
-            load_data = localStorage.getItem(storekey);
-        } catch (e) {
+        if (typeof global_object.localStorage !== 'undefined') {
+            load_data = global_object.localStorage.getItem(storekey);
+        } else if (typeof global.document !== 'undefined') {
             load_data = getCookieContent(storekey);
+        } else {
+            return {};
         }
 
         if (!load_data) {
@@ -76,10 +80,12 @@ let STORAGE = (function () {
      * @returns {none}              No return
      */
     STORAGE.prototype.cleanState = function () {
-        try {
-            localStorage.removeItem(storekey);
-        } catch (e) {
+        if (typeof global_object.localStorage !== 'undefined') {
+            global_object.localStorage.removeItem(storekey);
+        } else if (typeof global.document !== 'undefined') {
             clearCookieContent(storekey);
+        } else {
+            return;
         }
     };
 
