@@ -27,14 +27,17 @@ let STORAGE = (function () {
         let new_date = new Date(Date.now() + storedie),
             utc_date = new_date.toUTCString();
 
-        if (globalScope) {
+        if (!globalScope) {
+            throw new Error('Storage.saveState: do not know how to save state');
+        }
+
+        if (globalScope.localStorage) {
             globalScope.localStorage.setItem(storekey, save_data);
-        } else if (typeof globalScope.document !== 'undefined' && SL) {
+        } else if (globalScope.document && SL) {
             save_data = encodeURIComponent(save_data);
-            document.cookie = storekey + '=' + save_data + ';path=/;expires=' + utc_date;
+            globalScope.document.cookie = storekey + '=' + save_data + ';path=/;expires=' + utc_date;
         } else {
             // TODO saving state via nodejs in file
-            throw new Error('Storage.saveState: do not know how to save state');
         }
     };
 
@@ -50,13 +53,16 @@ let STORAGE = (function () {
         let load_data,
             loaded_data;
 
-        if (globalScope) {
+        if (!globalScope) {
+            throw new Error('Storage.loadState: do not know how to load state');
+        }
+
+        if (globalScope.localStorage) {
             load_data = globalScope.localStorage.getItem(storekey);
-        } else if (typeof globalScope.document !== 'undefined' && SL) {
+        } else if (globalScope.document && SL) {
             load_data = SL.getCookieContent(storekey);
         } else {
             // TODO loading state via nodejs from file
-            throw new Error('Storage.loadState: do not know how to load state');
         }
 
         if (!load_data) {
@@ -65,12 +71,11 @@ let STORAGE = (function () {
 
         loaded_data = JSON.parse(load_data);
 
+        this.cleanState();
+
         if (loaded_data.time < Date.now()) {
-            this.cleanState();
             return {};
         }
-
-        this.cleanState();
 
         return loaded_data.data;
     };
@@ -84,13 +89,16 @@ let STORAGE = (function () {
      * @returns {none}              No return
      */
     STORAGE.prototype.cleanState = function () {
-        if (globalScope) {
+        if (!globalScope) {
+            throw new Error('Storage.cleanState: do not know how to clean state');
+        }
+
+        if (globalScope.localStorage) {
             globalScope.localStorage.removeItem(storekey);
-        } else if (typeof globalScope.document !== 'undefined' && SL) {
+        } else if (globalScope.document && SL) {
             SL.clearCookieContent(storekey);
         } else {
             // TODO cleaning state via nodejs in file
-            throw new Error('Storage.cleanState: do not know how to clean state');
         }
     };
 
@@ -105,7 +113,8 @@ let STORAGE = (function () {
             SL = STORAGE.prototype.Inject;
         }
 
-        if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+        if (typeof window !== 'undefined' && (typeof window.localStorage !== 'undefined'
+                || typeof window.document !== 'undefined')) {
             globalScope = window;
         }
 
