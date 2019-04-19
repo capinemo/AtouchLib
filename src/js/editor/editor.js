@@ -56,8 +56,8 @@ let EDITOR = (function () {
      * @returns {EDITOR}        EDITOR object
      */
     function EDITOR () {
-        if (STORAGE.prototype.Inject) {
-            SL = STORAGE.prototype.Inject;
+        if (EDITOR.prototype.Inject) {
+            SL = EDITOR.prototype.Inject;
         }
 
         //Recorder = new RECORD;

@@ -12,8 +12,8 @@ let SERVER = (function () {
      * @returns {SERVER}             SERVER object
      */
     function SERVER () {
-        if (STORAGE.prototype.Inject) {
-            SL = STORAGE.prototype.Inject;
+        if (SERVER.prototype.Inject) {
+            SL = SERVER.prototype.Inject;
         }
 
         return this;

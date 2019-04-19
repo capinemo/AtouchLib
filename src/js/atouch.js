@@ -59,7 +59,7 @@ var Atouch;
 
         // = lang/lang.js
 
-        //= iface/iface.js
+        // = iface/iface.js
 
         //= facade.js
 
@@ -124,8 +124,8 @@ var Atouch;
 
             SL.loadTotalState();
 
-            if (Editor) {
-                global.parent.postMessage('atouch script ready', domain);
+            if (Editor && global.postMessage) {
+                global.postMessage('atouch script ready', domain);
             }
 
             if (typeof global.document !== 'undefined'

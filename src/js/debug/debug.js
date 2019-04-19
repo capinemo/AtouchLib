@@ -5,15 +5,15 @@
  */
 let DEBUG = (function () {
     let SL = null;
-    
+
     /**
      * @constructor
      *
      * @returns {DEBUG}             DEBUG object
      */
     function DEBUG () {
-        if (STORAGE.prototype.Inject) {
-            SL = STORAGE.prototype.Inject;
+        if (DEBUG.prototype.Inject) {
+            SL = DEBUG.prototype.Inject;
         }
 
         return this;

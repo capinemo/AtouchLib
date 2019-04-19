@@ -44,9 +44,10 @@ const path = {
             injectExtend: 'src/js/inject.extends.js',
             test: 'src/js/test/test.js',
             storage: 'src/js/storage/storage.js',
-            lang: 'src/js/lang/lang.js',
             server: 'src/js/server/server.js',
-            unit: 'src/js/unit/unit.js'
+            unit: 'src/js/unit/unit.js',
+            debug: 'src/js/debug/debug.js',
+            editor: 'src/js/editor/editor.js'
         },
         watch : {
             html: 'src/html/**/*.html',
@@ -78,7 +79,7 @@ gulp.task('buildTestsAtouch', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalInject', () => {
+gulp.task('buildTestsInject', () => {
     return gulp
         .src(path.atouch.src.inject)
         .pipe(eslint())
@@ -87,7 +88,7 @@ gulp.task('buildTestsGlobalInject', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalinjectExtend', () => {
+gulp.task('buildTestsInjectExtend', () => {
     return gulp
         .src(path.atouch.src.injectExtend)
         .pipe(eslint())
@@ -96,7 +97,7 @@ gulp.task('buildTestsGlobalinjectExtend', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalTest', () => {
+gulp.task('buildTestsTest', () => {
     return gulp
         .src(path.atouch.src.test)
         .pipe(eslint())
@@ -105,7 +106,7 @@ gulp.task('buildTestsGlobalTest', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalStorage', () => {
+gulp.task('buildTestsStorage', () => {
     return gulp
         .src(path.atouch.src.storage)
         .pipe(eslint())
@@ -114,16 +115,7 @@ gulp.task('buildTestsGlobalStorage', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalLang', () => {
-    return gulp
-        .src(path.atouch.src.lang)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(rigger())
-        .pipe(gulp.dest(path.tests.build.js));
-});
-
-gulp.task('buildTestsGlobalServer', () => {
+gulp.task('buildTestsServer', () => {
     return gulp
         .src(path.atouch.src.server)
         .pipe(eslint())
@@ -132,9 +124,27 @@ gulp.task('buildTestsGlobalServer', () => {
         .pipe(gulp.dest(path.tests.build.js));
 });
 
-gulp.task('buildTestsGlobalUnit', () => {
+gulp.task('buildTestsUnit', () => {
     return gulp
         .src(path.atouch.src.unit)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildTestsEditor', () => {
+    return gulp
+        .src(path.atouch.src.editor)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(rigger())
+        .pipe(gulp.dest(path.tests.build.js));
+});
+
+gulp.task('buildTestsDebug', () => {
+    return gulp
+        .src(path.atouch.src.debug)
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(rigger())
@@ -183,13 +193,14 @@ gulp.task('web', () => {
 
 gulp.task('buildTests', gulp.series(
     'buildTestsAtouch',
-    'buildTestsGlobalInject',
-    'buildTestsGlobalinjectExtend',
-    'buildTestsGlobalTest',
-    'buildTestsGlobalStorage',
-    'buildTestsGlobalLang',
-    'buildTestsGlobalServer',
-    'buildTestsGlobalUnit',
+    'buildTestsInject',
+    'buildTestsInjectExtend',
+    'buildTestsTest',
+    'buildTestsStorage',
+    'buildTestsServer',
+    'buildTestsUnit',
+    'buildTestsDebug',
+    'buildTestsEditor',
 ));
 
 gulp.task('runBuild', gulp.series(
