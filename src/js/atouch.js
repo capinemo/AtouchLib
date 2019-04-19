@@ -43,6 +43,7 @@ var Atouch;
             Server = null,
             Unit = null,
             Storage = null,
+            Debug = null,
             config = {
                 no_gui: false, // Hide browser gui panel (true|false)
                 no_report: false, // (No send test report to server (true|false)
@@ -57,7 +58,7 @@ var Atouch;
             DEBUG_MODE = debug || false,
             _;
 
-        // = lang/lang.js
+        //= lang/lang.js
 
         // = iface/iface.js
 
@@ -68,6 +69,7 @@ var Atouch;
         /**
          * @constructor
          *
+         *
          * @returns {ATOUCH}        ATOUCH object
          */
         function ATOUCH () {
@@ -76,21 +78,6 @@ var Atouch;
             //= inject.extends.js
 
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
-
-            if (typeof LANG !== 'undefined') {
-                SL.registerService('Lang', LANG);
-                if (DEBUG_MODE) console.info('MODULE: LANG loaded to ATOUCH');
-            }
-
-            if (typeof RUNNER !== 'undefined') {
-                SL.registerService('Runner', RUNNER);
-                if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to ATOUCH');
-            }
-
-            if (typeof IFACE !== 'undefined') {
-                SL.registerService('Iface', IFACE);
-                if (DEBUG_MODE) console.info('MODULE: IFACE loaded to ATOUCH');
-            }
 
             if (typeof DEBUG !== 'undefined') {
                 Debug = SL.createObject(DEBUG);
@@ -120,6 +107,21 @@ var Atouch;
             if (typeof UNIT !== 'undefined') {
                 Unit = SL.createObject(UNIT);
                 if (DEBUG_MODE) console.info('MODULE: INJECT injected to UNIT');
+            }
+
+            if (typeof LANG !== 'undefined') {
+                SL.registerService('Lang', new LANG(Debug));
+                if (DEBUG_MODE) console.info('MODULE: LANG loaded to ATOUCH');
+            }
+
+            if (typeof RUNNER !== 'undefined') {
+                SL.registerService('Runner', new RUNNER(Debug));
+                if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to ATOUCH');
+            }
+
+            if (typeof IFACE !== 'undefined') {
+                SL.registerService('Iface', new IFACE(Debug));
+                if (DEBUG_MODE) console.info('MODULE: IFACE loaded to ATOUCH');
             }
 
             SL.loadTotalState();

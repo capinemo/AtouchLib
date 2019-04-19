@@ -4,6 +4,9 @@
  * @version 0.0.5
  */
 let LANG = (function () {
+    let default_language = 'ru',
+        Debug = null;
+
     //= lang.ru.js
 
     //= lang.en.js
@@ -34,15 +37,22 @@ let LANG = (function () {
         }
 
         if (!lang_set) {
-            return false;
+            if (Debug) Debug.write('log', {m: 'Selected language not exists: ' + lang_link});
+            return;
         }
-
-        document.cookie = 'atouchLang=' + lang_link + ';path=/;expires=' + new_date.toUTCString();
 
         this.text = lang_set;
         this.selectedLang = lang_link;
 
-        return true;
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined'
+                && typeof window.document.cookie !== 'undefined') {
+            window.document.cookie = 'atouchLang=' + lang_link
+                + ';path=/;expires=' + new_date.toUTCString();
+
+            if (Debug) Debug.write('log', {m: 'Selected language: ' + lang_link});
+        } else {
+            if (Debug) Debug.write('error', {m: 'Coockie not support. Cannot set language: ' + lang_link});
+        }
     };
 
     /**
@@ -50,10 +60,16 @@ let LANG = (function () {
      *
      * @public
      *
-     * @returns {LANG}              Selected language tag
+     * @returns {string|null}       Selected language tag
      */
     LANG.prototype.getLanguage = function () {
-        let matches = document.cookie.match(/atouchLang=[\s\S]{2,3}?[;]*/ig),
+        if (typeof window === 'undefined' || typeof window.document === 'undefined'
+                || typeof window.document.cookie === 'undefined') {
+            if (Debug) Debug.write('error', {m: 'Coockie not support. Cannot load language'});
+            return null;
+        }
+
+        let matches = window.document.cookie.match(/atouchLang=[\s\S]{2,3}?[;]*/ig),
             language = matches
                 ? matches[0].replace('atouchLang=', '').replace('; ', '').replace(';', '')
                 : null;
@@ -64,21 +80,23 @@ let LANG = (function () {
     /**
      * @constructor
      *
-     * @param {string} selectLang   Аutomatically selected language
+     * @param {DEBUG} debug         DEBUG object
      * @returns {LANG}              LANG object
      */
-    function LANG (selectLang = null) {
-        /*let saved_lang = this.getLanguage();
+    function LANG (debug) {
+        let saved_lang = this.getLanguage();
+
+        if (debug instanceof DEBUG) {
+            Debug = debug;
+        }
 
         if (saved_lang) {
             curr_lang = saved_lang;
-        } else if (selectLang) {
-            curr_lang = selectLang;
         } else {
-            curr_lang = 'ru';
+            curr_lang = default_language;
         }
 
-        this.setLanguage(curr_lang);*/
+        this.setLanguage(curr_lang);
 
         return this;
     }

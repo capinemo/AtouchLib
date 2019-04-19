@@ -7,6 +7,19 @@ let DEBUG = (function () {
     let SL = null;
 
     /**
+     *
+     * @param {string} type         Type of writing
+     * @param {Object} log          Object with log information
+     * @returns {none}              No return
+     */
+    DEBUG.prototype.write = function (type, log) {
+        if (!console[type]) {
+            console.error(log);
+        }
+        console[type](log);
+    };
+
+    /**
      * @constructor
      *
      * @returns {DEBUG}             DEBUG object
