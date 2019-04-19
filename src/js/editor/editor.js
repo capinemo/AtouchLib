@@ -6,9 +6,10 @@
 let EDITOR = (function () {
     let is_redactor = false,
         is_recording = false,
-        Recorder;
+        Recorder,
+        SL = null;
 
-    //= record/record.js
+    // = record/record.js
 
     /**
      * setIsRedactor
@@ -55,7 +56,11 @@ let EDITOR = (function () {
      * @returns {EDITOR}        EDITOR object
      */
     function EDITOR () {
-        Recorder = new RECORD;
+        if (STORAGE.prototype.Inject) {
+            SL = STORAGE.prototype.Inject;
+        }
+
+        //Recorder = new RECORD;
         return this;
     }
 
