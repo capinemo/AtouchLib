@@ -6,7 +6,7 @@
  * @returns {none}                  No return
  */
 function createVirtualCursor () {
-    let cursor = document.createElement('div'),
+    let cursor = gl_scp.document.createElement('div'),
         scroll = SL ? SL.getPageScroll() : {x: 0, y: 0};
 
     mouse.page_scroll_x = scroll.x;
@@ -21,7 +21,7 @@ function createVirtualCursor () {
     cursor.dataset.owner = 'atouch';
     cursor.id = 'atouch_virtual_cursor';
 
-    document.body.appendChild(cursor);
+    gl_scp.document.body.appendChild(cursor);
 
     mouse.cursor = cursor;
     mouse.current_object = getElementByCoordinates(mouse.current_x, mouse.current_y);

@@ -17,28 +17,32 @@
  *                                                      or null
  */
 function getHtmlTarget (data) {
+    if (!gl_scp) {
+        return null;
+    }
+
     let elem = null,
         elems = [];
 
     if (data.id) {
-        elem = document.getElementById(data.id);
+        elem = gl_scp.document.getElementById(data.id);
     } else if (data.tag) {
         if (typeof data.index === 'number' && data.index >= 0) {
-            elem = document.getElementsByTagName(data.tag)[data.index];
+            elem = gl_scp.document.getElementsByTagName(data.tag)[data.index];
         } else {
-            elems = document.getElementsByTagName(data.tag);
+            elems = gl_scp.document.getElementsByTagName(data.tag);
         }
     } else if (data.name) {
         if (typeof data.index === 'number' && data.index >= 0) {
-            elem = document.getElementsByName(data.name)[data.index];
+            elem = gl_scp.document.getElementsByName(data.name)[data.index];
         } else {
-            elems = document.getElementsByName(data.name);
+            elems = gl_scp.document.getElementsByName(data.name);
         }
     } else if (data.class) {
         if (typeof data.index === 'number' && data.index >= 0) {
-            elem = document.getElementsByClassName(data.class)[data.index];
+            elem = gl_scp.document.getElementsByClassName(data.class)[data.index];
         } else {
-            elems = document.getElementsByClassName(data.class);
+            elems = gl_scp.document.getElementsByClassName(data.class);
         }
     } else {
         state.error = 4001;
@@ -151,24 +155,28 @@ function specialSymbolsTranslateToStr (string) {
  * @returns {HTMLElement}       The detected element or false
  */
 function getElementObject (data) {
+    if (!gl_scp) {
+        return null;
+    }
+
     let find;
 
     if (data.id) {
-        find = document.getElementById(data.id);
+        find = gl_scp.document.getElementById(data.id);
     } else if (data.tag && data.index >= 0) {
-        find = document.getElementsByTagName(data.tag)[data.index];
+        find = gl_scp.document.getElementsByTagName(data.tag)[data.index];
 
         if (typeof find === 'undefined') {
             find = null;
         }
     } else if (data.name && data.index >= 0) {
-        find = document.getElementsByName(data.name)[data.index];
+        find = gl_scp.document.getElementsByName(data.name)[data.index];
 
         if (typeof find === 'undefined') {
             find = null;
         }
     } else if (data.class && data.index >= 0) {
-        find = document.getElementsByClassName(data.class)[data.index];
+        find = gl_scp.document.getElementsByClassName(data.class)[data.index];
 
         if (typeof find === 'undefined') {
             find = null;
@@ -190,14 +198,18 @@ function getElementObject (data) {
  * @return {HTMLElementsCollection}     The detected elements array or false
  */
 function getElementsCollection (data) {
+    if (!gl_scp) {
+        return null;
+    }
+
     let find;
 
     if (data.tag && !data.index) {
-        find = document.getElementsByTagName(data.tag);
+        find = gl_scp.document.getElementsByTagName(data.tag);
     } else if (data.name && !data.index) {
-        find = document.getElementsByName(data.name);
+        find = gl_scp.document.getElementsByName(data.name);
     } else if (data.class && !data.index) {
-        find = document.getElementsByClassName(data.class);
+        find = gl_scp.document.getElementsByClassName(data.class);
     } else {
         // _message.err('Parameters not for HTMLElementsCollection', 504);
         // _mouse.state = 'error';

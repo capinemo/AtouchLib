@@ -6,7 +6,8 @@
 let LANG = (function () {
     let default_language = 'ru',
         SL = null,
-        Debug = null;
+        Debug = null,
+        gl_scp = null;
 
     //= lang.ru.js
 
@@ -45,9 +46,8 @@ let LANG = (function () {
         this.text = lang_set;
         this.selected_lang = lang_link;
 
-        if (typeof window !== 'undefined' && typeof window.document !== 'undefined'
-                && typeof window.document.cookie !== 'undefined') {
-            window.document.cookie = 'atouchLang=' + lang_link
+        if (gl_scp && typeof gl_scp.document.cookie !== 'undefined') {
+            gl_scp.document.cookie = 'atouchLang=' + lang_link
                 + ';path=/;expires=' + new_date.toUTCString();
 
             if (Debug) Debug.write('log', {m: 'Selected language: ' + lang_link});
@@ -64,13 +64,12 @@ let LANG = (function () {
      * @returns {string|null}       Selected language tag
      */
     LANG.prototype.getLanguage = function () {
-        if (typeof window === 'undefined' || typeof window.document === 'undefined'
-                || typeof window.document.cookie === 'undefined') {
+        if (!gl_scp || typeof gl_scp.document.cookie === 'undefined') {
             if (Debug) Debug.write('error', {m: 'Coockie not support. Cannot load language'});
             return null;
         }
 
-        let matches = window.document.cookie.match(/atouchLang=[\s\S]{2,3}?[;]*/ig),
+        let matches = gl_scp.document.cookie.match(/atouchLang=[\s\S]{2,3}?[;]*/ig),
             language = matches
                 ? matches[0].replace('atouchLang=', '').replace('; ', '').replace(';', '')
                 : null;
@@ -99,6 +98,10 @@ let LANG = (function () {
             curr_lang = saved_lang;
         } else {
             curr_lang = default_language;
+        }
+
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+            gl_scp = window;
         }
 
         this.setLanguage(curr_lang);

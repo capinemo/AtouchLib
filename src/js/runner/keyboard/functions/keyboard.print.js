@@ -9,7 +9,7 @@
  */
 function pressKeysAsync (text, target = null) {
     let sym_list = analyzeBeforePrint(text),
-        element = target || document,
+        element = target || gl_scp.document,
         iter = 0,
         timer;
 
@@ -38,7 +38,7 @@ function pressKeysAsync (text, target = null) {
  */
 function pressKeysSync (text, target = null) {
     let sym_list = analyzeBeforePrint(text),
-        element = target || document,
+        element = target || gl_scp.document,
         iter = 0;
 
     while (iter < sym_list.length) {
@@ -46,7 +46,7 @@ function pressKeysSync (text, target = null) {
 
         iter++;
     }
-    
+
     state.progress = 'ready';
 }
 
@@ -54,7 +54,7 @@ function pressKeysSync (text, target = null) {
  * Deletes all content in the target element
  *
  * @private
- * 
+ *
  * @param {Object} target           HTML element for inner text
  * @returns {none}                  No return
  */
@@ -64,15 +64,15 @@ function cleanElementContent (target) {
     } else {
         target.innerHTML = '';
     }
-    
+
     state.progress = 'ready';
 }
 
 /**
  * Prints symbol in the target element
- * 
+ *
  * @private
- * 
+ *
  * @param {string} sym              String for printing by keyboard
  * @param {Object} target           HTML element for inner text
  * @returns {none}                  No return

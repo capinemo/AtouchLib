@@ -7,7 +7,8 @@ let EDITOR = (function () {
     let is_redactor = false,
         is_recording = false,
         Recorder,
-        SL = null;
+        SL = null,
+        gl_scp = null;
 
     // = record/record.js
 
@@ -21,7 +22,10 @@ let EDITOR = (function () {
      */
     EDITOR.prototype.setIsRedactor = function (sendHandle) {
         is_redactor = true;
-        document.onclick = Recorder.activateRecord(sendHandle);
+
+        if (gl_scp.document) {
+            gl_scp.document.onclick = Recorder.activateRecord(sendHandle);
+        }
     };
 
     /**
@@ -58,6 +62,11 @@ let EDITOR = (function () {
     function EDITOR () {
         if (EDITOR.prototype.Inject) {
             SL = EDITOR.prototype.Inject;
+        }
+
+        if (typeof window !== 'undefined' && (typeof window.localStorage !== 'undefined'
+                || typeof window.document !== 'undefined')) {
+            gl_scp = window;
         }
 
         //Recorder = new RECORD;

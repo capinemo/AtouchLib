@@ -12,8 +12,8 @@ if (!SL.isProcedure('getPageScroll')) {
         }
 
         return {
-            x: window.pageXOffset || document.documentElement.scrollLeft,
-            y: window.pageYOffset || document.documentElement.scrollTop
+            x: global.pageXOffset || global.document.documentElement.scrollLeft,
+            y: global.pageYOffset || global.document.documentElement.scrollTop
         };
     });
 }

@@ -8,12 +8,12 @@
  */
 function mouseClick (object) {
     emulateMouseEvents(object, 'mousedown');
-    document.activeElement.blur();
+    gl_scp.document.activeElement.blur();
     emulateMouseEvents(object, 'focus');
     emulateMouseEvents(object, 'mouseup');
     emulateMouseEvents(object, 'click');
-    
-    let timerId = setTimeout(function () { 
+
+    let timerId = setTimeout(function () {
         clearTimeout(timerId);
         state.progress = 'click';
     }, 100);
@@ -29,20 +29,20 @@ function mouseClick (object) {
  */
 function mouseDoubleClick (object) {
     emulateMouseEvents(object, 'mousedown');
-    document.activeElement.blur();
+    gl_scp.document.activeElement.blur();
     emulateMouseEvents(object, 'focus');
     emulateMouseEvents(object, 'mouseup');
     emulateMouseEvents(object, 'click');
     emulateMouseEvents(object, 'mousedown');
     emulateMouseEvents(object, 'mouseup');
     emulateMouseEvents(object, 'click');
-    
+
     // TODO: handle text selection in double and triple click
     /* if (typeof object.select === 'function') {
         object.select();
     } */
 
-    let timerId = setTimeout(function () { 
+    let timerId = setTimeout(function () {
         clearTimeout(timerId);
         state.progress = 'dblclick';
     }, 100);
@@ -58,10 +58,10 @@ function mouseDoubleClick (object) {
  */
 function mouseDown (object) {
     emulateMouseEvents(object, 'mousedown');
-    document.activeElement.blur();
+    gl_scp.document.activeElement.blur();
     emulateMouseEvents(object, 'focus');
 
-    let timerId = setTimeout(function () { 
+    let timerId = setTimeout(function () {
         clearTimeout(timerId);
         state.progress = 'down';
     }, 100);
@@ -79,7 +79,7 @@ function mouseDown (object) {
 function mouseUp (object) {
     emulateMouseEvents(object, 'mouseup');
 
-    let timerId = setTimeout(function () { 
+    let timerId = setTimeout(function () {
         clearTimeout(timerId);
         state.progress = 'up';
     }, 100);
@@ -95,10 +95,10 @@ function mouseUp (object) {
  * @returns {none}                  No return
  */
 function mouseFocus (object) {
-    document.activeElement.blur();
+    gl_scp.document.activeElement.blur();
     emulateMouseEvents(object, 'focus');
-    
-    let timerId = setTimeout(function () { 
+
+    let timerId = setTimeout(function () {
         clearTimeout(timerId);
         state.progress = 'focus';
     }, 100);
@@ -108,7 +108,7 @@ function mouseSelect (object) {
     let selected = null;
 
     /* _emulateMouseEvents(object, 'mousedown');
-    document.activeElement.blur();
+    gl_scp.document.activeElement.blur();
     _emulateMouseEvents(object, 'focus');
     _emulateMouseEvents(object, 'mouseup');
     _emulateMouseEvents(object, 'click');
@@ -144,7 +144,7 @@ function mouseSelect (object) {
     };
 
     _buffer = null; */
-    
+
     state.progress = 'select';
 }
 

@@ -5,6 +5,7 @@
  */
 let KEYBOARD = (function () {
     let SL = null,
+        gl_scp = null,
         events_arr = ['keydown', 'keypress', 'keyup'],
         spec_key = {},          // List of special keyboard keys and its codes
         keyboard = {
@@ -35,6 +36,12 @@ let KEYBOARD = (function () {
     function KEYBOARD () {
         if (KEYBOARD.prototype.Inject) {
             SL = KEYBOARD.prototype.Inject;
+        }
+
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+            gl_scp = window;
+        } else {
+            return this;
         }
 
         // activateKeyboardEventsListener();

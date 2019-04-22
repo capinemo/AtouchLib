@@ -8,6 +8,7 @@ let IFACE = (function () {
     let SL = null,
         Debug = null,
         Lang = null,
+        gl_scp = null,
         dom = {},               // List of HTML elements with text (for translating)
         action = {},            // List of HTML elements with actions (for events)
         func = {},
@@ -412,11 +413,11 @@ let IFACE = (function () {
      * @returns {boolean}               True if success
      */
     function buildInterface (frame, parent = null) {
-        let parentNode = parent || document.body;
+        let parentNode = parent || gl_scp.document.body;
 
         if (frame instanceof Array) {
             frame.forEach(function (item) {
-                let elem = document.createElement(item.tag);
+                let elem = gl_scp.document.createElement(item.tag);
                 elem.id = item.id;
                 elem.dataset.owner = panel_vars.owner;
 
@@ -499,7 +500,7 @@ let IFACE = (function () {
      * @returns {none}                  No return
      */
     function changeLang (tag) {
-        let head_elem = document.getElementById('atouch_iface-panel-content-title');
+        let head_elem = gl_scp.document.getElementById('atouch_iface-panel-content-title');
 
         if (Lang) {
             Lang.setLanguage(tag);
@@ -540,7 +541,7 @@ let IFACE = (function () {
      * @returns {none}              No return
      */
     function applyLoadedState () {
-        let panel = document.getElementById('atouch_iface-panel');
+        let panel = gl_scp.document.getElementById('atouch_iface-panel');
         panel.style.opacity = +state.opacity ? +state.opacity / 100 : 1;
     }
 
@@ -554,6 +555,10 @@ let IFACE = (function () {
      * @returns {boolean}               True if success
      */
     IFACE.prototype.showPanel = function () {
+        if (!gl_scp) {
+            return false;
+        }
+
         buildInterface(iface_frame);
         loadAttributes();
         func.tabList();
@@ -594,7 +599,12 @@ let IFACE = (function () {
             );
         }
 
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+            gl_scp = window;
+        }
+
         this.showPanel();
+
         return this;
     }
 

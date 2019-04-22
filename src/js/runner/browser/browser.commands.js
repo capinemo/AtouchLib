@@ -1,8 +1,8 @@
 /**
  * Load given url
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -11,22 +11,22 @@
 BROWSER.prototype.go = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     if (typeof data !== 'string') {
         state.error = 1100;
         state.progress = 'error';
     } else if (state.progress === 'reload')  {
         state.progress = 'ready';
-    } else {       
+    } else {
         window.location = data;
     }
 };
 
 /**
  * Reload openes page
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -35,20 +35,23 @@ BROWSER.prototype.go = function (data, success, error) {
 BROWSER.prototype.reload = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     if (state.progress === 'reload')  {
         state.progress = 'ready';
     } else {
         state.progress = 'reload';
-        document.location.reload(true);
+
+        if (gl_scp) {
+            gl_scp.document.location.reload(true);
+        }
     }
 };
 
 /**
  * Return to previous visited page
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -57,7 +60,7 @@ BROWSER.prototype.reload = function (data, success, error) {
 BROWSER.prototype.back = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     if (state.progress === 'reload')  {
         state.progress = 'ready';
     } else {
@@ -67,9 +70,9 @@ BROWSER.prototype.back = function (data, success, error) {
 
 /**
  * Return to next visited page
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -78,7 +81,7 @@ BROWSER.prototype.back = function (data, success, error) {
 BROWSER.prototype.forward = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     if (state.progress === 'reload')  {
         state.progress = 'ready';
     } else {
@@ -89,9 +92,9 @@ BROWSER.prototype.forward = function (data, success, error) {
 /**
  * Checking HTML element or HTML Collection content for equality or similarity <br />
  * to given string
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -100,7 +103,7 @@ BROWSER.prototype.forward = function (data, success, error) {
 BROWSER.prototype.check = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     let element = getHtmlTarget(data),
         check_function = null,
         check_string = null,
@@ -156,9 +159,9 @@ BROWSER.prototype.check = function (data, success, error) {
  * to given string <br />
  * If given directive "convert" and it is true, atouch compare variables <br />
  * independently from type
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -167,7 +170,7 @@ BROWSER.prototype.check = function (data, success, error) {
 BROWSER.prototype.jscheck = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     let check_target = getJsTarget(data),
         check_function = null,
         check_string = null;
@@ -179,12 +182,12 @@ BROWSER.prototype.jscheck = function (data, success, error) {
     }
 
     if (data.hasOwnProperty('has')) {
-        check_function = data.convert 
-            ? checkVariableContentSimilar 
+        check_function = data.convert
+            ? checkVariableContentSimilar
             : checkVariableContentEqual;
         check_string = data.has;
     } else if (data.hasOwnProperty('equal')) {
-        check_function = data.convert 
+        check_function = data.convert
             ? checkVariableSimilar
             : checkVariableEqual;
         check_string = data.equal;
@@ -209,9 +212,9 @@ BROWSER.prototype.jscheck = function (data, success, error) {
 
 /**
  * Checks CSS properties
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -220,7 +223,7 @@ BROWSER.prototype.jscheck = function (data, success, error) {
 BROWSER.prototype.csscheck = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     let element = getHtmlTarget(data);
 
     if (element) {
@@ -246,9 +249,9 @@ BROWSER.prototype.csscheck = function (data, success, error) {
 
 /**
  * Checks cookies content
- * 
+ *
  * @public
- * 
+ *
  * @param {string} data             Command parameters
  * @param {Function} success        Success callback
  * @param {Function} error          Error callback
@@ -257,7 +260,7 @@ BROWSER.prototype.csscheck = function (data, success, error) {
 BROWSER.prototype.cookcheck = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     let cookie = getCookieContent(data.cook),
         check_function = null,
         check_string = null;
@@ -291,7 +294,7 @@ BROWSER.prototype.cookcheck = function (data, success, error) {
 
 /**
  * Delete certain cookie
- * 
+ *
  * @public
  *
  * @param {string} data             Command parameters
@@ -302,7 +305,7 @@ BROWSER.prototype.cookcheck = function (data, success, error) {
 BROWSER.prototype.cookdel = function (data, success, error) {
     waitPhaseFinish('ready', success, true);
     waitPhaseFinish('error', error, true);
-    
+
     if (typeof data !== 'string') {
         state.error = 4403;
         state.progress = 'error';

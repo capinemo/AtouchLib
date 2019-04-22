@@ -2,9 +2,9 @@
  * Finds the element on given coordinates
  *
  * @private
- * 
+ *
  * @param {integer} x       Given X coordinate
- * @param {integer} y       Given Y coordinate 
+ * @param {integer} y       Given Y coordinate
  * @return {HTMLElement}    Element on specified point coordinate
  */
 function getElementByCoordinates (x, y) {
@@ -26,7 +26,7 @@ function getElementByCoordinates (x, y) {
     y_on_visible = Math.floor(mouse.current_y - mouse.page_scroll_y);
 
     mouse.cursor.style.display = 'none';
-    return_object = document.elementFromPoint(x_on_visible, y_on_visible);
+    return_object = gl_scp.document.elementFromPoint(x_on_visible, y_on_visible);
     mouse.cursor.style.display = 'block';
 
     return return_object;
@@ -36,7 +36,7 @@ function getElementByCoordinates (x, y) {
  * Returns the new value of the scroll to center on the necessary coordinates
  *
  * @private
- * 
+ *
  * @param {number} x        Point X coordinate
  * @returns {number}        New scroll number
  */
@@ -62,7 +62,7 @@ function centerVisibleOnX (x) {
  * Returns the new value of the scroll to center on the necessary coordinates
  *
  * @private
- * 
+ *
  * @param {number} y        Point Y coordinate
  * @return {number}         New scroll number
  */
@@ -88,7 +88,7 @@ function centerVisibleOnY (y) {
  * Calculate and set the coordinates with shift of vcursor center
  *
  * @private
- * 
+ *
  * @returns {none}          No return
  */
 function setRealCenter () {
@@ -102,9 +102,9 @@ function setRealCenter () {
 
 /**
  * Get coordinates for top-left and bottom-right element corners
- * 
+ *
  * @private
- * 
+ *
  * @param {HTMLElement} elem        Target HTML element
  * @return {Object}                 Object with coordinates of element corners, <br />
  *                                  {x0: [num], y0: [num], x1: [num], y1: [num]}
@@ -128,8 +128,8 @@ function getElementCoordinates (elem) {
 
     if (elem.getBoundingClientRect) {
         box = elem.getBoundingClientRect();
-        body = document.body;
-        html = document.documentElement;
+        body = gl_scp.document.body;
+        html = gl_scp.document.documentElement;
 
         scroll_top = window.pageYOffset || html.scrollTop || body.scrollTop;
         scroll_left = window.pageXOffset || html.scrollLeft || body.scrollLeft;
@@ -157,9 +157,9 @@ function getElementCoordinates (elem) {
 
 /**
  * Get element center coordinates
- * 
+ *
  * @private
- * 
+ *
  * @param {Object} object_coords        Object with coordinates of element corners <br />
  *                                      returned by getElementCoordinates
  * @return {Object|boolean}             Object with coordinates of center point, <br />

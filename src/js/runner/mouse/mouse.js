@@ -4,8 +4,7 @@
  * @version 0.0.5
  */
 let MOUSE = (function () {
-    let SL = null,
-        mouse = {
+    const mouse = {
             page_scroll_x:  null,       // Скролл страницы по горизонтали
             page_scroll_y:  null,       // Скролл страницы по вертикали
             current_x:      null,       // Текущее положение мыши по горизонтали
@@ -26,7 +25,10 @@ let MOUSE = (function () {
                 pointer: {x0: 0, y0: 0, x1: 17, y1: 22, xc: 5, yc: 0},
                 text: {x0: 28, y0: 0, x1: 35, y1: 16, xc: 31, yc: 8}
             }
-        },
+        };
+
+    let SL = null,
+        gl_scp = null,
         cursor_speed = 30,          // cursor moving iteration frequency
         scroll_speed = 20,          // scrolling iteration frequency
         maxHeightWithScroll,        // page height with scrolling
@@ -56,17 +58,17 @@ let MOUSE = (function () {
 
     MOUSE.prototype.getPageParameters = function () {
         maxHeightWithScroll = Math.max(
-            document.body.scrollHeight, document.documentElement.scrollHeight,
-            document.body.offsetHeight, document.documentElement.offsetHeight,
-            document.body.clientHeight, document.documentElement.clientHeight
+            gl_scp.document.body.scrollHeight, gl_scp.document.documentElement.scrollHeight,
+            gl_scp.document.body.offsetHeight, gl_scp.document.documentElement.offsetHeight,
+            gl_scp.document.body.clientHeight, gl_scp.document.documentElement.clientHeight
         );
         maxWidthWithScroll = Math.max(
-            document.body.scrollWidth, document.documentElement.scrollWidth,
-            document.body.offsetWidth, document.documentElement.offsetWidth,
-            document.body.clientWidth, document.documentElement.clientWidth
+            gl_scp.document.body.scrollWidth, gl_scp.document.documentElement.scrollWidth,
+            gl_scp.document.body.offsetWidth, gl_scp.document.documentElement.offsetWidth,
+            gl_scp.document.body.clientWidth, gl_scp.document.documentElement.clientWidth
         );
-        maxHeightVisible = document.documentElement.clientHeight;
-        maxWidthVisible = document.documentElement.clientWidth;
+        maxHeightVisible = gl_scp.document.documentElement.clientHeight;
+        maxWidthVisible = gl_scp.document.documentElement.clientWidth;
     };
 
     /**
@@ -77,6 +79,12 @@ let MOUSE = (function () {
     function MOUSE () {
         if (MOUSE.prototype.Inject) {
             SL = MOUSE.prototype.Inject;
+        }
+
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+            gl_scp = window;
+        } else {
+            return this;
         }
 
         this.getPageParameters();

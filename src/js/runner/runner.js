@@ -4,10 +4,7 @@
  * @version 0.0.7
  */
 let RUNNER = (function () {
-    let SL = null,          // Global Facade Object
-        Debug = null,
-        Log,                    // Log object for logging events and statuses
-        control = {},           // List of contoller objects (Mouse, Keyboard, Browser)
+    const control = {},           // List of contoller objects (Mouse, Keyboard, Browser)
         state = {               // Actual state of Runner
             execute: null,      // Executed test ID
             run: null,          // Running task ID
@@ -16,10 +13,15 @@ let RUNNER = (function () {
             result: null,       // Result of finished task (error|success),
             log: [],            // List of task results (0 if success or error key number)
             error: 0            // Error key number of last finished task
-        },
+        };
+
+
+    let SL = null,          // Global Facade Object
+        Debug = null,
+        Log = null,                    // Log object for logging events and statuses
+        gl_scp = null,
         listeners = [],         // Array with listeners of phases state changing
-        task_list = [],         // Tasks list of the running test
-        _;
+        task_list = [];         // Tasks list of the running test
 
     //= runner.listen.js
 
@@ -119,11 +121,12 @@ let RUNNER = (function () {
                     console.log(state.log);
                     console.log(compareVariables(state.log, test_list[state.execute].result));
 
-                    document.dispatchEvent(new Event('FinishTest', {
-                        cancelable: true,
-                        bubbles: false
-                    }));
-
+                    if (gl_scp.document) {
+                        gl_scp.document.dispatchEvent(new Event('FinishTest', {
+                            cancelable: true,
+                            bubbles: false
+                        }));
+                    }
                     state.status = null;
                     state.result = null;
                     state.execute = null;
@@ -204,10 +207,12 @@ let RUNNER = (function () {
         state.execute = test_id;
 
         if (buildTasksList(test_list[test_id].tasks)) {
-            document.dispatchEvent(new Event('StartTest', {
-                cancelable: true,
-                bubbles: false
-            }));
+            if (gl_scp.document) {
+                gl_scp.document.dispatchEvent(new Event('StartTest', {
+                    cancelable: true,
+                    bubbles: false
+                }));
+            }
 
             execActiveTest();
         }
@@ -259,6 +264,10 @@ let RUNNER = (function () {
         if (typeof KEYBOARD !== 'undefined') {
             control.Keyboard = SL.createObject(KEYBOARD);
             if (DEBUG_MODE) console.info('MODULE: KEYBOARD loaded to RUNNER');
+        }
+
+        if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+            gl_scp = window;
         }
 
         return this;

@@ -10,10 +10,10 @@
  * @returns {none}              No return
  */
 func.tabList = function () {
-    let panel_elem = document.getElementsByClassName('panel_elem'),
-        target_elem = document.getElementsByClassName('list_elem'),
-        head_elem = document.getElementById('atouch_iface-panel-content-title'),
-        test_select = document.getElementById('atouch_iface-panel-content-test-select'),
+    let panel_elem = gl_scp.document.getElementsByClassName('panel_elem'),
+        target_elem = gl_scp.document.getElementsByClassName('list_elem'),
+        head_elem = gl_scp.document.getElementById('atouch_iface-panel-content-title'),
+        test_select = gl_scp.document.getElementById('atouch_iface-panel-content-test-select'),
         tests = [];
 
     for (let i = panel_elem.length; i--;) {
@@ -34,7 +34,7 @@ func.tabList = function () {
 
     // Generating tests list from Server
     for (let item in tests) {
-        let elem = document.createElement('option');
+        let elem = gl_scp.document.createElement('option');
         elem.innerHTML = tests[item].name;
         elem.value = item;
         test_select.appendChild(elem);
@@ -54,11 +54,11 @@ func.tabList = function () {
  * @returns {none}              No return
  */
 func.tabOptions = function () {
-    let panel_elem = document.getElementsByClassName('panel_elem'),
-        target_elem = document.getElementsByClassName('option_elem'),
-        head_elem = document.getElementById('atouch_iface-panel-content-title'),
-        lang_select = document.getElementById('atouch_iface-panel-content-lang-select'),
-        opacity = document.getElementById('atouch_iface-panel-content-opacity-select');
+    let panel_elem = gl_scp.document.getElementsByClassName('panel_elem'),
+        target_elem = gl_scp.document.getElementsByClassName('option_elem'),
+        head_elem = gl_scp.document.getElementById('atouch_iface-panel-content-title'),
+        lang_select = gl_scp.document.getElementById('atouch_iface-panel-content-lang-select'),
+        opacity = gl_scp.document.getElementById('atouch_iface-panel-content-opacity-select');
 
     for (let i = panel_elem.length; i--;) {
         panel_elem[i].style.display = 'none';
@@ -74,7 +74,7 @@ func.tabOptions = function () {
 
     if (Lang && Lang.lang_list) {
         for (let line in Lang.lang_list) {
-            let elem = document.createElement('option');
+            let elem = gl_scp.document.createElement('option');
             elem.innerHTML = Lang.lang_list[line].name;
             elem.value = Lang.lang_list[line].link;
             lang_select.appendChild(elem);
@@ -95,9 +95,9 @@ func.tabOptions = function () {
  * @returns {none}              No return
  */
 func.tabAuth = function () {
-    let panel_elem = document.getElementsByClassName('panel_elem'),
-        target_elem = document.getElementsByClassName('auth_elem'),
-        head_elem = document.getElementById('atouch_iface-panel-content-title');
+    let panel_elem = gl_scp.document.getElementsByClassName('panel_elem'),
+        target_elem = gl_scp.document.getElementsByClassName('auth_elem'),
+        head_elem = gl_scp.document.getElementById('atouch_iface-panel-content-title');
 
     for (let i = panel_elem.length; i--;) {
         panel_elem[i].style.display = 'none';
@@ -121,9 +121,9 @@ func.tabAuth = function () {
  * @returns {none}              No return
  */
 func.tabReport = function () {
-    let panel_elem = document.getElementsByClassName('panel_elem'),
-        target_elem = document.getElementsByClassName('report_elem'),
-        head_elem = document.getElementById('atouch_iface-panel-content-title');
+    let panel_elem = gl_scp.document.getElementsByClassName('panel_elem'),
+        target_elem = gl_scp.document.getElementsByClassName('report_elem'),
+        head_elem = gl_scp.document.getElementById('atouch_iface-panel-content-title');
 
     for (let i = panel_elem.length; i--;) {
         panel_elem[i].style.display = 'none';
@@ -146,8 +146,8 @@ func.tabReport = function () {
  * @returns {none}                  No return
  */
 func.changePanelVisible = function (show = false) {
-    let panel = document.getElementById('atouch_iface-panel'),
-        collapse = document.getElementById('atouch_iface-panel-collapse');
+    let panel = gl_scp.document.getElementById('atouch_iface-panel'),
+        collapse = gl_scp.document.getElementById('atouch_iface-panel-collapse');
 
     if (panel.style.right !== '0px' || show === true) {
         // show panel
@@ -184,7 +184,7 @@ func.changePanelVisible = function (show = false) {
  * @returns {none}                  No return
  */
 function changePanelTransparency (event) {
-    let panel = document.getElementById('atouch_iface-panel');
+    let panel = gl_scp.document.getElementById('atouch_iface-panel');
 
     panel.style.opacity = event.target.value / 100;
 }
@@ -197,7 +197,7 @@ function changePanelTransparency (event) {
  * @returns {none}                  No return
  */
 function changePanelTransparencyToMax () {
-    let panel = document.getElementById('atouch_iface-panel');
+    let panel = gl_scp.document.getElementById('atouch_iface-panel');
 
     panel.style.opacity = 1;
 }
@@ -210,7 +210,7 @@ function changePanelTransparencyToMax () {
  * @returns {none}                  No return
  */
 function changePanelTransparencyToLast () {
-    let panel = document.getElementById('atouch_iface-panel');
+    let panel = gl_scp.document.getElementById('atouch_iface-panel');
 
     if (state.opacity) {
         panel.style.opacity = +state.opacity / 100;
@@ -225,12 +225,12 @@ function changePanelTransparencyToLast () {
  * @returns {none}                  No return
  */
 function loadEventListeners () {
-    let panel = document.getElementById('atouch_iface-panel'),
-        options_change = document.getElementById('atouch_iface-panel-content-options-change'),
-        test_run = document.getElementById('atouch_iface-panel-content-test-start'),
-        test_select = document.getElementById('atouch_iface-panel-content-test-select'),
-        lang_select = document.getElementById('atouch_iface-panel-content-lang-select'),
-        opacity = document.getElementById('atouch_iface-panel-content-opacity-select');
+    let panel = gl_scp.document.getElementById('atouch_iface-panel'),
+        options_change = gl_scp.document.getElementById('atouch_iface-panel-content-options-change'),
+        test_run = gl_scp.document.getElementById('atouch_iface-panel-content-test-start'),
+        test_select = gl_scp.document.getElementById('atouch_iface-panel-content-test-select'),
+        lang_select = gl_scp.document.getElementById('atouch_iface-panel-content-lang-select'),
+        opacity = gl_scp.document.getElementById('atouch_iface-panel-content-opacity-select');
 
     panel.onmouseout = changePanelTransparencyToLast;
     panel.onmouseover = changePanelTransparencyToMax;
@@ -249,11 +249,11 @@ function loadEventListeners () {
         sendTestToRunner(test_select.value);
     };
 
-    document.addEventListener('FinishTest', function (e) {
+    gl_scp.document.addEventListener('FinishTest', function (e) {
         changePanelVisible(true);
     });
 
-    document.addEventListener('StartTest', function (e) {
+    gl_scp.document.addEventListener('StartTest', function (e) {
         changePanelVisible();
     });
 }
