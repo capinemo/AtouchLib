@@ -7,7 +7,7 @@
  */
 function createVirtualCursor () {
     let cursor = document.createElement('div'),
-        scroll = getPageScroll();
+        scroll = SL ? SL.getPageScroll() : {x: 0, y: 0};
 
     mouse.page_scroll_x = scroll.x;
     mouse.page_scroll_y = scroll.y;

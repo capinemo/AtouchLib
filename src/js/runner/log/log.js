@@ -4,19 +4,14 @@
  * @version 0.0.1
  */
 let LOG = (function () {
-    let LocalInject = null;
-    
+    let SL = null;
+
     /**
      * @constructor
-     * 
-     * @param {INJECT} inject       Global INJECT object
+     *
      * @returns {LOG}               LOG object
      */
-    function LOG (inject = null) {
-        if (inject) {
-            LocalInject = inject;
-        }
-        
+    function LOG () {
         return this;
     }
 

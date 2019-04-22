@@ -4,7 +4,8 @@
  * @version 0.0.7
  */
 let RUNNER = (function () {
-    let Inject = null,          // Global Facade Object
+    let SL = null,          // Global Facade Object
+        Debug = null,
         Log,                    // Log object for logging events and statuses
         control = {},           // List of contoller objects (Mouse, Keyboard, Browser)
         state = {               // Actual state of Runner
@@ -50,7 +51,7 @@ let RUNNER = (function () {
             ],
             Keyboard: ['print', 'fill', 'clear']
         };
-        
+
         task_list = [];
 
         tasks.forEach(function (item, i, arr) {
@@ -92,8 +93,8 @@ let RUNNER = (function () {
         if (!task_list[state.run]) {
             return;
         }
-        
-        Inject.cleanTotalState();
+
+        SL.cleanTotalState();
 
         runTask();
 
@@ -190,8 +191,8 @@ let RUNNER = (function () {
     RUNNER.prototype.runTest = function (test_id = null) {
         let test_list = [];
 
-        if (Inject) {
-            test_list = Inject.getAvailableTests();
+        if (SL) {
+            test_list = SL.getAvailableTests();
         }
 
         if (test_id === null && state.execute) {
@@ -207,7 +208,7 @@ let RUNNER = (function () {
                 cancelable: true,
                 bubbles: false
             }));
-            
+
             execActiveTest();
         }
 
@@ -220,9 +221,21 @@ let RUNNER = (function () {
      * @returns {RUNNER}            RUNNER object
      */
     function RUNNER () {
-        if (this.Inject) {
-            Inject = this.Inject;
-            Inject.setModuleStateCallback(this
+        if (RUNNER.prototype.Inject && RUNNER.prototype.Inject.cleanTotalState
+                && RUNNER.prototype.Inject.getAvailableTests) {
+            SL = RUNNER.prototype.Inject;
+            Log = SL.createObject(LOG);
+            if (DEBUG_MODE) console.info('MODULE: LOG loaded to RUNNER');
+        } else {
+            Log = new Log();
+        }
+
+        if (SL && SL.isService('Debug')) {
+            Debug = SL.Service('Debug');
+        }
+
+        if (SL && SL.setModuleStateCallback) {
+            SL.setModuleStateCallback(this
                 , function () {
                     return state;
                 }
@@ -233,10 +246,20 @@ let RUNNER = (function () {
             );
         }
 
-        Log = new LOG(this.Inject);
-        control.Browser = new BROWSER(this.Inject);
-        control.Mouse = new MOUSE(this.Inject);
-        control.Keyboard = new KEYBOARD(this.Inject);
+        if (typeof BROWSER !== 'undefined') {
+            control.Browser = SL.createObject(BROWSER);
+            if (DEBUG_MODE) console.info('MODULE: BROWSER loaded to RUNNER');
+        }
+
+        if (typeof MOUSE !== 'undefined') {
+            control.Mouse = SL.createObject(MOUSE);
+            if (DEBUG_MODE) console.info('MODULE: MOUSE loaded to RUNNER');
+        }
+
+        if (typeof KEYBOARD !== 'undefined') {
+            control.Keyboard = SL.createObject(KEYBOARD);
+            if (DEBUG_MODE) console.info('MODULE: KEYBOARD loaded to RUNNER');
+        }
 
         return this;
     }

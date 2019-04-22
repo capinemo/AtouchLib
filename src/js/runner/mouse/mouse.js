@@ -4,7 +4,7 @@
  * @version 0.0.5
  */
 let MOUSE = (function () {
-    let LocalInject = null,
+    let SL = null,
         mouse = {
             page_scroll_x:  null,       // Скролл страницы по горизонтали
             page_scroll_y:  null,       // Скролл страницы по вертикали
@@ -37,7 +37,7 @@ let MOUSE = (function () {
     //= functions/mouse.control.js
 
     //= functions/mouse.async.js
-    
+
     //= functions/mouse.debug.js
 
     //= functions/mouse.events.js
@@ -72,18 +72,17 @@ let MOUSE = (function () {
     /**
      * @constructor
      *
-     * @param {INJECT} inject       Global INJECT object
      * @returns {MOUSE}             MOUSE object
      */
-    function MOUSE (inject = null) {
-        if (inject) {
-            LocalInject = inject;
+    function MOUSE () {
+        if (MOUSE.prototype.Inject) {
+            SL = MOUSE.prototype.Inject;
         }
 
         this.getPageParameters();
         loadEventListeners(this);
         createVirtualCursor();
-        
+
         // showCalibrateGrid();
         // activateMouseEventsListener();
 

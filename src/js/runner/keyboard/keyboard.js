@@ -4,7 +4,7 @@
  * @version 0.0.9
  */
 let KEYBOARD = (function () {
-    let LocalInject = null,
+    let SL = null,
         events_arr = ['keydown', 'keypress', 'keyup'],
         spec_key = {},          // List of special keyboard keys and its codes
         keyboard = {
@@ -30,12 +30,11 @@ let KEYBOARD = (function () {
     /**
      * @constructor
      *
-     * @param {INJECT} inject       Global INJECT object
      * @returns {KEYBOARD}          KEYBOARD object
      */
-    function KEYBOARD (inject = null) {
-        if (inject) {
-            LocalInject = inject;
+    function KEYBOARD () {
+        if (KEYBOARD.prototype.Inject) {
+            SL = KEYBOARD.prototype.Inject;
         }
 
         // activateKeyboardEventsListener();
@@ -45,3 +44,7 @@ let KEYBOARD = (function () {
 
     return KEYBOARD;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {KEYBOARD};
+}

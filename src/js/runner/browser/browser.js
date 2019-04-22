@@ -4,23 +4,26 @@
  * @version 0.0.9
  */
 let BROWSER = (function () {
-    let LocalInject = null;
-    
+    let SL = null;
+
     //= browser.commands.js
-    
+
     /**
      * @constructor
-     * 
-     * @param {INJECT} inject       Global INJECT object
+     *
      * @returns {BROWSER}           BROWSER object
      */
-    function BROWSER (inject = null) {
-        if (inject) {
-            LocalInject = inject;
+    function BROWSER () {
+        if (BROWSER.prototype.Inject) {
+            SL = BROWSER.prototype.Inject;
         }
-        
+
         return this;
     }
 
     return BROWSER;
 })();
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {BROWSER};
+}
