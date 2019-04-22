@@ -35,9 +35,11 @@ var Atouch;
      * @version 0.2.5
      */
     let ATOUCH = (function () {
-        let domain  = '*',
-            coms_buffer = [],
-            SL = null,
+        const BackCalls = {},
+            Tests = {},
+            Collections = {},
+            ScriptParser = {},
+            DEBUG_MODE = debug || false,
             config = {
                 no_gui: false, // Hide browser gui panel (true|false)
                 no_report: false, // (No send test report to server (true|false)
@@ -45,12 +47,12 @@ var Atouch;
                 wait_timeout: 3, // Waiting step execution finish before (0-...)
                 print_speed: 50, // Speed of text printing (0-100)
                 mouse_speed: 30 // Speed of mouse moving (0-100)
-            },
-            callbacks = {},
-            Tests = {},
-            Collections = {},
-            ScriptParser = {},
-            DEBUG_MODE = debug || false,
+            };
+
+
+        let coms_buffer = [],
+            domain  = '*',
+            SL = null,
             _;
 
         //= lang/lang.js
@@ -59,7 +61,7 @@ var Atouch;
 
         //= facade.js
 
-        // = runner/runner.js
+        //= runner/runner.js
 
         /**
          * @constructor
@@ -76,32 +78,32 @@ var Atouch;
 
             if (typeof DEBUG !== 'undefined') {
                 SL.registerService('Debug', SL.createObject(DEBUG));
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to DEBUG');
+                if (DEBUG_MODE) console.info('MODULE: DEBUG loaded to ATOUCH');
             }
 
             if (typeof STORAGE !== 'undefined') {
                 Storage = SL.createObject(STORAGE);
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to STORAGE');
+                if (DEBUG_MODE) console.info('MODULE: STORAGE loaded to ATOUCH');
             }
 
             if (typeof TEST !== 'undefined') {
                 ATOUCH.prototype.Test = SL.createObject(TEST);
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to TEST');
+                if (DEBUG_MODE) console.info('MODULE: TEST loaded to ATOUCH');
             }
 
             if (typeof EDITOR !== 'undefined') {
                 SL.registerService('Editor', SL.createObject(EDITOR));
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to EDITOR');
+                if (DEBUG_MODE) console.info('MODULE: EDITOR loaded to ATOUCH');
             }
 
             if (typeof SERVER !== 'undefined') {
                 SL.registerService('Server', SL.createObject(SERVER));
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to SERVER');
+                if (DEBUG_MODE) console.info('MODULE: SERVER loaded to ATOUCH');
             }
 
             if (typeof UNIT !== 'undefined') {
                 SL.registerService('Unit', SL.createObject(UNIT));
-                if (DEBUG_MODE) console.info('MODULE: INJECT injected to UNIT');
+                if (DEBUG_MODE) console.info('MODULE: UNIT loaded to ATOUCH');
             }
 
             if (typeof LANG !== 'undefined') {

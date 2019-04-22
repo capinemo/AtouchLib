@@ -180,7 +180,7 @@ if (!SL.isProcedure('clearCookieContent')) {
  */
 if (!SL.isProcedure('setModuleStateCallback')) {
     SL.registerProcedure('setModuleStateCallback', function (instance, getter, setter) {
-        callbacks[instance.constructor.name] = {get: getter, set: setter, module: instance};
+        BackCalls[instance.constructor.name] = {get: getter, set: setter, module: instance};
     });
 }
 
@@ -199,8 +199,8 @@ if (!SL.isProcedure('saveTotalState')) {
 
         let global_state = {};
 
-        for (let key in callbacks) {
-            global_state[key] = callbacks[key]['get']();
+        for (let key in BackCalls) {
+            global_state[key] = BackCalls[key]['get']();
         }
 
         if (reload && global_state.RUNNER) {
@@ -225,8 +225,8 @@ if (!SL.isProcedure('loadTotalState')) {
         let global_state = this.Service('Storage').loadState();
 
         for (let key in global_state) {
-            if (callbacks[key]) {
-                callbacks[key]['set'](global_state[key]);
+            if (BackCalls[key]) {
+                BackCalls[key]['set'](global_state[key]);
             }
         }
     });

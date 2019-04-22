@@ -100,7 +100,7 @@ ATOUCH.prototype.prepare = function (test) {
         console.warn('Atouch.prepare: test with name ' + test.getName() + ' already exists. Rewrited');
     }
 
-    Collections[test.getName()] = test;
+    Tests[test.getName()] = test;
     test.reset();
 
     return this;
