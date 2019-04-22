@@ -38,12 +38,6 @@ var Atouch;
         let domain  = '*',
             coms_buffer = [],
             SL = null,
-            Runner = null,
-            Editor = null,
-            Server = null,
-            Unit = null,
-            Storage = null,
-            Debug = null,
             config = {
                 no_gui: false, // Hide browser gui panel (true|false)
                 no_report: false, // (No send test report to server (true|false)
@@ -81,7 +75,7 @@ var Atouch;
             if (DEBUG_MODE) console.info('MODULE: INJECT loaded');
 
             if (typeof DEBUG !== 'undefined') {
-                Debug = SL.createObject(DEBUG);
+                SL.registerService('Debug', SL.createObject(DEBUG));
                 if (DEBUG_MODE) console.info('MODULE: INJECT injected to DEBUG');
             }
 
@@ -96,38 +90,38 @@ var Atouch;
             }
 
             if (typeof EDITOR !== 'undefined') {
-                Editor = SL.createObject(EDITOR);
+                SL.registerService('Editor', SL.createObject(EDITOR));
                 if (DEBUG_MODE) console.info('MODULE: INJECT injected to EDITOR');
             }
 
             if (typeof SERVER !== 'undefined') {
-                Server = SL.createObject(SERVER);
+                SL.registerService('Server', SL.createObject(SERVER));
                 if (DEBUG_MODE) console.info('MODULE: INJECT injected to SERVER');
             }
 
             if (typeof UNIT !== 'undefined') {
-                Unit = SL.createObject(UNIT);
+                SL.registerService('Unit', SL.createObject(UNIT));
                 if (DEBUG_MODE) console.info('MODULE: INJECT injected to UNIT');
             }
 
             if (typeof LANG !== 'undefined') {
-                SL.registerService('Lang', new LANG(Debug));
+                SL.registerService('Lang', SL.createObject(LANG));
                 if (DEBUG_MODE) console.info('MODULE: LANG loaded to ATOUCH');
             }
 
             if (typeof RUNNER !== 'undefined') {
-                SL.registerService('Runner', new RUNNER(Debug));
+                SL.registerService('Runner', SL.createObject(RUNNER));
                 if (DEBUG_MODE) console.info('MODULE: RUNNER loaded to ATOUCH');
             }
 
             if (typeof IFACE !== 'undefined') {
-                SL.registerService('Iface', new IFACE(SL, Debug));
+                SL.registerService('Iface', SL.createObject(IFACE));
                 if (DEBUG_MODE) console.info('MODULE: IFACE loaded to ATOUCH');
             }
 
             SL.loadTotalState();
 
-            if (Editor && global.postMessage) {
+            if (SL.isService('Editor') && global.postMessage) {
                 global.postMessage('atouch script ready', domain);
             }
 
@@ -153,8 +147,8 @@ var Atouch;
                 });
             }
 
-            if (Runner) {
-                Runner.runTest();
+            if (SL.isService('Runner')) {
+                SL.Service('Runner').runTest();
             }
 
             return this;

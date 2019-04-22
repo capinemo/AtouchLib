@@ -5,12 +5,12 @@
  */
 
 let IFACE = (function () {
-    let Debug = null,           //
-        Inject = null,
+    let SL = null,
+        Debug = null,
+        Lang = null,
         dom = {},               // List of HTML elements with text (for translating)
         action = {},            // List of HTML elements with actions (for events)
-        lang = null,            // List of traslation texts from LANG service
-        lang_list = [],         // List of available languages from LANG service
+        func = {},
         state = {               // Actual state of interface
             opacity: 100,       // Transparency of interface panel
             tab: null           // Last opened interface tab
@@ -474,18 +474,16 @@ let IFACE = (function () {
      */
     function loadAttributes () {
         for (let key in dom) {
-            //console.log(dom[key][0], dom[key][1], dom[key][2]);
             try {
-                dom[key][0][dom[key][1]] = eval(dom[key][2]);
+                dom[key][0][dom[key][1]] = Lang.text[dom[key][2]];
             } catch (e) {
                 console.warn(e.message);
             }
-
         }
 
         for (let key in action) {
             try {
-                action[key][0].addEventListener(action[key][1], eval(action[key][2]));
+                action[key][0].addEventListener(action[key][1], func[action[key][2]]);
             } catch (e) {
                 console.warn(e.message);
             }
@@ -503,9 +501,9 @@ let IFACE = (function () {
     function changeLang (tag) {
         let head_elem = document.getElementById('atouch_iface-panel-content-title');
 
-        if (Inject && Inject.isService('Lang')) {
-            Inject.Service('Lang').setLanguage(tag);
-            lang = Inject.Service('Lang').text;
+        if (Lang) {
+            Lang.setLanguage(tag);
+            lang = Lang.text;
         } else {
             return;
         }
@@ -526,8 +524,8 @@ let IFACE = (function () {
      * @returns {boolean}               True if success
      */
     function sendTestToRunner (test_id) {
-        if (Inject) {
-            Inject.runSelectedTest(test_id);
+        if (SL) {
+            SL.runSelectedTest(test_id);
             return true;
         } else {
             return false;
@@ -556,13 +554,9 @@ let IFACE = (function () {
      * @returns {boolean}               True if success
      */
     IFACE.prototype.showPanel = function () {
-        if (!lang) {
-            //return false;
-        }
-
         buildInterface(iface_frame);
         loadAttributes();
-        tabList();
+        func.tabList();
         loadEventListeners();
 
         return true;
@@ -571,18 +565,25 @@ let IFACE = (function () {
     /**
      * @constructor
      *
-     * @param {INJECT} inject       INJECT object
-     * @param {DEBUG} debug         DEBUG object
      * @returns {IFACE}             IFACE object
      */
-    function IFACE (inject, debug) {
-        if (debug instanceof DEBUG) {
-            Debug = debug;
+    function IFACE () {
+        if (IFACE.prototype.Inject && IFACE.prototype.Inject.runSelectedTest
+                && IFACE.prototype.Inject.getAvailableTests
+                && IFACE.prototype.Inject.saveTotalState) {
+            SL = LANG.prototype.Inject;
         }
 
-        if (inject instanceof INJECT) {
-            Inject = inject;
-            Inject.setModuleStateCallback(this
+        if (SL && SL.isService('Debug')) {
+            Debug = SL.Service('Debug');
+        }
+
+        if (SL && SL.isService('Lang') && SL.Service('Lang').setLanguage) {
+            Lang = SL.Service('Lang');
+        }
+
+        if (SL && SL.setModuleStateCallback) {
+            SL.setModuleStateCallback(this
                 , function () {
                     return state;
                 }
@@ -591,11 +592,6 @@ let IFACE = (function () {
                     applyLoadedState();
                 }
             );
-        }
-
-        if (Inject && Inject.isService('Lang')) {
-            lang = Inject.Service('Lang').text;
-            lang_list = Inject.Service('Lang').lang_list;
         }
 
         this.showPanel();

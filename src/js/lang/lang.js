@@ -5,6 +5,7 @@
  */
 let LANG = (function () {
     let default_language = 'ru',
+        SL = null,
         Debug = null;
 
     //= lang.ru.js
@@ -12,7 +13,7 @@ let LANG = (function () {
     //= lang.en.js
 
     LANG.prototype.text = {};
-    LANG.prototype.selectedLang = '';
+    LANG.prototype.selected_lang = '';
     LANG.prototype.lang_list = [
         {name: 'RU: Русский', link: 'ru', data: ru}/* ,
         {name: 'EN: English', link: 'en', data: en}*/
@@ -42,7 +43,7 @@ let LANG = (function () {
         }
 
         this.text = lang_set;
-        this.selectedLang = lang_link;
+        this.selected_lang = lang_link;
 
         if (typeof window !== 'undefined' && typeof window.document !== 'undefined'
                 && typeof window.document.cookie !== 'undefined') {
@@ -86,8 +87,12 @@ let LANG = (function () {
     function LANG (debug) {
         let saved_lang = this.getLanguage();
 
-        if (debug instanceof DEBUG) {
-            Debug = debug;
+        if (LANG.prototype.Inject) {
+            SL = LANG.prototype.Inject;
+        }
+
+        if (SL && SL.isService('Debug')) {
+            Debug = SL.Service('Debug');
         }
 
         if (saved_lang) {

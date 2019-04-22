@@ -9,7 +9,7 @@
  *
  * @returns {none}              No return
  */
-function tabList () {
+func.tabList = function () {
     let panel_elem = document.getElementsByClassName('panel_elem'),
         target_elem = document.getElementsByClassName('list_elem'),
         head_elem = document.getElementById('atouch_iface-panel-content-title'),
@@ -25,11 +25,11 @@ function tabList () {
     }
 
     state.tab = 'iface_tab_test_title';
-    head_elem.innerHTML = lang ? lang[state.tab] : '';
+    head_elem.innerHTML = Lang ? Lang.text[state.tab] : '';
     test_select.innerHTML = '';
 
-    if (Inject) {
-        tests = Inject.getAvailableTests();
+    if (SL) {
+        tests = SL.getAvailableTests();
     }
 
     // Generating tests list from Server
@@ -39,7 +39,7 @@ function tabList () {
         elem.value = item;
         test_select.appendChild(elem);
     }
-}
+};
 
 /**
  * Selecting options list tab
@@ -53,7 +53,7 @@ function tabList () {
  *
  * @returns {none}              No return
  */
-function tabOptions () {
+func.tabOptions = function () {
     let panel_elem = document.getElementsByClassName('panel_elem'),
         target_elem = document.getElementsByClassName('option_elem'),
         head_elem = document.getElementById('atouch_iface-panel-content-title'),
@@ -69,21 +69,22 @@ function tabOptions () {
     }
 
     state.tab = 'iface_tab_option_title';
-    head_elem.innerHTML = lang ? lang[state.tab] : '';
+    head_elem.innerHTML = Lang ? Lang.text[state.tab] : '';
     lang_select.innerHTML = '';
 
-    for (let line in lang_list) {
-        let elem = document.createElement('option');
-        elem.innerHTML = lang_list[line].name;
-        elem.value = lang_list[line].link;
-        lang_select.appendChild(elem);
+    if (Lang && Lang.lang_list) {
+        for (let line in Lang.lang_list) {
+            let elem = document.createElement('option');
+            elem.innerHTML = Lang.lang_list[line].name;
+            elem.value = Lang.lang_list[line].link;
+            lang_select.appendChild(elem);
+        }
     }
-
     opacity.min = 20;
     opacity.max = 100;
     opacity.step = 2;
     opacity.value = state.opacity ? state.opacity : 100;
-}
+};
 
 /**
  * Selecting authorization tab
@@ -93,7 +94,7 @@ function tabOptions () {
  *
  * @returns {none}              No return
  */
-function tabAuth () {
+func.tabAuth = function () {
     let panel_elem = document.getElementsByClassName('panel_elem'),
         target_elem = document.getElementsByClassName('auth_elem'),
         head_elem = document.getElementById('atouch_iface-panel-content-title');
@@ -103,12 +104,13 @@ function tabAuth () {
     }
 
     for (let i = target_elem.length; i--;) {
+        console.log(target_elem[i]);
         target_elem[i].style.display = 'inline';
     }
 
     state.tab = 'iface_tab_auth_title';
-    head_elem.innerHTML = lang ? lang[state.tab] : '';
-}
+    head_elem.innerHTML = Lang ? Lang.text[state.tab] : '';
+};
 
 /**
  * Selecting reporting tab
@@ -118,7 +120,7 @@ function tabAuth () {
  *
  * @returns {none}              No return
  */
-function tabReport () {
+func.tabReport = function () {
     let panel_elem = document.getElementsByClassName('panel_elem'),
         target_elem = document.getElementsByClassName('report_elem'),
         head_elem = document.getElementById('atouch_iface-panel-content-title');
@@ -132,8 +134,8 @@ function tabReport () {
     }
 
     state.tab = 'iface_tab_report_title';
-    head_elem.innerHTML = lang ? lang[state.tab] : '';
-}
+    head_elem.innerHTML = Lang ? Lang.text[state.tab] : '';
+};
 
 /**
  * Hide or show Atouch panel
@@ -143,7 +145,7 @@ function tabReport () {
  * @param {boolean} show            Force hides panel (default: false)
  * @returns {none}                  No return
  */
-function changePanelVisible (show = false) {
+func.changePanelVisible = function (show = false) {
     let panel = document.getElementById('atouch_iface-panel'),
         collapse = document.getElementById('atouch_iface-panel-collapse');
 
@@ -157,7 +159,7 @@ function changePanelVisible (show = false) {
         collapse.style.right = '2px';
         collapse.style.background = '#0cb1b3';
         collapse.innerHTML = '&#9654;';
-        collapse.title = lang ? lang.iface_button_hide_panel : '';
+        collapse.title = Lang ? Lang.text['iface_button_hide_panel'] : '';
     } else {
         // hide panel
         panel.style.right = '-269px';
@@ -169,9 +171,9 @@ function changePanelVisible (show = false) {
         collapse.style.right = '273px';
         collapse.style.background = 'none';
         collapse.innerHTML = '&#9664;';
-        collapse.title = lang ? lang.iface_button_show_panel : '';
+        collapse.title = Lang ? Lang.text['iface_button_show_panel'] : '';
     }
-}
+};
 
 /**
  * Change Atouch panel transparency
@@ -238,8 +240,8 @@ function loadEventListeners () {
         changeLang(lang_select.value);
         state.opacity = +opacity.value;
 
-        if (Inject) {
-            Inject.saveTotalState();
+        if (SL) {
+            SL.saveTotalState();
         }
     };
 
