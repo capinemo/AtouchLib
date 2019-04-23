@@ -38,9 +38,6 @@ upload_files() {
   git push --tags
 }
 
-
-pwd
-ls
 setup_git
 make_version
 upload_files

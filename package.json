@@ -35,7 +35,8 @@
     ]
   },
   "scripts": {
-    "test": "gulp buildTests && nyc mocha"
+    "test": "gulp buildTests && nyc mocha",
+    "build": "gulp build"
   },
   "keywords": [
     "browser",
