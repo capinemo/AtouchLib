@@ -257,7 +257,9 @@ if (!SL.isProcedure('cleanTotalState')) {
  */
 if (!SL.isProcedure('runSelectedTest')) {
     SL.registerProcedure('runSelectedTest', function (test_id) {
-        Runner.runTest(test_id);
+        if (!this.isService('Runner')) return;
+
+        SL.Service('Runner').runTest(test_id);
     });
 }
 
