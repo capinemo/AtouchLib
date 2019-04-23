@@ -7,7 +7,7 @@ deploy:
     provider: script
     skip_cleanup: true
     overwrite: true
-    script: build.sh
+    script: bash scripts/deploy.sh binary
     on:
         branch: develop
     tags: false
