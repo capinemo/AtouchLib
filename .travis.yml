@@ -3,19 +3,14 @@ language: node_js
 node_js:
   - "10"
 
-before_deploy:
-  - git config --local user.name "capinemo"
-  - git config --local user.email "capitan__nemo@mail.ru"
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-
 deploy:
     provider: releases
-    api_key:
-        secure: $GITHUB_API_KEY
     file:
       - "build/js/atouch.js"
       - "build/js/atouch-min.js"
     skip_cleanup: true
     overwrite: true
+    script: build.sh
     on:
-      tags: true
+        branch: develop
+    tags: false
