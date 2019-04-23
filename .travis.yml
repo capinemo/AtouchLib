@@ -10,7 +10,7 @@ node_js:
 
 deploy:
     provider: releases
-    github-token: $GITHUB_API_KEY
+    api_key: $GITHUB_API_KEY
     file:
       - "build/js/atouch.js"
       - "build/js/atouch-min.js"
